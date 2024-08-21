@@ -9,7 +9,7 @@ import {
   Shield,
   ArrowRight,
   ArrowUpRight,
-  Copy
+  Copy,
 } from "lucide-react";
 import { usePageMeta } from "../hooks/usePageMeta";
 import "../App.css";
@@ -425,7 +425,7 @@ const examples: Example[] = [
     description: "Interactive charts with ECharts and real-time data updates",
     category: "Advanced",
     code: `import * as echarts from 'echarts';
-import { useEffect, useRef } => 'react';
+import { useEffect, useRef } from 'react';
 
 export default function DataVisualization() {
   const chartRef = useRef(null);
@@ -1002,16 +1002,18 @@ export default function AutoResolveDemo() {
 function ReactExePage() {
   usePageMeta({
     title: "React-EXE | Interactive UI Engine & Playground",
-    description: "Render React components from raw code strings natively in the browser. Ships with CDN resolution, multi-file support, and iframe execution sandboxing.",
+    description:
+      "Render React components from raw code strings natively in the browser. Ships with CDN resolution, multi-file support, and iframe execution sandboxing.",
   });
 
-  const defaultExample = examples.find((ex) => ex.id === "3d-card") || examples[0];
+  const defaultExample =
+    examples.find((ex) => ex.id === "3d-card") || examples[0];
 
   const [selectedExample, setSelectedExample] = useState<string>(
-    defaultExample.id
+    defaultExample.id,
   );
   const [currentCode, setCurrentCode] = useState<string | any[]>(
-    defaultExample.code
+    defaultExample.code,
   );
   const [refreshKey, setRefreshKey] = useState(0);
   const [useSandbox, setUseSandbox] = useState(true);
@@ -1037,26 +1039,28 @@ function ReactExePage() {
     const configString = JSON.stringify(
       { ...(currentExample.config || {}), sandbox: useSandbox },
       null,
-      2
+      2,
     );
 
     return `import React from 'react';
 import { CodeExecutor } from 'react-exe';
-${currentExample.config?.dependencies
-        ? Object.keys(currentExample.config.dependencies)
-          .map(
-            (dep) =>
-              `import * as ${dep.replace(/[^a-zA-Z0-9]/g, "_")} from '${dep}';`
-          )
-          .join("\n")
-        : ""
-      }
+${
+  currentExample.config?.dependencies
+    ? Object.keys(currentExample.config.dependencies)
+        .map(
+          (dep) =>
+            `import * as ${dep.replace(/[^a-zA-Z0-9]/g, "_")} from '${dep}';`,
+        )
+        .join("\n")
+    : ""
+}
 
 function Example() {
-  ${Array.isArray(currentExample.code)
-        ? `const files = ${JSON.stringify(currentExample.code, null, 2)};`
-        : `const code = \`${currentExample.code}\`;`
-      }
+  ${
+    Array.isArray(currentExample.code)
+      ? `const files = ${JSON.stringify(currentExample.code, null, 2)};`
+      : `const code = \`${currentExample.code}\`;`
+  }
 
   return (
     <CodeExecutor
@@ -1093,7 +1097,7 @@ export default Example;`;
   const executorKey = useMemo(
     () =>
       `${selectedExample}-${refreshKey}-${useSandbox ? "sandbox" : "direct"}`,
-    [selectedExample, refreshKey, useSandbox]
+    [selectedExample, refreshKey, useSandbox],
   );
 
   const handleToggleSandbox = useCallback(() => {
@@ -1155,7 +1159,8 @@ export default Example;`;
           <p className="eyebrow">Playground</p>
           <h2 className="text-3xl font-bold mb-4">Try it live</h2>
           <p className="text-gray-600 max-w-2xl">
-            Select an example below to see how React-EXE renders and executes React components on the fly without a build step.
+            Select an example below to see how React-EXE renders and executes
+            React components on the fly without a build step.
           </p>
         </div>
 
@@ -1166,7 +1171,12 @@ export default Example;`;
               <div className="native-code-column flex flex-col gap-4">
                 <div className="native-controls flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-200">
                   <div className="flex items-center gap-3">
-                    <label htmlFor="example-select" className="text-sm font-semibold text-gray-700">Example:</label>
+                    <label
+                      htmlFor="example-select"
+                      className="text-sm font-semibold text-gray-700"
+                    >
+                      Example:
+                    </label>
                     <select
                       id="example-select"
                       className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 transition-colors"
@@ -1204,7 +1214,10 @@ export default Example;`;
                   </div>
                 </div>
 
-                <div className="native-code-panel rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white sticky top-[88px] z-10" style={{ height: 'calc(100vh - 120px)' }}>
+                <div
+                  className="native-code-panel rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white sticky top-[88px] z-10"
+                  style={{ height: "calc(100vh - 120px)" }}
+                >
                   <CodeEditor
                     code={currentCode}
                     onCodeChange={handleCodeChange}
@@ -1218,10 +1231,11 @@ export default Example;`;
                 <div className="native-preview-controls flex justify-end">
                   <button
                     onClick={handleToggleSandbox}
-                    className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${useSandbox
-                      ? "bg-green-50 text-green-700 border border-green-200 hover:bg-green-100"
-                      : "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100"
-                      }`}
+                    className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                      useSandbox
+                        ? "bg-green-50 text-green-700 border border-green-200 hover:bg-green-100"
+                        : "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100"
+                    }`}
                   >
                     <Shield size={14} />
                     {useSandbox ? "Sandbox Enabled" : "Sandbox Disabled"}
@@ -1252,7 +1266,9 @@ export default Example;`;
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/80">
-              <h2 className="text-lg font-semibold text-gray-900">How to Use This Example</h2>
+              <h2 className="text-lg font-semibold text-gray-900">
+                How to Use This Example
+              </h2>
               <button
                 className="p-2 text-gray-400 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-200"
                 onClick={() => setShowCodeModal(false)}
