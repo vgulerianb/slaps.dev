@@ -1,0 +1,10 @@
+/target/
+**/*.rs.bk
+/data/
+.env
+node_modules/
+dist/
+.next/
+__pycache__/
+*.egg-info/
+.venv/
