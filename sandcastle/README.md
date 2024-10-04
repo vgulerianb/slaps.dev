@@ -33,3 +33,7 @@ Set `SANDCASTLE_WORKER_BASE=http://worker:9797` on the API and run `docker compo
 ## Docs
 
 See `docs/` and `PLAN.md`.
+
+## Phase 2 in this repo
+
+Streaming WS, files, snapshots/fork, replay, status/autoscaler hints, package cache keys, Helm, static dashboard.
