@@ -20,6 +20,12 @@ export class Sandbox {
     return h;
   }
 
+  private authHeaders(): HeadersInit {
+    const h: Record<string, string> = {};
+    if (this.cfg.apiKey) h.Authorization = `Bearer ${this.cfg.apiKey}`;
+    return h;
+  }
+
   private async req<T>(
     method: string,
     path: string,
@@ -81,7 +87,7 @@ export class Sandbox {
     const f = this.cfg.fetchImpl ?? fetch;
     const r = await f(`${base}/v1/sandboxes/${this.id}/files/${path.replace(/^\//, "")}`, {
       method: "PUT",
-      headers: this.headers(),
+      headers: this.authHeaders(),
       body: bodyInit,
     });
     if (!r.ok) {
@@ -94,7 +100,7 @@ export class Sandbox {
     const base = (this.cfg.baseUrl ?? "http://127.0.0.1:8787").replace(/\/$/, "");
     const f = this.cfg.fetchImpl ?? fetch;
     const r = await f(`${base}/v1/sandboxes/${this.id}/files/${path.replace(/^\//, "")}`, {
-      headers: this.headers(),
+      headers: this.authHeaders(),
     });
     if (!r.ok) throw new SandcastleError(await r.text(), r.status);
     return r.text();
