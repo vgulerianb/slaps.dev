@@ -1,3 +1,7 @@
 node_modules
 dist
 slaps-video
+
+# Standalone package repos (nested `git init`; clone or open separately)
+/runmix/
+/ghost-env/
