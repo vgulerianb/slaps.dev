@@ -2,6 +2,9 @@ node_modules
 dist
 slaps-video
 
+# Local planning notes — not part of published tree
+PLAN.md
+
 # Standalone package repos (nested `git init`; clone or open separately)
 /runmix/
 /ghost-env/
