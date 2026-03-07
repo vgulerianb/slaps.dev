@@ -4,25 +4,34 @@
 
 ### Constructor
 
-`new GhostEnv(config: GhostEnvConfig)`
+```ts
+new GhostEnv(config: GhostEnvConfig)
+```
+
+```python
+GhostEnv(config: dict)
+# Presets are imported from ghost_env: github, stripe, postgres, s3, slack, anthropic
+```
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `seed` | `number` | PRNG seed (default `1`) for providers that use `rng` |
-| `providers` | `Provider[]` | Ordered list; first match wins |
-| `chaos` | `ChaosOptions` | Optional latency / simulated failures |
+| `seed` | `number` / `int` | PRNG seed (default `1`) for providers that use `rng` |
+| `providers` | `Provider[]` / `list` | Ordered list; first match wins |
+| `chaos` | `ChaosOptions` / `dict` | Optional latency / simulated failures |
 
 ### Methods
 
-| Method | Description |
-|--------|-------------|
-| `fetch(input, init?)` | Like `fetch`; `input` may be `string` or `URL` |
-| `calls(provider?)` | Recorded `CallRecord[]`, optionally filtered by provider name |
-| `wasCalled(provider, partial?)` | `method`, `url`, or `pathIncludes` partial match |
-| `db(name?)` | Minimal SQL facade over `pg:*` entities (default name ignored for routing; same world) |
-| `reset()` | Clear recorder; restore world from snapshot or empty + re-seed |
-| `snapshot()` | Save world JSON string |
-| `restore(data)` | Load world from string |
+| Method | TypeScript | Python |
+|--------|-----------|--------|
+| fetch | `fetch(input, init?)` → `Response` | `fetch(url, method?, body?)` → `(int, str)` |
+| calls | `calls(provider?)` → `CallRecord[]` | `calls(provider?)` → `list` |
+| was_called | `wasCalled(provider, partial?)` | `was_called(provider, **kwargs)` |
+| reset | `reset()` | `reset()` |
+| snapshot / restore | `snapshot()` / `restore(data)` | `snapshot()` / `restore(data)` |
+
+**Python fetch returns `(status: int, body: str)`** — not a `Response` object.
+
+**Python modules:** `ghost_env.ghost_env` · `ghost_env.presets` · `ghost_env.export` · `ghost_env.eval_runner` · `ghost_env.replay`
 
 ### Recording shape
 

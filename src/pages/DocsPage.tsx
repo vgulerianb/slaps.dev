@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { Link, useParams } from "@tanstack/react-router";
 import { MarkdocArticle } from "../documentation/MarkdocArticle";
 import {
@@ -10,6 +10,9 @@ import {
 import { getDocSource } from "../documentation/loadDocs";
 
 type ProductPath = "/react-exe" | "/slapify" | "/runmix" | "/ghost-env";
+type LangPref = "ts" | "python";
+
+const LANG_KEY = "slaps-docs-lang";
 
 const ReactExeDocsPlayground = lazy(
   () => import("../documentation/ReactExeDocsPlayground").then((m) => ({ default: m.ReactExeDocsPlayground }))
@@ -17,6 +20,17 @@ const ReactExeDocsPlayground = lazy(
 
 export default function DocsPage() {
   const { product, slug } = useParams({ strict: false }) as { product?: string; slug?: string };
+  const [lang, setLang] = useState<LangPref>("ts");
+
+  useEffect(() => {
+    const stored = localStorage.getItem(LANG_KEY) as LangPref | null;
+    if (stored === "ts" || stored === "python") setLang(stored);
+  }, []);
+
+  function switchLang(next: LangPref) {
+    setLang(next);
+    localStorage.setItem(LANG_KEY, next);
+  }
 
   if (!product || !isDocProduct(product)) {
     return (
@@ -50,6 +64,24 @@ export default function DocsPage() {
       <aside className="docs-sidebar" aria-label="Documentation sections">
         <p className="docs-sidebar__product">{meta.title}</p>
         <p className="docs-sidebar__tagline">{meta.tagline}</p>
+
+        {meta.hasPython && (
+          <div className="docs-lang-toggle" role="group" aria-label="Language">
+            <button
+              className={`docs-lang-toggle__btn${lang === "ts" ? " docs-lang-toggle__btn--active" : ""}`}
+              onClick={() => switchLang("ts")}
+            >
+              TypeScript
+            </button>
+            <button
+              className={`docs-lang-toggle__btn${lang === "python" ? " docs-lang-toggle__btn--active" : ""}`}
+              onClick={() => switchLang("python")}
+            >
+              Python
+            </button>
+          </div>
+        )}
+
         <nav className="docs-sidebar__nav">
           {nav.map((item) => {
             const active = item.slug === (slug ?? "");
@@ -87,7 +119,7 @@ export default function DocsPage() {
           </a>
         </div>
       </aside>
-      <article className="docs-page__main">
+      <article className="docs-page__main" data-lang={meta.hasPython ? lang : undefined}>
         <MarkdocArticle source={raw} product={product} />
         {product === "react-exe" && (
           <Suspense fallback={<div className="docs-playground-loading">Loading playground…</div>}>

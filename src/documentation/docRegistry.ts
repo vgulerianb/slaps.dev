@@ -2,7 +2,7 @@ export type DocProductId = "react-exe" | "slapify" | "runmix" | "ghost-env";
 
 export const DOC_PRODUCTS: Record<
   DocProductId,
-  { title: string; tagline: string; npm: string; productPath: string }
+  { title: string; tagline: string; npm: string; productPath: string; hasPython?: boolean }
 > = {
   "react-exe": {
     title: "react-exe",
@@ -21,12 +21,14 @@ export const DOC_PRODUCTS: Record<
     tagline: "Multi-language execution against a real directory for agents and tooling.",
     npm: "runmix",
     productPath: "/runmix",
+    hasPython: true,
   },
   "ghost-env": {
     title: "ghost-env",
     tagline: "Deterministic fake HTTP APIs for agent and integration tests.",
     npm: "ghost-env",
     productPath: "/ghost-env",
+    hasPython: true,
   },
 };
 
@@ -50,7 +52,6 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
     { slug: "configuration", label: "Configuration" },
     { slug: "api-reference", label: "API reference" },
     { slug: "security", label: "Security" },
-    { slug: "python", label: "Python" },
   ],
   "ghost-env": [
     { slug: "", label: "Overview" },
@@ -58,7 +59,6 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
     { slug: "presets", label: "Presets" },
     { slug: "api-reference", label: "API reference" },
     { slug: "testing-and-chaos", label: "Testing & chaos" },
-    { slug: "python", label: "Python" },
   ],
 };
 

@@ -106,11 +106,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-  <url>
-    <loc>https://slaps.dev/docs/runmix/python</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
 
   <!-- ghost-env docs -->
   <url>
@@ -135,11 +130,6 @@
   </url>
   <url>
     <loc>https://slaps.dev/docs/ghost-env/testing-and-chaos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://slaps.dev/docs/ghost-env/python</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
