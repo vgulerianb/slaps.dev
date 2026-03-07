@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { DOC_PRODUCT_LIST, DOC_PRODUCTS, DOC_NAV } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
@@ -32,14 +32,20 @@ export default function DocsIndexPage() {
               <ul className="docs-index-card__links">
                 {nav.map((item) => (
                   <li key={item.slug || "overview"}>
-                    <Link to={item.slug ? `/docs/${id}/${item.slug}` : `/docs/${id}`}>
-                      {item.label}
-                    </Link>
+                    {item.slug ? (
+                      <Link to="/docs/$product/$slug" params={{ product: id, slug: item.slug }}>
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <Link to="/docs/$product" params={{ product: id }}>
+                        {item.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
               <div className="docs-index-card__footer">
-                <Link to={`/docs/${id}`} className="docs-index-card__cta">
+                <Link to="/docs/$product" params={{ product: id }} className="docs-index-card__cta">
                   Open docs <ArrowRight size={14} />
                 </Link>
                 <a

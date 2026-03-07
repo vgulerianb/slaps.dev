@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight, Github, CreditCard, Bot, Database } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { usePageMeta } from "../hooks/usePageMeta";
 
 const presets = [
@@ -57,7 +57,7 @@ export default function GhostEnvPage() {
             >
               View on npm <ArrowRight size={16} />
             </a>
-            <Link to="/docs/ghost-env" className="btn-secondary">
+            <Link to="/docs/$product" params={{ product: "ghost-env" }} className="btn-secondary">
               Docs <ArrowUpRight size={14} />
             </Link>
           </div>
@@ -138,7 +138,7 @@ console.log(env.wasCalled("github")); // true`}</code></pre>
           <h2>Ready to build?</h2>
           <p>Read the full documentation to get started with ghost-env.</p>
         </div>
-        <Link to="/docs/ghost-env" className="btn-primary">
+        <Link to="/docs/$product" params={{ product: "ghost-env" }} className="btn-primary">
           Read the docs <ArrowRight size={16} />
         </Link>
       </div>

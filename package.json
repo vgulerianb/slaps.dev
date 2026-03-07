@@ -4,27 +4,28 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
+        "dev": "vite dev",
+        "build": "vite build",
         "preview": "vite preview",
         "sync-docs": "bash scripts/sync-product-docs.sh"
     },
     "dependencies": {
         "@markdoc/markdoc": "^0.4.0",
         "@monaco-editor/react": "^4.6.0",
+        "@tanstack/react-router": "^1.168.1",
+        "@tanstack/react-start": "^1.167.1",
         "echarts": "^5.4.3",
         "framer-motion": "^10.16.16",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "react-exe": "^1.0.17",
-        "react-router-dom": "^6.30.3"
+        "react-exe": "^1.0.17"
     },
     "devDependencies": {
         "@types/react": "^18.2.48",
         "@types/react-dom": "^18.2.17",
-        "@vitejs/plugin-react": "^4.2.1",
+        "@vitejs/plugin-react": "^6.0.1",
         "lucide-react": "^0.344.0",
         "typescript": "^5.3.3",
-        "vite": "^5.0.11"
+        "vite": "^8.0.1"
     }
 }

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "@tanstack/react-router";
 import { MarkdocArticle } from "../documentation/MarkdocArticle";
 import {
   DOC_NAV,
@@ -9,19 +9,24 @@ import {
 } from "../documentation/docRegistry";
 import { getDocSource } from "../documentation/loadDocs";
 
+type ProductPath = "/react-exe" | "/slapify" | "/runmix" | "/ghost-env";
+
 const ReactExeDocsPlayground = lazy(
   () => import("../documentation/ReactExeDocsPlayground").then((m) => ({ default: m.ReactExeDocsPlayground }))
 );
 
-function docsPath(product: string, slug: string): string {
-  return slug ? `/docs/${product}/${slug}` : `/docs/${product}`;
-}
-
 export default function DocsPage() {
-  const { product, slug } = useParams<{ product: string; slug?: string }>();
+  const { product, slug } = useParams({ strict: false }) as { product?: string; slug?: string };
 
   if (!product || !isDocProduct(product)) {
-    return <Navigate to="/" replace />;
+    return (
+      <div className="docs-page">
+        <div className="docs-page__main docs-page__error">
+          <h1>Not found</h1>
+          <Link to="/docs">← Documentation</Link>
+        </div>
+      </div>
+    );
   }
 
   const meta = DOC_PRODUCTS[product as DocProductId];
@@ -34,7 +39,7 @@ export default function DocsPage() {
         <div className="docs-page__main docs-page__error">
           <h1>Not found</h1>
           <p>No page for this path.</p>
-          <Link to={docsPath(product, "")}>Back to {meta.title} docs</Link>
+          <Link to="/docs/$product" params={{ product }}>Back to {meta.title} docs</Link>
         </div>
       </div>
     );
@@ -47,12 +52,21 @@ export default function DocsPage() {
         <p className="docs-sidebar__tagline">{meta.tagline}</p>
         <nav className="docs-sidebar__nav">
           {nav.map((item) => {
-            const to = docsPath(product, item.slug);
             const active = item.slug === (slug ?? "");
-            return (
+            return item.slug ? (
               <Link
-                key={item.slug || "index"}
-                to={to}
+                key={item.slug}
+                to="/docs/$product/$slug"
+                params={{ product, slug: item.slug }}
+                className={active ? "docs-nav-link docs-nav-link--active" : "docs-nav-link"}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <Link
+                key="index"
+                to="/docs/$product"
+                params={{ product }}
                 className={active ? "docs-nav-link docs-nav-link--active" : "docs-nav-link"}
               >
                 {item.label}
@@ -61,7 +75,7 @@ export default function DocsPage() {
           })}
         </nav>
         <div className="docs-sidebar__meta">
-          <Link to={meta.productPath} className="docs-sidebar__product-link">
+          <Link to={meta.productPath as ProductPath} className="docs-sidebar__product-link">
             ← {meta.title}
           </Link>
           <a

@@ -1,22 +1,33 @@
 import { useEffect } from "react";
 
 interface PageMetaProps {
-    title: string;
-    description: string;
+  title: string;
+  description: string;
+  ogImage?: string;
 }
 
-export function usePageMeta({ title, description }: PageMetaProps) {
-    useEffect(() => {
-        // Update title
-        document.title = title;
+function setMeta(selector: string, attr: string, value: string) {
+  let el = document.querySelector(selector);
+  if (!el) {
+    el = document.createElement("meta");
+    const [attrName, ...rest] = selector.replace("meta[", "").replace("]", "").split("=");
+    el.setAttribute(attrName.trim(), rest.join("=").replace(/"/g, "").trim());
+    document.head.appendChild(el);
+  }
+  el.setAttribute(attr, value);
+}
 
-        // Update meta description
-        let metaDescription = document.querySelector('meta[name="description"]');
-        if (!metaDescription) {
-            metaDescription = document.createElement("meta");
-            metaDescription.setAttribute("name", "description");
-            document.head.appendChild(metaDescription);
-        }
-        metaDescription.setAttribute("content", description);
-    }, [title, description]);
+export function usePageMeta({ title, description, ogImage }: PageMetaProps) {
+  useEffect(() => {
+    document.title = title;
+    setMeta('meta[name="description"]', "content", description);
+    setMeta('meta[property="og:title"]', "content", title);
+    setMeta('meta[property="og:description"]', "content", description);
+    setMeta('meta[name="twitter:title"]', "content", title);
+    setMeta('meta[name="twitter:description"]', "content", description);
+    if (ogImage) {
+      setMeta('meta[property="og:image"]', "content", ogImage);
+      setMeta('meta[name="twitter:image"]', "content", ogImage);
+    }
+  }, [title, description, ogImage]);
 }

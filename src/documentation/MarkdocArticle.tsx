@@ -1,7 +1,7 @@
 import Markdoc from "@markdoc/markdoc";
 import type { ReactNode } from "react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 
 type MarkdocArticleProps = {
   source: string;

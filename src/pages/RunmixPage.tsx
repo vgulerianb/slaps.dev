@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight, Terminal, Code2, Database, FileText } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { usePageMeta } from "../hooks/usePageMeta";
 
 const languages = [
@@ -72,7 +72,7 @@ export default function RunmixPage() {
             >
               View on npm <ArrowRight size={16} />
             </a>
-            <Link to="/docs/runmix" className="btn-secondary">
+            <Link to="/docs/$product" params={{ product: "runmix" }} className="btn-secondary">
               Docs <ArrowUpRight size={14} />
             </Link>
           </div>
@@ -159,7 +159,7 @@ rt.close();`}</code></pre>
           <h2>Ready to build?</h2>
           <p>Read the full documentation to get started with runmix.</p>
         </div>
-        <Link to="/docs/runmix" className="btn-primary">
+        <Link to="/docs/$product" params={{ product: "runmix" }} className="btn-primary">
           Read the docs <ArrowRight size={16} />
         </Link>
       </div>

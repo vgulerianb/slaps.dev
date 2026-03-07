@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState, useRef, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 
 const products = [
@@ -53,16 +53,16 @@ function ProductsDropdown() {
       {open && (
         <div className="nav-dropdown__panel" onClick={() => setOpen(false)}>
           {products.map((p) => (
-            <NavLink
+            <Link
               key={p.to}
               to={p.to}
-              className={({ isActive }) =>
-                isActive ? "nav-dropdown__item nav-dropdown__item--active" : "nav-dropdown__item"
-              }
+              className="nav-dropdown__item"
+              activeProps={{ className: "nav-dropdown__item nav-dropdown__item--active" }}
+              activeOptions={{ exact: true }}
             >
               <span className="nav-dropdown__item-label">{p.label}</span>
               <span className="nav-dropdown__item-desc">{p.desc}</span>
-            </NavLink>
+            </Link>
           ))}
         </div>
       )}
@@ -81,14 +81,13 @@ function SiteLayout({ children }: PropsWithChildren) {
 
         <nav className="site-nav__links" aria-label="Primary">
           <ProductsDropdown />
-          <NavLink
+          <Link
             to="/docs"
-            className={({ isActive }) =>
-              isActive ? "nav-link nav-link--active" : "nav-link"
-            }
+            className="nav-link"
+            activeProps={{ className: "nav-link nav-link--active" }}
           >
             Docs
-          </NavLink>
+          </Link>
         </nav>
 
         <div className="site-nav__actions">
