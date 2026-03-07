@@ -1,23 +1,49 @@
-export type DocProductId = "runmix" | "ghost-env";
+export type DocProductId = "react-exe" | "slapify" | "runmix" | "ghost-env";
 
 export const DOC_PRODUCTS: Record<
   DocProductId,
-  { title: string; tagline: string; npm: string; githubHint?: string }
+  { title: string; tagline: string; npm: string; productPath: string }
 > = {
+  "react-exe": {
+    title: "react-exe",
+    tagline: "Execute React components from code strings in the browser.",
+    npm: "react-exe",
+    productPath: "/react-exe",
+  },
+  slapify: {
+    title: "Slapify",
+    tagline: "AI-powered browser automation, test flows, and performance auditing.",
+    npm: "slapify",
+    productPath: "/slapify",
+  },
   runmix: {
     title: "runmix",
     tagline: "Multi-language execution against a real directory for agents and tooling.",
     npm: "runmix",
+    productPath: "/runmix",
   },
   "ghost-env": {
     title: "ghost-env",
     tagline: "Deterministic fake HTTP APIs for agent and integration tests.",
     npm: "ghost-env",
+    productPath: "/ghost-env",
   },
 };
 
 /** Sidebar order; slug "" maps to README.md (overview). */
 export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = {
+  "react-exe": [
+    { slug: "", label: "Overview" },
+    { slug: "getting-started", label: "Getting started" },
+    { slug: "api-reference", label: "API reference" },
+  ],
+  slapify: [
+    { slug: "", label: "Overview" },
+    { slug: "getting-started", label: "Getting started" },
+    { slug: "task-mode", label: "Task mode" },
+    { slug: "flow-mode", label: "Flow mode" },
+    { slug: "api-reference", label: "API reference" },
+  ],
   runmix: [
     { slug: "", label: "Overview" },
     { slug: "getting-started", label: "Getting started" },
@@ -36,6 +62,8 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
   ],
 };
 
+export const DOC_PRODUCT_LIST = Object.keys(DOC_PRODUCTS) as DocProductId[];
+
 export function isDocProduct(id: string): id is DocProductId {
-  return id === "runmix" || id === "ghost-env";
+  return id in DOC_PRODUCTS;
 }

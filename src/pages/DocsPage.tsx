@@ -9,7 +9,7 @@ import {
 import { getDocSource } from "../documentation/loadDocs";
 
 function docsPath(product: string, slug: string): string {
-  return slug ? `/${product}/docs/${slug}` : `/${product}/docs`;
+  return slug ? `/docs/${product}/${slug}` : `/docs/${product}`;
 }
 
 export default function DocsPage() {
@@ -56,6 +56,9 @@ export default function DocsPage() {
           })}
         </nav>
         <div className="docs-sidebar__meta">
+          <Link to={meta.productPath} className="docs-sidebar__product-link">
+            ← {meta.title}
+          </Link>
           <a
             href={`https://www.npmjs.com/package/${meta.npm}`}
             target="_blank"

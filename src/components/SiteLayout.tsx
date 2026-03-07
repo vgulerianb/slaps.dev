@@ -1,16 +1,74 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState, useRef, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 
-const navLinks = [
-  { to: "/", label: "Home", end: true },
-  { to: "/react-exe", label: "React-EXE", end: false },
-  { to: "/slapify", label: "Slapify", end: false },
-  { to: "/runmix/docs", label: "runmix", end: false },
-  { to: "/ghost-env/docs", label: "ghost-env", end: false },
+const products = [
+  {
+    to: "/react-exe",
+    label: "React-EXE",
+    desc: "Execute React components from code strings",
+  },
+  {
+    to: "/slapify",
+    label: "Slapify",
+    desc: "AI-powered browser automation",
+  },
+  {
+    to: "/runmix",
+    label: "runmix",
+    desc: "Multi-language execution for agents",
+  },
+  {
+    to: "/ghost-env",
+    label: "ghost-env",
+    desc: "Deterministic fake HTTP APIs for testing",
+  },
 ];
 
 const linkedinUrl = "https://www.linkedin.com/company/slaps-dev";
+
+function ProductsDropdown() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="nav-dropdown" ref={ref}>
+      <button
+        className={`nav-link nav-dropdown__trigger${open ? " nav-link--active" : ""}`}
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+      >
+        Products <ChevronDown size={13} className={`nav-dropdown__chevron${open ? " nav-dropdown__chevron--open" : ""}`} />
+      </button>
+      {open && (
+        <div className="nav-dropdown__panel" onClick={() => setOpen(false)}>
+          {products.map((p) => (
+            <NavLink
+              key={p.to}
+              to={p.to}
+              className={({ isActive }) =>
+                isActive ? "nav-dropdown__item nav-dropdown__item--active" : "nav-dropdown__item"
+              }
+            >
+              <span className="nav-dropdown__item-label">{p.label}</span>
+              <span className="nav-dropdown__item-desc">{p.desc}</span>
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function SiteLayout({ children }: PropsWithChildren) {
   return (
@@ -22,18 +80,15 @@ function SiteLayout({ children }: PropsWithChildren) {
         </Link>
 
         <nav className="site-nav__links" aria-label="Primary">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.end}
-              className={({ isActive }) =>
-                isActive ? "nav-link nav-link--active" : "nav-link"
-              }
-            >
-              {link.label}
-            </NavLink>
-          ))}
+          <ProductsDropdown />
+          <NavLink
+            to="/docs"
+            className={({ isActive }) =>
+              isActive ? "nav-link nav-link--active" : "nav-link"
+            }
+          >
+            Docs
+          </NavLink>
         </nav>
 
         <div className="site-nav__actions">
@@ -64,25 +119,9 @@ function SiteLayout({ children }: PropsWithChildren) {
           <p className="footer-copy">&copy; 2026 slaps.dev</p>
         </div>
         <div className="footer-links">
-          <a href={linkedinUrl} target="_blank" rel="noreferrer">
-            LinkedIn
-          </a>
-          <a
-            href="https://github.com/vgulerianb/react-exe"
-            target="_blank"
-            rel="noreferrer"
-          >
-            React-EXE
-          </a>
-          <a
-            href="https://github.com/vgulerianb/slapify"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Slapify
-          </a>
-          <Link to="/runmix/docs">runmix docs</Link>
-          <Link to="/ghost-env/docs">ghost-env docs</Link>
+          <Link to="/docs">Docs</Link>
+          <a href={linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://github.com/vgulerianb" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </footer>
     </div>
