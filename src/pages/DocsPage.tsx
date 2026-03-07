@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { MarkdocArticle } from "../documentation/MarkdocArticle";
 import {
@@ -7,6 +8,10 @@ import {
   isDocProduct,
 } from "../documentation/docRegistry";
 import { getDocSource } from "../documentation/loadDocs";
+
+const ReactExeDocsPlayground = lazy(
+  () => import("../documentation/ReactExeDocsPlayground").then((m) => ({ default: m.ReactExeDocsPlayground }))
+);
 
 function docsPath(product: string, slug: string): string {
   return slug ? `/docs/${product}/${slug}` : `/docs/${product}`;
@@ -69,7 +74,12 @@ export default function DocsPage() {
         </div>
       </aside>
       <article className="docs-page__main">
-        <MarkdocArticle source={raw} />
+        <MarkdocArticle source={raw} product={product} />
+        {product === "react-exe" && (
+          <Suspense fallback={<div className="docs-playground-loading">Loading playground…</div>}>
+            <ReactExeDocsPlayground />
+          </Suspense>
+        )}
       </article>
     </div>
   );

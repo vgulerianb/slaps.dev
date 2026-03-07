@@ -1182,6 +1182,128 @@
   color: var(--text-secondary);
 }
 
+/* ── Docs playground (react-exe) ── */
+.docs-playground {
+  margin-top: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.docs-playground__header {
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.docs-playground__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.docs-playground__tabs {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.docs-playground__tab {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.docs-playground__tab:hover {
+  background: var(--bg-subtle);
+}
+
+.docs-playground__tab--active {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+.docs-playground__tab > :first-child {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.docs-playground__tab-desc {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.docs-playground__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 360px;
+}
+
+.docs-playground__code {
+  border-right: 1px solid var(--border);
+  overflow: auto;
+}
+
+.docs-playground__code pre {
+  margin: 0;
+  padding: 1.1rem 1.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  height: 100%;
+  box-sizing: border-box;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.docs-playground__code code {
+  font-family: inherit;
+}
+
+.docs-playground__preview {
+  background: var(--bg);
+  min-height: 360px;
+  overflow: hidden;
+}
+
+.docs-playground-loading {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  padding: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 720px) {
+  .docs-playground__body {
+    grid-template-columns: 1fr;
+  }
+  .docs-playground__code {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 220px;
+  }
+}
+
+/* ── End docs playground ── */
+
 @media (max-width: 900px) {
   .docs-page {
     grid-template-columns: 1fr;

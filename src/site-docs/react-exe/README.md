@@ -1,6 +1,6 @@
 # react-exe
 
-Execute React components from raw **code strings** directly in the browser — no build step required. Automatically resolves npm packages from CDN, renders inside a secure iframe sandbox, and supports Tailwind CSS out of the box.
+Execute React components from raw **code strings** directly in the browser — no build step required. Auto-resolves npm packages from CDN, renders inside a secure iframe sandbox, and supports Tailwind CSS out of the box.
 
 ## Install
 
@@ -8,7 +8,7 @@ Execute React components from raw **code strings** directly in the browser — n
 npm install react-exe
 ```
 
-Requires **React 18+**. No additional peer dependencies.
+Requires **React 18+**.
 
 ## Quick start
 
@@ -37,9 +37,11 @@ export default function App() {
 | **Tailwind CSS** | `enableTailwind: true` loads Tailwind CDN inside the sandbox |
 | **TypeScript** | Code strings can use TypeScript syntax |
 
+## Live examples
+
+The playground below shows react-exe running in real time. Try the examples to see the `CodeExecutor` in action — then head to the docs to learn how each feature works.
+
 ## Documentation
 
-| Doc | Contents |
-|-----|---------|
-| [Getting started](getting-started.md) | Install, first render, sandbox, Tailwind |
-| [API reference](api-reference.md) | `CodeExecutor` props, `ExecutorConfig`, multi-file format |
+- [Getting started](getting-started.md) — Install, first render, sandbox, Tailwind
+- [API reference](api-reference.md) — `CodeExecutor` props, `ExecutorConfig`, multi-file format
