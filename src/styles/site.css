@@ -744,6 +744,201 @@
   }
 }
 
+/* ── Product docs (Markdoc) ── */
+.docs-page {
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+  gap: 2.5rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 4rem;
+  align-items: start;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 80px;
+  padding-right: 1rem;
+  border-right: 1px solid var(--border);
+}
+
+.docs-sidebar__product {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem;
+}
+
+.docs-sidebar__tagline {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0 0 1.25rem;
+}
+
+.docs-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.docs-nav-link {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+}
+
+.docs-nav-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+}
+
+.docs-nav-link--active {
+  color: var(--text-primary);
+  font-weight: 600;
+  background: var(--bg-subtle);
+}
+
+.docs-sidebar__meta {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+}
+
+.docs-sidebar__meta a {
+  color: var(--text-secondary);
+}
+
+.docs-page__main {
+  min-width: 0;
+}
+
+.docs-page__error {
+  padding: 2rem 0;
+}
+
+.markdoc-root {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+.markdoc-root h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.markdoc-root h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+}
+
+.markdoc-root h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.markdoc-root p {
+  margin: 0 0 0.85rem;
+  color: var(--text-secondary);
+}
+
+.markdoc-root a {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdoc-root ul,
+.markdoc-root ol {
+  margin: 0 0 1rem;
+  padding-left: 1.35rem;
+  color: var(--text-secondary);
+}
+
+.markdoc-root li {
+  margin-bottom: 0.35rem;
+}
+
+.markdoc-root pre {
+  margin: 0 0 1rem;
+  padding: 1rem 1.1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.markdoc-root code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 0.84em;
+}
+
+.markdoc-root p code,
+.markdoc-root li code,
+.markdoc-root td code {
+  background: var(--bg-subtle);
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.84em;
+}
+
+.markdoc-root table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin: 0 0 1.25rem;
+}
+
+.markdoc-root th,
+.markdoc-root td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+}
+
+.markdoc-root th {
+  background: var(--bg-subtle);
+  font-weight: 600;
+}
+
+.markdoc-root blockquote {
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--border-strong);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .docs-page {
+    grid-template-columns: 1fr;
+    padding: 1.25rem 1.25rem 3rem;
+  }
+
+  .docs-sidebar {
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+  }
+
+  .docs-sidebar__nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+}
+
 @media (max-width: 600px) {
   .hero h1 {
     font-size: 2rem;

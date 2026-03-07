@@ -6,6 +6,8 @@ const navLinks = [
   { to: "/", label: "Home", end: true },
   { to: "/react-exe", label: "React-EXE", end: false },
   { to: "/slapify", label: "Slapify", end: false },
+  { to: "/runmix/docs", label: "runmix", end: false },
+  { to: "/ghost-env/docs", label: "ghost-env", end: false },
 ];
 
 const linkedinUrl = "https://www.linkedin.com/company/slaps-dev";
@@ -79,6 +81,8 @@ function SiteLayout({ children }: PropsWithChildren) {
           >
             Slapify
           </a>
+          <Link to="/runmix/docs">runmix docs</Link>
+          <Link to="/ghost-env/docs">ghost-env docs</Link>
         </div>
       </footer>
     </div>

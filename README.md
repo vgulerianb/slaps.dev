@@ -119,6 +119,21 @@ The examples are configured with:
 - Examples demonstrate various React-EXE features including external dependencies and multi-file support
 - All examples include proper TypeScript types and error handling
 
+## 📚 Product documentation (slaps.dev)
+
+The site serves Markdown for **runmix** and **ghost-env** at:
+
+- `https://slaps.dev/runmix/docs` and `/runmix/docs/...`
+- `https://slaps.dev/ghost-env/docs` and `/ghost-env/docs/...`
+
+Content lives in **`src/site-docs/<product>/`** and is rendered with [Markdoc](https://markdoc.dev/). After editing docs in the standalone package repos, sync (when those folders exist next to this repo):
+
+```bash
+npm run sync-docs
+```
+
+To register another product, add markdown under `src/site-docs/<id>/`, then extend `src/documentation/docRegistry.ts` and `App.tsx` routes already cover `/:product/docs/:slug?`.
+
 ## 🤝 Contributing
 
 Feel free to add more examples or improve the existing ones! The examples are a great way to showcase React-EXE's capabilities.
