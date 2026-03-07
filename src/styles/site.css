@@ -1110,15 +1110,15 @@
 }
 
 /* Language filtering — hide non-selected language code blocks */
-.docs-page__main[data-lang="ts"] pre:has(.language-python),
-.docs-page__main[data-lang="ts"] pre:has(.language-py) {
+.docs-page__main[data-lang="ts"] pre[data-language="python"],
+.docs-page__main[data-lang="ts"] pre[data-language="py"] {
   display: none;
 }
 
-.docs-page__main[data-lang="python"] pre:has(.language-typescript),
-.docs-page__main[data-lang="python"] pre:has(.language-ts),
-.docs-page__main[data-lang="python"] pre:has(.language-javascript),
-.docs-page__main[data-lang="python"] pre:has(.language-js) {
+.docs-page__main[data-lang="python"] pre[data-language="typescript"],
+.docs-page__main[data-lang="python"] pre[data-language="ts"],
+.docs-page__main[data-lang="python"] pre[data-language="javascript"],
+.docs-page__main[data-lang="python"] pre[data-language="js"] {
   display: none;
 }
 
