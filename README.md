@@ -121,18 +121,20 @@ The examples are configured with:
 
 ## 📚 Product documentation (slaps.dev)
 
-The site serves Markdown for **execpad** and **ghost-env** at:
+The site serves Markdown for **agentpad** and **stubfetch** at:
 
-- `https://slaps.dev/docs/execpad` and `/docs/execpad/...`
-- `https://slaps.dev/docs/ghost-env` and `/docs/ghost-env/...`
+- `https://slaps.dev/docs/agentpad` and `/docs/agentpad/...` (sources in `src/site-docs/execpad/`)
+- `https://slaps.dev/docs/stubfetch` and `/docs/stubfetch/...` (sources in `src/site-docs/ghost-env/`)
 
-Content lives in **`src/site-docs/<product>/`** and is rendered with [Markdoc](https://markdoc.dev/). After editing docs in the standalone package repos, sync (when those folders exist next to this repo):
+Legacy URLs **`/execpad`** and **`/ghost-env`** (product pages) redirect to **`/agentpad`** and **`/stubfetch`**. Legacy doc URLs **`/docs/execpad`** and **`/docs/ghost-env`** redirect to **`/docs/agentpad`** and **`/docs/stubfetch`**.
+
+Content is rendered with [Markdoc](https://markdoc.dev/). After editing docs in the standalone package repos, sync (when those folders exist next to this repo):
 
 ```bash
 npm run sync-docs
 ```
 
-**Package tests (execpad + ghost-env, Node + Python):**
+**Package tests (agentpad + stubfetch trees, Node + Python):**
 
 ```bash
 npm run test:packages

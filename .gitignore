@@ -1,17 +1,6 @@
 node_modules
 dist
-# Video launch kit: commit scripts/specs; ignore renders & binaries
-slaps-video/renders/
-slaps-video/**/.DS_Store
-slaps-video/**/*.mp4
-slaps-video/**/*.mov
-slaps-video/**/*.mkv
-slaps-video/**/*.webm
-slaps-video/**/*.wav
-slaps-video/**/*.aiff
-slaps-video/**/*.prproj
-slaps-video/**/*.aep
-slaps-video/**/*.psd
+slaps-video
 
 # Local planning notes — not part of published tree
 PLAN.md
