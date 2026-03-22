@@ -11,7 +11,7 @@ EPY="$ROOT/execpad/python"
 if [[ ! -d "$EPY/.venv" ]]; then (cd "$EPY" && python3 -m venv .venv); fi
 # shellcheck source=/dev/null
 source "$EPY/.venv/bin/activate"
-pip install -e "$EPY[dev]" -q
+(cd "$EPY" && pip install -e ".[dev]" -q)
 pytest -q "$EPY/tests"
 
 echo "== ghost-env (Node / Vitest) =="
@@ -22,7 +22,7 @@ GPY="$ROOT/ghost-env/python"
 if [[ ! -d "$GPY/.venv" ]]; then (cd "$GPY" && python3 -m venv .venv); fi
 # shellcheck source=/dev/null
 source "$GPY/.venv/bin/activate"
-pip install -e "$GPY[dev]" -q
+(cd "$GPY" && pip install -e ".[dev]" -q)
 pytest -q "$GPY/tests"
 
 echo "All package tests passed."
