@@ -1,6 +1,9 @@
 import { ArrowRight, ArrowUpRight, Terminal, Code2, Database, FileText } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { DOC_PRODUCTS } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
+
+const execpadMeta = DOC_PRODUCTS.execpad;
 
 const languages = [
   { name: "bash", icon: Terminal, desc: "Shell scripts and system commands" },
@@ -65,15 +68,23 @@ export default function ExecpadPage() {
           <code className="install-cmd">npm install execpad</code>
           <div className="product-hero__actions">
             <a
-              href="https://www.npmjs.com/package/execpad"
+              href={`https://www.npmjs.com/package/${execpadMeta.npm}`}
               target="_blank"
               rel="noreferrer"
               className="btn-primary"
             >
               View on npm <ArrowRight size={16} />
             </a>
+            <a
+              href={execpadMeta.github}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-secondary"
+            >
+              GitHub <ArrowUpRight size={14} />
+            </a>
             <Link to="/docs/$product" params={{ product: "execpad" }} className="btn-secondary">
-              Docs <ArrowUpRight size={14} />
+              Docs <ArrowRight size={16} />
             </Link>
           </div>
           <div className="hero-stats">

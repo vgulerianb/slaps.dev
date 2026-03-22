@@ -1,6 +1,9 @@
 import { ArrowRight, ArrowUpRight, Github, CreditCard, Bot, Database } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { DOC_PRODUCTS } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
+
+const ghostMeta = DOC_PRODUCTS["ghost-env"];
 
 const presets = [
   { name: "github", icon: Github, desc: "Issues, pull requests, repos — GitHub REST API shape" },
@@ -50,15 +53,23 @@ export default function GhostEnvPage() {
           <code className="install-cmd">npm install ghost-env</code>
           <div className="product-hero__actions">
             <a
-              href="https://www.npmjs.com/package/ghost-env"
+              href={`https://www.npmjs.com/package/${ghostMeta.npm}`}
               target="_blank"
               rel="noreferrer"
               className="btn-primary"
             >
               View on npm <ArrowRight size={16} />
             </a>
+            <a
+              href={ghostMeta.github}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-secondary"
+            >
+              GitHub <ArrowUpRight size={14} />
+            </a>
             <Link to="/docs/$product" params={{ product: "ghost-env" }} className="btn-secondary">
-              Docs <ArrowUpRight size={14} />
+              Docs <ArrowRight size={16} />
             </Link>
           </div>
           <div className="hero-stats">

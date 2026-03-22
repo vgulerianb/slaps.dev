@@ -12,7 +12,11 @@ import {
   ArrowUpRight,
   Copy,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { DOC_PRODUCTS } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
+
+const reactExeMeta = DOC_PRODUCTS["react-exe"];
 import "../App.css";
 
 interface Example {
@@ -1121,7 +1125,7 @@ export default Example;`;
           <code className="install-cmd">npm install react-exe</code>
           <div className="product-hero__actions">
             <a
-              href="https://www.npmjs.com/package/react-exe"
+              href={`https://www.npmjs.com/package/${reactExeMeta.npm}`}
               target="_blank"
               rel="noreferrer"
               className="btn-primary"
@@ -1129,13 +1133,20 @@ export default Example;`;
               View on npm <ArrowRight size={16} />
             </a>
             <a
-              href="https://github.com/vgulerianb/react-exe"
+              href={reactExeMeta.github}
               target="_blank"
               rel="noreferrer"
               className="btn-secondary"
             >
               GitHub <ArrowUpRight size={14} />
             </a>
+            <Link
+              to="/docs/$product"
+              params={{ product: "react-exe" }}
+              className="btn-secondary"
+            >
+              Docs <ArrowRight size={16} />
+            </Link>
           </div>
           <div className="hero-stats">
             <div>

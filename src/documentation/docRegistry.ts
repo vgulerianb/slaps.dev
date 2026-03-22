@@ -7,6 +7,8 @@ export const DOC_PRODUCTS: Record<
     tagline: string;
     npm: string;
     productPath: string;
+    /** Source repository (product or monorepo path). */
+    github: string;
     hasPython?: boolean;
     /** PyPI project name when `hasPython` (usually same as npm). */
     pypi?: string;
@@ -17,18 +19,21 @@ export const DOC_PRODUCTS: Record<
     tagline: "Execute React components from code strings in the browser.",
     npm: "react-exe",
     productPath: "/react-exe",
+    github: "https://github.com/vgulerianb/react-exe",
   },
   slapify: {
     title: "Slapify",
     tagline: "AI-powered browser automation, test flows, and performance auditing.",
     npm: "slapify",
     productPath: "/slapify",
+    github: "https://github.com/vgulerianb/slapify",
   },
   execpad: {
     title: "execpad",
     tagline: "Multi-language execution against a real directory for agents and tooling.",
     npm: "execpad",
     productPath: "/execpad",
+    github: "https://github.com/vgulerianb/slaps.dev/tree/main/execpad",
     hasPython: true,
     pypi: "execpad",
   },
@@ -37,6 +42,7 @@ export const DOC_PRODUCTS: Record<
     tagline: "Deterministic fake HTTP APIs for agent and integration tests.",
     npm: "ghost-env",
     productPath: "/ghost-env",
+    github: "https://github.com/vgulerianb/ghost-env",
     hasPython: true,
     pypi: "ghost-env",
   },

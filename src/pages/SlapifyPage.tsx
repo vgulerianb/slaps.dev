@@ -7,7 +7,11 @@ import {
   FileText,
   Code,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { DOC_PRODUCTS } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
+
+const slapifyMeta = DOC_PRODUCTS.slapify;
 
 const heroStats = [
   { value: "0.0.18", label: "Latest version" },
@@ -89,7 +93,7 @@ function SlapifyPage() {
           <code className="install-cmd">npx slapify init</code>
           <div className="product-hero__actions">
             <a
-              href="https://www.npmjs.com/package/slapify"
+              href={`https://www.npmjs.com/package/${slapifyMeta.npm}`}
               target="_blank"
               rel="noreferrer"
               className="btn-primary"
@@ -97,13 +101,20 @@ function SlapifyPage() {
               View on npm <ArrowRight size={16} />
             </a>
             <a
-              href="https://github.com/vgulerianb/slapify"
+              href={slapifyMeta.github}
               target="_blank"
               rel="noreferrer"
               className="btn-secondary"
             >
               GitHub <ArrowUpRight size={14} />
             </a>
+            <Link
+              to="/docs/$product"
+              params={{ product: "slapify" }}
+              className="btn-secondary"
+            >
+              Docs <ArrowRight size={16} />
+            </Link>
           </div>
           <div className="hero-stats">
             {heroStats.map((s) => (
