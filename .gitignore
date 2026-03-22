@@ -5,6 +5,5 @@ slaps-video
 # Local planning notes — not part of published tree
 PLAN.md
 
-# Standalone package repos (nested `git init`; clone or open separately)
-/runmix/
+# Standalone package repo (nested `git init`; clone or open separately)
 /ghost-env/

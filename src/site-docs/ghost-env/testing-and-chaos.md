@@ -2,6 +2,7 @@
 
 ## Eval scenarios
 
+{% ts %}
 `runEval` runs an array of scenarios sequentially. Each scenario creates a **fresh** `GhostEnv` from `config`, runs `run(env)`, then optional `assert(env)`.
 
 ```ts
@@ -24,9 +25,40 @@ console.log(report.passRate, report.results);
 ```
 
 Failures capture **`error`** strings per scenario; **`passRate`** is `ok / count`.
+{% /ts %}
+
+{% py %}
+`run_eval` runs a list of scenarios. Each scenario builds a **fresh** `GhostEnv` from `config`, runs `run(env)`, then an optional **`check`** callable (Python `assert` is a keyword, so the API uses `check`).
+
+```python
+from ghost_env import run_eval, define_scenario, github
+
+
+def check_get(env):
+    if not env.was_called("github", method="GET"):
+        raise RuntimeError("expected GET")
+
+
+report = run_eval(
+    [
+        define_scenario(
+            name="lists issues",
+            config={"providers": [github({"issues": [{"repo": "a/b", "title": "t"}]})]},
+            run=lambda env: env.fetch("https://api.github.com/repos/a/b/issues"),
+            check=check_get,
+        ),
+    ]
+)
+
+print(report["pass_rate"], report["results"])
+```
+
+Failures capture **`error`** strings per scenario; **`pass_rate`** is `ok / count`.
+{% /py %}
 
 ## Chaos
 
+{% ts %}
 ```ts
 new GhostEnv({
   seed: 99,
@@ -40,15 +72,40 @@ new GhostEnv({
 
 - **`failureRate`** uses the seeded RNG; **`0`** disables simulated failures (falsy check).
 - Failures throw **`ghost-env chaos: simulated failure`** (after optional latency).
+{% /ts %}
+
+{% py %}
+```python
+GhostEnv(
+    {
+        "seed": 99,
+        "chaos": {
+            "min_latency_ms": 50,
+            "failure_rate": 0.1,
+        },
+        "providers": [],
+    }
+)
+```
+
+- **`failure_rate`** uses the seeded RNG; **`0`** disables simulated failures (falsy check).
+- Failures raise **`RuntimeError: ghost-env chaos`** (after optional latency).
+{% /py %}
 
 ## Recording exports
 
+{% ts %}
 - **`exportRecordingJSON`** — pretty JSON for fixtures or LLM context.
 - **`exportRecordingMarkdown`** — human-readable sections per call.
 - **`exportHAR`** — HAR-like JSON (includes extension fields for provider id).
 
 Use these after `fetch` calls with `env.calls()`.
+{% /ts %}
 
-## Python
+{% py %}
+- **`export_recording_json`** — pretty JSON for fixtures or LLM context.
+- **`export_recording_markdown`** — human-readable sections per call.
+- **`export_har`** — HAR-like JSON (includes extension fields for provider id).
 
-`run_eval` / `define_scenario` mirror the npm API; scenarios may use a `check` callable instead of `assert` (see `ghost_env.eval_runner`).
+Use these after `fetch` calls with `env.calls()`.
+{% /py %}

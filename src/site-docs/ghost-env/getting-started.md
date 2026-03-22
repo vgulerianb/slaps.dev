@@ -2,18 +2,25 @@
 
 ## Install
 
+{% ts %}
 ```bash
 npm install ghost-env
 ```
 
+Requires **Node.js 18+**.
+{% /ts %}
+
+{% py %}
 ```bash
 pip install ghost-env
 ```
 
-Requires **Node.js 18+** for npm; **Python 3.10+** for pip.
+Requires **Python 3.10+**.
+{% /py %}
 
 ## Minimal example
 
+{% ts %}
 ```ts
 import { GhostEnv, github } from "ghost-env";
 
@@ -31,7 +38,9 @@ console.assert(res.status === 200);
 const issues = await res.json();
 console.log(issues[0].title);
 ```
+{% /ts %}
 
+{% py %}
 ```python
 from ghost_env import GhostEnv, github
 
@@ -47,18 +56,20 @@ assert status == 200
 assert "First issue" in text
 ```
 
-**Python note:** `fetch()` returns `(status: int, body: str)` instead of a `Response` object.
+**Note:** `fetch()` returns `(status: int, body: str)` instead of a `Response` object.
+{% /py %}
 
 ## How routing works
 
 1. You pass an ordered list of **`providers`** to `GhostEnv`.
-2. Each `fetch(url, init?)` walks providers in order; the first whose `handle` returns a Response wins.
+2. Each `fetch` walks providers in order; the first provider that handles the URL wins.
 3. If none match, `fetch` throws.
 
 ## Recording calls
 
 After making calls, inspect history:
 
+{% ts %}
 ```ts
 env.calls();                        // all CallRecord
 env.calls("github");                // filter by provider name
@@ -67,17 +78,21 @@ env.wasCalled("github", {
   pathIncludes: "/issues",
 });
 ```
+{% /ts %}
 
+{% py %}
 ```python
 env.calls()                         # all records
 env.calls("github")                 # filter by provider
 env.was_called("github", method="GET", path_includes="/issues")
 ```
+{% /py %}
 
 ## Multiple presets
 
 Combine providers for integration-style tests:
 
+{% ts %}
 ```ts
 new GhostEnv({
   seed: 0,
@@ -87,7 +102,9 @@ new GhostEnv({
   ],
 });
 ```
+{% /ts %}
 
+{% py %}
 ```python
 GhostEnv({
     "seed": 0,
@@ -97,6 +114,7 @@ GhostEnv({
     ],
 })
 ```
+{% /py %}
 
 Order matters: the first provider that handles a URL wins.
 
@@ -104,4 +122,4 @@ Order matters: the first provider that handles a URL wins.
 
 - [Presets](presets.md) for URL patterns and config objects
 - [API reference](api-reference.md) for `db()`, `reset`, `snapshot`, exports
-- [Testing & chaos](testing-and-chaos.md) for `runEval` and failure injection
+- [Testing & chaos](testing-and-chaos.md) for `runEval` / `run_eval` and failure injection
