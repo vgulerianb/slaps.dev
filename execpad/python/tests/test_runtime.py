@@ -3,7 +3,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from execpad import Runtime, export_run_log_json
+from agentpad import Runtime, export_run_log_json
 
 
 def test_bash_cat(tmp_path: Path) -> None:

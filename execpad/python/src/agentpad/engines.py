@@ -6,7 +6,7 @@ import sys
 import time
 from pathlib import Path
 
-from execpad.types import RunResult
+from agentpad.types import RunResult
 
 
 def _truncate(stdout: str, stderr: str, max_bytes: int | None) -> tuple[str, str, bool]:

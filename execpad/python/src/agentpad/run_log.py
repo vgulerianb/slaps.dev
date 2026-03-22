@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 
-from execpad.types import RunLogEntry
+from agentpad.types import RunLogEntry
 
 
 def export_run_log_json(entries: list[RunLogEntry], *, pretty: bool = True) -> str:
@@ -27,7 +27,7 @@ def export_run_log_json(entries: list[RunLogEntry], *, pretty: bool = True) -> s
 
 
 def export_run_log_markdown(entries: list[RunLogEntry]) -> str:
-    lines: list[str] = ["# execpad session log", ""]
+    lines: list[str] = ["# agentpad session log", ""]
     for e in entries:
         ts = datetime.fromtimestamp(e.at / 1000, tz=timezone.utc).isoformat()
         lines.append(f"## {e.id} — {e.language} @ {ts}")

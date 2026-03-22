@@ -3,19 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "execpad"
+name = "agentpad"
 version = "0.1.0"
 description = "Multi-language code execution against a real directory for AI agents"
 readme = { file = "../README.md", content-type = "text/markdown" }
 license = "Apache-2.0"
 requires-python = ">=3.10"
 authors = [{ name = "slaps.dev" }]
-
-[project.urls]
-Homepage = "https://slaps.dev/execpad"
-Documentation = "https://slaps.dev/docs/execpad/"
-Repository = "https://github.com/vgulerianb/execpad"
-
 keywords = [
   "ai",
   "agents",
@@ -31,14 +25,20 @@ keywords = [
   "ci",
 ]
 
+[project.urls]
+Homepage = "https://slaps.dev/agentpad"
+Documentation = "https://slaps.dev/docs/agentpad/"
+Repository = "https://github.com/vgulerianb/agentpad"
+"Bug Tracker" = "https://github.com/vgulerianb/agentpad/issues"
+
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/execpad"]
+packages = ["src/agentpad"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/execpad", "../README.md", "../LICENSE"]
+include = ["src/agentpad", "../README.md", "../LICENSE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

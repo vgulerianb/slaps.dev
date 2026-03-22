@@ -8,9 +8,9 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from execpad.engines import run_bash, run_javascript, run_python, run_sql
-from execpad.extensions.globs import list_matching_rel_paths
-from execpad.types import FileChange, Language, RunLogEntry, RunResult, SerializedRuntime
+from agentpad.engines import run_bash, run_javascript, run_python, run_sql
+from agentpad.extensions.globs import list_matching_rel_paths
+from agentpad.types import FileChange, Language, RunLogEntry, RunResult, SerializedRuntime
 
 
 def _cp_tree(src: Path, dest: Path) -> None:
@@ -83,7 +83,7 @@ class Runtime:
         self._run_log: list[RunLogEntry] = []
         self._log_seq = 0
         if overlay:
-            self._workdir = Path(tempfile.mkdtemp(prefix="execpad-"))
+            self._workdir = Path(tempfile.mkdtemp(prefix="agentpad-"))
             _cp_tree(self.root, self._workdir)
         else:
             self._workdir = self.root
