@@ -2,10 +2,13 @@ import Markdoc from "@markdoc/markdoc";
 import type { ReactNode } from "react";
 import React from "react";
 import { Link } from "@tanstack/react-router";
+import { docsMarkdocConfig } from "./markdocDocsConfig";
 
 type MarkdocArticleProps = {
   source: string;
   product: string;
+  /** Used with `{% ts %}` / `{% py %}` in markdown; defaults to TypeScript. */
+  docsLang?: "ts" | "python";
 };
 
 /** Convert relative `.md` links inside docs content to proper /docs/:product/:slug routes. */
@@ -38,10 +41,10 @@ function makeDocLink(_product: string) {
   };
 }
 
-export function MarkdocArticle({ source, product }: MarkdocArticleProps): ReactNode {
+export function MarkdocArticle({ source, product, docsLang = "ts" }: MarkdocArticleProps): ReactNode {
   const processed = fixDocLinks(source, product);
   const ast = Markdoc.parse(processed);
-  const content = Markdoc.transform(ast);
+  const content = Markdoc.transform(ast, docsMarkdocConfig(docsLang));
   return (
     <div className="markdoc-root">
       {Markdoc.renderers.react(content, React, {

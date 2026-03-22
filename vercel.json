@@ -1,4 +1,12 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/client"
+  "outputDirectory": "dist/client",
+  "redirects": [
+    { "source": "/runmix", "destination": "/execpad", "permanent": true },
+    { "source": "/docs/runmix", "destination": "/docs/execpad", "permanent": true },
+    { "source": "/docs/runmix/:path*", "destination": "/docs/execpad/:path*", "permanent": true },
+    { "source": "/slaprun", "destination": "/execpad", "permanent": true },
+    { "source": "/docs/slaprun", "destination": "/docs/execpad", "permanent": true },
+    { "source": "/docs/slaprun/:path*", "destination": "/docs/execpad/:path*", "permanent": true }
+  ]
 }

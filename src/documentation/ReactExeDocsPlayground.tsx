@@ -1,5 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { CodeExecutor } from "react-exe";
+import type { CodeFile } from "react-exe";
+import CodeEditor from "../components/CodeEditor";
+import { Copy, Check, RotateCcw } from "lucide-react";
+
+type Example = (typeof EXAMPLES)[number];
 
 const EXAMPLES = [
   {
@@ -18,10 +23,12 @@ const EXAMPLES = [
       </div>
       <div style={{ display: "flex", gap: "0.5rem", justifyContent: "center" }}>
         <button
+          type="button"
           onClick={() => setN(n - 1)}
           style={{ padding: "0.5rem 1.25rem", borderRadius: "8px", background: "#f5f5f5", border: "1px solid #e0e0e0", cursor: "pointer", fontSize: "1rem" }}
         >−</button>
         <button
+          type="button"
           onClick={() => setN(n + 1)}
           style={{ padding: "0.5rem 1.25rem", borderRadius: "8px", background: "#0a0a0a", color: "#fff", border: "none", cursor: "pointer", fontSize: "1rem" }}
         >+</button>
@@ -45,6 +52,7 @@ const EXAMPLES = [
           Render React from code strings. Tailwind works natively inside the sandbox.
         </p>
         <button
+          type="button"
           onClick={() => setLiked(!liked)}
           className={\`w-full py-2 rounded-xl text-sm font-semibold transition-colors \${
             liked ? "bg-violet-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -139,29 +147,88 @@ export default function Badge({ label }: { label: string }) {
   },
 ] as const;
 
-export function ReactExeDocsPlayground() {
+function codeFromExample(ex: Example): string | CodeFile[] {
+  if ("isMultiFile" in ex && ex.isMultiFile) {
+    return JSON.parse(ex.code as string) as CodeFile[];
+  }
+  return ex.code as string;
+}
+
+function toCopyString(code: string | CodeFile[]): string {
+  if (typeof code === "string") return code;
+  return code.map((f) => `// ${f.name}\n${f.content}`).join("\n\n");
+}
+
+function ReactExeDocsPlaygroundInner() {
   const [active, setActive] = useState(0);
+  const [liveCode, setLiveCode] = useState<string | CodeFile[]>(() => codeFromExample(EXAMPLES[0]));
+  const [debouncedCode, setDebouncedCode] = useState<string | CodeFile[]>(() => codeFromExample(EXAMPLES[0]));
+  const [copied, setCopied] = useState(false);
+
   const ex = EXAMPLES[active];
-  const isMulti = "isMultiFile" in ex && ex.isMultiFile;
-  const code = isMulti ? JSON.parse(ex.code as string) : (ex.code as string);
-  const displayCode = isMulti
-    ? (code as { name: string; content: string }[])
-        .map((f) => `// ${f.name}\n${f.content}`)
-        .join("\n\n")
-    : (ex.code as string);
+
+  useEffect(() => {
+    const next = codeFromExample(EXAMPLES[active]);
+    setLiveCode(next);
+    setDebouncedCode(next);
+  }, [active]);
+
+  useEffect(() => {
+    const id = window.setTimeout(() => setDebouncedCode(liveCode), 300);
+    return () => window.clearTimeout(id);
+  }, [liveCode]);
+
+  const handleReset = useCallback(() => {
+    setLiveCode(codeFromExample(EXAMPLES[active]));
+  }, [active]);
+
+  const handleCopyAll = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(toCopyString(liveCode));
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore */
+    }
+  }, [liveCode]);
+
+  const previewLabel = useMemo(() => {
+    const cur = EXAMPLES[active];
+    if ("isMultiFile" in cur && cur.isMultiFile) return "Live preview · multi-file";
+    if (cur.config && "enableTailwind" in cur.config && cur.config.enableTailwind) return "Live preview · Tailwind enabled";
+    return "Live preview";
+  }, [active]);
 
   return (
     <div className="docs-playground">
       <div className="docs-playground__header">
-        <span className="docs-playground__label">Live playground</span>
-        <div className="docs-playground__tabs">
+        <div className="docs-playground__header-row">
+          <span className="docs-playground__label">Live playground</span>
+          <div className="docs-playground__toolbar">
+            <button
+              type="button"
+              className="docs-playground__icon-btn"
+              onClick={handleCopyAll}
+              title="Copy all code"
+            >
+              {copied ? <Check size={16} className="docs-playground__icon-btn--ok" /> : <Copy size={16} />}
+            </button>
+            <button type="button" className="docs-playground__icon-btn" onClick={handleReset} title="Reset to example">
+              <RotateCcw size={16} />
+            </button>
+          </div>
+        </div>
+        <div className="docs-playground__tabs" role="tablist" aria-label="Playground examples">
           {EXAMPLES.map((e, i) => (
             <button
               key={e.label}
+              type="button"
+              role="tab"
+              aria-selected={active === i}
               onClick={() => setActive(i)}
               className={`docs-playground__tab${active === i ? " docs-playground__tab--active" : ""}`}
             >
-              {e.label}
+              <span className="docs-playground__tab-title">{e.label}</span>
               <span className="docs-playground__tab-desc">{e.description}</span>
             </button>
           ))}
@@ -169,14 +236,33 @@ export function ReactExeDocsPlayground() {
       </div>
       <div className="docs-playground__body">
         <div className="docs-playground__code">
-          <pre>
-            <code>{displayCode}</code>
-          </pre>
+          <CodeEditor code={liveCode} onCodeChange={setLiveCode} onReset={handleReset} />
         </div>
-        <div className="docs-playground__preview">
-          <CodeExecutor key={active} code={code} config={ex.config} />
+        <div className="docs-playground__preview-wrap">
+          <div className="docs-playground__preview-chrome">
+            <span className="docs-playground__preview-label">{previewLabel}</span>
+          </div>
+          <div className="docs-playground__preview">
+            <CodeExecutor key={active} code={debouncedCode} config={ex.config} />
+          </div>
         </div>
       </div>
     </div>
   );
+}
+
+/**
+ * Monaco and the runtime executor are client-only; a tiny placeholder avoids SSR/prerender errors.
+ */
+export function ReactExeDocsPlayground() {
+  const [client, setClient] = useState(false);
+  useEffect(() => setClient(true), []);
+  if (!client) {
+    return (
+      <div className="docs-playground docs-playground--hydrating">
+        <div className="docs-playground-loading">Loading playground…</div>
+      </div>
+    );
+  }
+  return <ReactExeDocsPlaygroundInner />;
 }

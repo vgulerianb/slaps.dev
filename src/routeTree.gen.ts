@@ -10,9 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SlapifyRouteImport } from './routes/slapify'
-import { Route as RunmixRouteImport } from './routes/runmix'
 import { Route as ReactExeRouteImport } from './routes/react-exe'
 import { Route as GhostEnvRouteImport } from './routes/ghost-env'
+import { Route as ExecpadRouteImport } from './routes/execpad'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsProductIndexRouteImport } from './routes/docs.$product.index'
@@ -23,11 +23,6 @@ const SlapifyRoute = SlapifyRouteImport.update({
   path: '/slapify',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RunmixRoute = RunmixRouteImport.update({
-  id: '/runmix',
-  path: '/runmix',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ReactExeRoute = ReactExeRouteImport.update({
   id: '/react-exe',
   path: '/react-exe',
@@ -36,6 +31,11 @@ const ReactExeRoute = ReactExeRouteImport.update({
 const GhostEnvRoute = GhostEnvRouteImport.update({
   id: '/ghost-env',
   path: '/ghost-env',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExecpadRoute = ExecpadRouteImport.update({
+  id: '/execpad',
+  path: '/execpad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,9 +61,9 @@ const DocsProductSlugRoute = DocsProductSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/execpad': typeof ExecpadRoute
   '/ghost-env': typeof GhostEnvRoute
   '/react-exe': typeof ReactExeRoute
-  '/runmix': typeof RunmixRoute
   '/slapify': typeof SlapifyRoute
   '/docs/': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
@@ -71,9 +71,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/execpad': typeof ExecpadRoute
   '/ghost-env': typeof GhostEnvRoute
   '/react-exe': typeof ReactExeRoute
-  '/runmix': typeof RunmixRoute
   '/slapify': typeof SlapifyRoute
   '/docs': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
@@ -82,9 +82,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/execpad': typeof ExecpadRoute
   '/ghost-env': typeof GhostEnvRoute
   '/react-exe': typeof ReactExeRoute
-  '/runmix': typeof RunmixRoute
   '/slapify': typeof SlapifyRoute
   '/docs/': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
@@ -94,9 +94,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/execpad'
     | '/ghost-env'
     | '/react-exe'
-    | '/runmix'
     | '/slapify'
     | '/docs/'
     | '/docs/$product/$slug'
@@ -104,9 +104,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/execpad'
     | '/ghost-env'
     | '/react-exe'
-    | '/runmix'
     | '/slapify'
     | '/docs'
     | '/docs/$product/$slug'
@@ -114,9 +114,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/execpad'
     | '/ghost-env'
     | '/react-exe'
-    | '/runmix'
     | '/slapify'
     | '/docs/'
     | '/docs/$product/$slug'
@@ -125,9 +125,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExecpadRoute: typeof ExecpadRoute
   GhostEnvRoute: typeof GhostEnvRoute
   ReactExeRoute: typeof ReactExeRoute
-  RunmixRoute: typeof RunmixRoute
   SlapifyRoute: typeof SlapifyRoute
   DocsIndexRoute: typeof DocsIndexRoute
   DocsProductSlugRoute: typeof DocsProductSlugRoute
@@ -143,13 +143,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SlapifyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/runmix': {
-      id: '/runmix'
-      path: '/runmix'
-      fullPath: '/runmix'
-      preLoaderRoute: typeof RunmixRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/react-exe': {
       id: '/react-exe'
       path: '/react-exe'
@@ -162,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/ghost-env'
       fullPath: '/ghost-env'
       preLoaderRoute: typeof GhostEnvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/execpad': {
+      id: '/execpad'
+      path: '/execpad'
+      fullPath: '/execpad'
+      preLoaderRoute: typeof ExecpadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -197,9 +197,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExecpadRoute: ExecpadRoute,
   GhostEnvRoute: GhostEnvRoute,
   ReactExeRoute: ReactExeRoute,
-  RunmixRoute: RunmixRoute,
   SlapifyRoute: SlapifyRoute,
   DocsIndexRoute: DocsIndexRoute,
   DocsProductSlugRoute: DocsProductSlugRoute,

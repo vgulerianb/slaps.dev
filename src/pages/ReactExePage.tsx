@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { CodeExecutor } from "react-exe";
 import * as echarts from "echarts";
 import CodeEditor from "../components/CodeEditor";
+import { ReactExeDocsPlayground } from "../documentation/ReactExeDocsPlayground";
 import Editor from "@monaco-editor/react";
 import {
   Code,
@@ -1159,8 +1160,21 @@ export default Example;`;
           <p className="eyebrow">Playground</p>
           <h2 className="text-3xl font-bold mb-4">Try it live</h2>
           <p className="text-gray-600 max-w-2xl">
-            Select an example below to see how React-EXE renders and executes
-            React components on the fly without a build step.
+            Edit the snippet on the left and watch the preview update — then open the
+            gallery for bigger samples, sandbox toggle, and copy-paste integration
+            code.
+          </p>
+        </div>
+
+        <div className="native-playground-quick mb-14 w-full max-w-6xl mx-auto">
+          <ReactExeDocsPlayground />
+        </div>
+
+        <div className="mb-8 max-w-2xl">
+          <h3 className="text-xl font-bold text-gray-900 tracking-tight mb-2">Example gallery</h3>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            Full-size demos with Monaco, sandbox mode, and “how to integrate” snippets
+            for your app.
           </p>
         </div>
 

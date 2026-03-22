@@ -121,16 +121,24 @@ The examples are configured with:
 
 ## 📚 Product documentation (slaps.dev)
 
-The site serves Markdown for **runmix** and **ghost-env** at:
+The site serves Markdown for **execpad** and **ghost-env** at:
 
-- `https://slaps.dev/runmix/docs` and `/runmix/docs/...`
-- `https://slaps.dev/ghost-env/docs` and `/ghost-env/docs/...`
+- `https://slaps.dev/docs/execpad` and `/docs/execpad/...`
+- `https://slaps.dev/docs/ghost-env` and `/docs/ghost-env/...`
 
 Content lives in **`src/site-docs/<product>/`** and is rendered with [Markdoc](https://markdoc.dev/). After editing docs in the standalone package repos, sync (when those folders exist next to this repo):
 
 ```bash
 npm run sync-docs
 ```
+
+**Package tests (execpad + ghost-env, Node + Python):**
+
+```bash
+npm run test:packages
+```
+
+Runs Vitest in each npm package and pytest in each `python/` tree (creates local `.venv` folders on first run).
 
 To register another product, add markdown under `src/site-docs/<id>/`, then extend `src/documentation/docRegistry.ts` and `App.tsx` routes already cover `/:product/docs/:slug?`.
 

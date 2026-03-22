@@ -9,7 +9,7 @@ import {
 } from "../documentation/docRegistry";
 import { getDocSource } from "../documentation/loadDocs";
 
-type ProductPath = "/react-exe" | "/slapify" | "/runmix" | "/ghost-env";
+type ProductPath = "/react-exe" | "/slapify" | "/execpad" | "/ghost-env";
 type LangPref = "ts" | "python";
 
 const LANG_KEY = "slaps-docs-lang";
@@ -110,17 +110,31 @@ export default function DocsPage() {
           <Link to={meta.productPath as ProductPath} className="docs-sidebar__product-link">
             ← {meta.title}
           </Link>
-          <a
-            href={`https://www.npmjs.com/package/${meta.npm}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            npm → {meta.npm}
-          </a>
+          {meta.hasPython && meta.pypi && lang === "python" ? (
+            <a
+              href={`https://pypi.org/project/${meta.pypi}/`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              PyPI → {meta.pypi}
+            </a>
+          ) : (
+            <a
+              href={`https://www.npmjs.com/package/${meta.npm}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              npm → {meta.npm}
+            </a>
+          )}
         </div>
       </aside>
       <article className="docs-page__main" data-lang={meta.hasPython ? lang : undefined}>
-        <MarkdocArticle source={raw} product={product} />
+        <MarkdocArticle
+          source={raw}
+          product={product}
+          docsLang={meta.hasPython ? lang : "ts"}
+        />
         {product === "react-exe" && (
           <Suspense fallback={<div className="docs-playground-loading">Loading playground…</div>}>
             <ReactExeDocsPlayground />

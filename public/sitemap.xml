@@ -19,7 +19,7 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/runmix</loc>
+    <loc>https://slaps.dev/execpad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -80,29 +80,34 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- runmix docs -->
+  <!-- execpad docs -->
   <url>
-    <loc>https://slaps.dev/docs/runmix</loc>
+    <loc>https://slaps.dev/docs/execpad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/runmix/getting-started</loc>
+    <loc>https://slaps.dev/docs/execpad/getting-started</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/runmix/configuration</loc>
+    <loc>https://slaps.dev/docs/execpad/use-cases</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://slaps.dev/docs/execpad/configuration</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/runmix/api-reference</loc>
+    <loc>https://slaps.dev/docs/execpad/api-reference</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/runmix/security</loc>
+    <loc>https://slaps.dev/docs/execpad/security</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -117,6 +122,11 @@
     <loc>https://slaps.dev/docs/ghost-env/getting-started</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://slaps.dev/docs/ghost-env/use-cases</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
   </url>
   <url>
     <loc>https://slaps.dev/docs/ghost-env/presets</loc>

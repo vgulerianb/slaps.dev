@@ -2,11 +2,11 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-echo "== runmix (npm) =="
-(cd "$ROOT/runmix" && npm test && npm run build)
+echo "== execpad (npm) =="
+(cd "$ROOT/execpad" && npm test && npm run build)
 
-echo "== runmix (python) =="
-PY="$ROOT/runmix/python"
+echo "== execpad (python) =="
+PY="$ROOT/execpad/python"
 if [[ ! -d "$PY/.venv" ]]; then (cd "$PY" && python3 -m venv .venv); fi
 # shellcheck source=/dev/null
 source "$PY/.venv/bin/activate"

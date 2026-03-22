@@ -12,12 +12,12 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Open-source AI building blocks for developers — react-exe, Slapify, runmix, ghost-env. Install from npm and ship faster.",
+          "Open-source AI building blocks for developers — react-exe, Slapify, execpad, ghost-env. Install from npm and ship faster.",
       },
       { property: "og:title", content: "slaps.dev | Open-source AI tools and building blocks" },
       {
         property: "og:description",
-        content: "Open-source AI building blocks for developers — react-exe, Slapify, runmix, ghost-env.",
+        content: "Open-source AI building blocks for developers — react-exe, Slapify, execpad, ghost-env.",
       },
       { property: "og:image", content: "https://slaps.dev/og/slaps.dev.png" },
       { property: "og:type", content: "website" },
@@ -26,7 +26,7 @@ export const Route = createRootRoute({
       { name: "twitter:title", content: "slaps.dev | Open-source AI tools and building blocks" },
       {
         name: "twitter:description",
-        content: "Open-source AI building blocks for developers — react-exe, Slapify, runmix, ghost-env.",
+        content: "Open-source AI building blocks for developers — react-exe, Slapify, execpad, ghost-env.",
       },
       { name: "twitter:image", content: "https://slaps.dev/og/slaps.dev.png" },
     ],

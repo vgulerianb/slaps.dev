@@ -14,8 +14,8 @@ const products = [
     desc: "AI-powered browser automation",
   },
   {
-    to: "/runmix",
-    label: "runmix",
+    to: "/execpad",
+    label: "execpad",
     desc: "Multi-language execution for agents",
   },
   {

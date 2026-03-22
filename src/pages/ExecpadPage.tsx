@@ -44,9 +44,9 @@ const features = [
   },
 ];
 
-export default function RunmixPage() {
+export default function ExecpadPage() {
   usePageMeta({
-    title: "runmix | Multi-language execution for AI agents",
+    title: "execpad | Multi-language execution for AI agents",
     description:
       "Execute bash, Python, JavaScript, and SQL against a real project directory. Built for AI agents, CI, and local tooling.",
   });
@@ -56,23 +56,23 @@ export default function RunmixPage() {
       <section className="product-hero">
         <div>
           <p className="eyebrow">Multi-language runtime</p>
-          <h1>runmix</h1>
+          <h1>execpad</h1>
           <p className="lede">
             Execute bash, Python, JavaScript, and SQL against a real project
             directory — with overlay mode, read-only guards, file-change
             tracking, and OpenAI tool integration. Built for AI agents and CI.
           </p>
-          <code className="install-cmd">npm install runmix</code>
+          <code className="install-cmd">npm install execpad</code>
           <div className="product-hero__actions">
             <a
-              href="https://www.npmjs.com/package/runmix"
+              href="https://www.npmjs.com/package/execpad"
               target="_blank"
               rel="noreferrer"
               className="btn-primary"
             >
               View on npm <ArrowRight size={16} />
             </a>
-            <Link to="/docs/$product" params={{ product: "runmix" }} className="btn-secondary">
+            <Link to="/docs/$product" params={{ product: "execpad" }} className="btn-secondary">
               Docs <ArrowUpRight size={14} />
             </Link>
           </div>
@@ -97,7 +97,7 @@ export default function RunmixPage() {
             <div className="code-window__bar">
               <span /><span /><span />
             </div>
-            <pre><code>{`import { Runtime } from "runmix";
+            <pre><code>{`import { Runtime } from "execpad";
 
 const rt = new Runtime("./my-project");
 
@@ -157,9 +157,9 @@ rt.close();`}</code></pre>
       <div className="cta-banner" style={{ marginBottom: "6rem" }}>
         <div>
           <h2>Ready to build?</h2>
-          <p>Read the full documentation to get started with runmix.</p>
+          <p>Read the full documentation to get started with execpad.</p>
         </div>
-        <Link to="/docs/$product" params={{ product: "runmix" }} className="btn-primary">
+        <Link to="/docs/$product" params={{ product: "execpad" }} className="btn-primary">
           Read the docs <ArrowRight size={16} />
         </Link>
       </div>

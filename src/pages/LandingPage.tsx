@@ -33,11 +33,41 @@ const products = [
     to: "/slapify",
     cta: "Learn more",
   },
+  {
+    name: "execpad",
+    pill: "Agent runtime",
+    description:
+      "Run shell, Node, and Python against a real project directory with allowlists, timeouts, and structured output—built for AI agents and copilots. npm and PyPI (`pip install execpad`).",
+    install: "npm install execpad",
+    features: [
+      "Multi-language exec with cwd + env control",
+      "Glob-based allowlists and timeouts",
+      "Structured stdout/stderr and exit codes",
+      "TypeScript and Python SDKs",
+    ],
+    to: "/execpad",
+    cta: "Read the docs",
+  },
+  {
+    name: "ghost-env",
+    pill: "Testing",
+    description:
+      "Deterministic fake HTTP APIs and SQLite-backed stores so agent flows stay reproducible in CI. Stub routes, assert call history, reset between tests. npm and PyPI (`pip install ghost-env`).",
+    install: "npm install ghost-env",
+    features: [
+      "In-process HTTP server + fetch shim",
+      "SQLite store with reset hooks",
+      "Call history and assertions for stubs",
+      "TypeScript and Python SDKs",
+    ],
+    to: "/ghost-env",
+    cta: "Read the docs",
+  },
 ];
 
 const stats = [
   { value: "6K+", label: "Weekly installs" },
-  { value: "2", label: "Products live" },
+  { value: "4", label: "Products live" },
   { value: "MIT", label: "Licensed" },
 ];
 
@@ -115,9 +145,9 @@ function LandingPage() {
 
         <div className="coming-soon">
           <p>
-            <strong>More open-source products coming soon.</strong> We're
-            building tools for RAG pipelines, AI-native documentation, and model
-            evaluation. Stay tuned.
+            <strong>More in the pipeline.</strong> We're also building toward
+            RAG tooling, AI-native documentation, and model evaluation—on top of
+            the projects above.
           </p>
         </div>
       </section>

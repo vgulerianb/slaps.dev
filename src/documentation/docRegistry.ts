@@ -1,8 +1,16 @@
-export type DocProductId = "react-exe" | "slapify" | "runmix" | "ghost-env";
+export type DocProductId = "react-exe" | "slapify" | "execpad" | "ghost-env";
 
 export const DOC_PRODUCTS: Record<
   DocProductId,
-  { title: string; tagline: string; npm: string; productPath: string; hasPython?: boolean }
+  {
+    title: string;
+    tagline: string;
+    npm: string;
+    productPath: string;
+    hasPython?: boolean;
+    /** PyPI project name when `hasPython` (usually same as npm). */
+    pypi?: string;
+  }
 > = {
   "react-exe": {
     title: "react-exe",
@@ -16,12 +24,13 @@ export const DOC_PRODUCTS: Record<
     npm: "slapify",
     productPath: "/slapify",
   },
-  runmix: {
-    title: "runmix",
+  execpad: {
+    title: "execpad",
     tagline: "Multi-language execution against a real directory for agents and tooling.",
-    npm: "runmix",
-    productPath: "/runmix",
+    npm: "execpad",
+    productPath: "/execpad",
     hasPython: true,
+    pypi: "execpad",
   },
   "ghost-env": {
     title: "ghost-env",
@@ -29,6 +38,7 @@ export const DOC_PRODUCTS: Record<
     npm: "ghost-env",
     productPath: "/ghost-env",
     hasPython: true,
+    pypi: "ghost-env",
   },
 };
 
@@ -46,9 +56,10 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
     { slug: "flow-mode", label: "Flow mode" },
     { slug: "api-reference", label: "API reference" },
   ],
-  runmix: [
+  execpad: [
     { slug: "", label: "Overview" },
     { slug: "getting-started", label: "Getting started" },
+    { slug: "use-cases", label: "Use cases" },
     { slug: "configuration", label: "Configuration" },
     { slug: "api-reference", label: "API reference" },
     { slug: "security", label: "Security" },
@@ -56,6 +67,7 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
   "ghost-env": [
     { slug: "", label: "Overview" },
     { slug: "getting-started", label: "Getting started" },
+    { slug: "use-cases", label: "Use cases" },
     { slug: "presets", label: "Presets" },
     { slug: "api-reference", label: "API reference" },
     { slug: "testing-and-chaos", label: "Testing & chaos" },
