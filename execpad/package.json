@@ -2,6 +2,25 @@
   "name": "execpad",
   "version": "0.1.0",
   "description": "Multi-language code execution against a real directory for AI agents",
+  "keywords": [
+    "ai",
+    "agents",
+    "sandbox",
+    "code-execution",
+    "subprocess",
+    "bash",
+    "python",
+    "nodejs",
+    "sqlite",
+    "openai",
+    "tool-calling",
+    "ci"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vgulerianb/slaps.dev.git",
+    "directory": "execpad"
+  },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",

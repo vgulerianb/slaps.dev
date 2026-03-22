@@ -6,10 +6,24 @@ build-backend = "hatchling.build"
 name = "execpad"
 version = "0.1.0"
 description = "Multi-language code execution against a real directory for AI agents"
-readme = "README.md"
+readme = { file = "../README.md", content-type = "text/markdown" }
 license = "Apache-2.0"
 requires-python = ">=3.10"
 authors = [{ name = "slaps.dev" }]
+keywords = [
+  "ai",
+  "agents",
+  "sandbox",
+  "code-execution",
+  "subprocess",
+  "bash",
+  "python",
+  "nodejs",
+  "sqlite",
+  "openai",
+  "tool-calling",
+  "ci",
+]
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
@@ -18,7 +32,7 @@ dev = ["pytest>=7.0"]
 packages = ["src/execpad"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/execpad", "README.md"]
+include = ["src/execpad", "../README.md", "../LICENSE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
