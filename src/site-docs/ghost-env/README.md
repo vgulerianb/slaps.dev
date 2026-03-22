@@ -114,18 +114,14 @@ GhostEnv(
 
 ## Documentation
 
-{% ts %}
-- [Getting started](getting-started.md) — Providers, fetch, recording
-- [Use cases](use-cases.md) — GitHub/Stripe stubs, fixtures, evals, OpenAI preset (with tests note)
-- [Presets](presets.md) — URLs, config shapes, matching rules
-- [API reference](api-reference.md) — `GhostEnv`, `Provider`, eval, replay, exports
-- [Testing & chaos](testing-and-chaos.md) — `runEval`, chaos options, failure recording
-{% /ts %}
+Use **`/docs/...` routes** (bare `*.md` links are unreliable in this app). On the live site these are `https://slaps.dev/docs/...`.
 
-{% py %}
-- [Getting started](getting-started.md) — Providers, fetch, recording (Python `fetch` returns `(status, body)`)
-- [Use cases](use-cases.md) — GitHub/Stripe stubs, fixtures, evals (with tests note)
-- [Presets](presets.md) — URLs, config shapes, matching rules
-- [API reference](api-reference.md) — `GhostEnv`, `Provider`, eval, replay, exports
-- [Testing & chaos](testing-and-chaos.md) — `run_eval`, chaos options, failure recording
-{% /py %}
+| Doc | Contents |
+|-----|----------|
+| [Overview](/docs/ghost-env/) | Product summary and sidebar |
+| [Getting started](/docs/ghost-env/getting-started) | Providers, fetch, recording (Python: `fetch` → `(status, body)`) |
+| [Use cases](/docs/ghost-env/use-cases) | Stubs, fixtures, evals |
+| [Presets](/docs/ghost-env/presets) | URLs, config shapes, matching rules |
+| [API reference](/docs/ghost-env/api-reference) | `GhostEnv`, `Provider`, eval, replay, exports |
+| [Testing & chaos](/docs/ghost-env/testing-and-chaos) | `runEval` / `run_eval`, chaos, failure recording |
+| [Python package](/docs/ghost-env/python) | Node vs Python differences |

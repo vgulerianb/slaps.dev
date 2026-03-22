@@ -85,18 +85,14 @@ result = rt.execute_tool_call({"language": "python", "code": "print(42)"})
 
 ## Documentation
 
-{% ts %}
-- [Getting started](getting-started.md) — Install, first runs, overlay, read-only
-- [Use cases](use-cases.md) — CI, agents, overlay, run log, OpenAI tools (with tests note)
-- [Configuration](configuration.md) — `RuntimeOptions`, globs, limits, run log
-- [API reference](api-reference.md) — `Runtime`, types, filesystem adapters
-- [Security](security.md) — Threat model, workspace boundaries
-{% /ts %}
+Use **`/docs/...` routes** (bare `*.md` links are unreliable in this app). On the live site these are `https://slaps.dev/docs/...`.
 
-{% py %}
-- [Getting started](getting-started.md) — Install, first runs, overlay, read-only
-- [Use cases](use-cases.md) — CI, agents, overlay, run log, OpenAI tools (with tests note)
-- [Configuration](configuration.md) — `Runtime` kwargs, globs, limits, run log
-- [API reference](api-reference.md) — `Runtime`, types, filesystem adapters
-- [Security](security.md) — Threat model, workspace boundaries
-{% /py %}
+| Doc | Contents |
+|-----|----------|
+| [Overview](/docs/execpad/) | Product summary and sidebar |
+| [Getting started](/docs/execpad/getting-started) | Install, first runs, overlay, read-only |
+| [Use cases](/docs/execpad/use-cases) | CI, agents, overlay, run log, OpenAI tools |
+| [Configuration](/docs/execpad/configuration) | `RuntimeOptions` / kwargs, globs, limits, run log |
+| [API reference](/docs/execpad/api-reference) | `Runtime`, types, filesystem adapters |
+| [Security](/docs/execpad/security) | Threat model, workspace boundaries |
+| [Python package](/docs/execpad/python) | Node vs Python differences |
