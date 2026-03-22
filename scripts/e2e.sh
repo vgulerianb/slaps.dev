@@ -2,26 +2,46 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-echo "== execpad (npm) =="
-(cd "$ROOT/execpad" && npm test && npm run build)
+pick_dir() {
+  local d
+  for d in "$@"; do
+    [[ -d "$d" ]] || continue
+    echo "$d"
+    return 0
+  done
+  return 1
+}
 
-echo "== execpad (python) =="
-PY="$ROOT/execpad/python"
-if [[ ! -d "$PY/.venv" ]]; then (cd "$PY" && python3 -m venv .venv); fi
-# shellcheck source=/dev/null
-source "$PY/.venv/bin/activate"
-pip install -e "$PY[dev]" -q
-pytest -q "$PY/tests"
+AGENTPAD="$(pick_dir "$ROOT/execpad" "$ROOT/../execpad" || true)"
+STUBFETCH="$(pick_dir "$ROOT/ghost-env" "$ROOT/../ghost-env" || true)"
 
-echo "== ghost-env (npm) =="
-(cd "$ROOT/ghost-env" && npm test && npm run build)
+if [[ -z "$AGENTPAD" && -z "$STUBFETCH" ]]; then
+  echo "No execpad/ghost-env clones found (see scripts/test-packages.sh)." >&2
+  exit 1
+fi
 
-echo "== ghost-env (python) =="
-GPY="$ROOT/ghost-env/python"
-if [[ ! -d "$GPY/.venv" ]]; then (cd "$GPY" && python3 -m venv .venv); fi
-# shellcheck source=/dev/null
-source "$GPY/.venv/bin/activate"
-pip install -e "$GPY[dev]" -q
-pytest -q "$GPY/tests"
+if [[ -n "$AGENTPAD" ]]; then
+  echo "== agentpad (npm) @ $AGENTPAD =="
+  (cd "$AGENTPAD" && npm test && npm run build)
+  echo "== agentpad (python) =="
+  PY="$AGENTPAD/python"
+  if [[ ! -d "$PY/.venv" ]]; then (cd "$PY" && python3 -m venv .venv); fi
+  # shellcheck source=/dev/null
+  source "$PY/.venv/bin/activate"
+  (cd "$PY" && pip install -e ".[dev]" -q)
+  pytest -q "$PY/tests"
+fi
+
+if [[ -n "$STUBFETCH" ]]; then
+  echo "== stubfetch (npm) @ $STUBFETCH =="
+  (cd "$STUBFETCH" && npm test && npm run build)
+  echo "== stubfetch (python) =="
+  GPY="$STUBFETCH/python"
+  if [[ ! -d "$GPY/.venv" ]]; then (cd "$GPY" && python3 -m venv .venv); fi
+  # shellcheck source=/dev/null
+  source "$GPY/.venv/bin/activate"
+  (cd "$GPY" && pip install -e ".[dev]" -q)
+  pytest -q "$GPY/tests"
+fi
 
 echo "e2e ok"

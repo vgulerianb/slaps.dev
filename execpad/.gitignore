@@ -1,7 +1,0 @@
-node_modules/
-dist/
-.git/
-python/.venv/
-python/.pytest_cache/
-
-PLAN.md

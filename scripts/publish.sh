@@ -1,5 +1,6 @@
 #!/bin/zsh
-# Publish agentpad and stubfetch (monorepo dirs execpad/, ghost-env/) to npm and PyPI.
+# Publish agentpad and stubfetch from local clones (not committed in slaps.dev).
+# Resolves: ./execpad or ../execpad, ./ghost-env or ../ghost-env.
 # Usage:
 #   export HATCH_INDEX_USER=__token__
 #   export HATCH_INDEX_AUTH=pypi-<your-token>
@@ -31,10 +32,20 @@ fi
 
 which hatch &>/dev/null || { log "Installing hatch…"; pip3 install --quiet hatch; }
 
-# ── npm: agentpad (execpad/) ─────────────────────────────────────────────────
+if [[ -d "$ROOT/execpad" ]]; then AGENTPAD="$ROOT/execpad"
+elif [[ -d "$ROOT/../execpad" ]]; then AGENTPAD="$ROOT/../execpad"
+else fail "agentpad clone not found at $ROOT/execpad or $ROOT/../execpad"
+fi
 
-log "Building agentpad (npm, execpad/)…"
-cd "$ROOT/execpad"
+if [[ -d "$ROOT/ghost-env" ]]; then STUBFETCH="$ROOT/ghost-env"
+elif [[ -d "$ROOT/../ghost-env" ]]; then STUBFETCH="$ROOT/../ghost-env"
+else fail "stubfetch (ghost-env) clone not found at $ROOT/ghost-env or $ROOT/../ghost-env"
+fi
+
+# ── npm: agentpad ─────────────────────────────────────────────────────────────
+
+log "Building agentpad (npm) @ $AGENTPAD…"
+cd "$AGENTPAD"
 npm install --silent
 npm run build
 ok "agentpad built — $(ls dist/ | wc -l | xargs) files in dist/"
@@ -45,8 +56,8 @@ ok "agentpad published to npm ✓"
 
 # ── npm: stubfetch (ghost-env/) ─────────────────────────────────────────────
 
-log "Building stubfetch (npm, ghost-env/)…"
-cd "$ROOT/ghost-env"
+log "Building stubfetch (npm) @ $STUBFETCH…"
+cd "$STUBFETCH"
 npm install --silent
 npm run build
 ok "stubfetch built — $(ls dist/ | wc -l | xargs) files in dist/"
@@ -58,7 +69,7 @@ ok "stubfetch published to npm ✓"
 # ── PyPI: agentpad ────────────────────────────────────────────────────────────
 
 log "Building agentpad (PyPI)…"
-cd "$ROOT/execpad/python"
+cd "$AGENTPAD/python"
 rm -rf dist
 hatch build
 ok "agentpad wheel + sdist built: $(ls dist/)"
@@ -70,7 +81,7 @@ ok "agentpad published to PyPI ✓"
 # ── PyPI: stubfetch ──────────────────────────────────────────────────────────
 
 log "Building stubfetch (PyPI)…"
-cd "$ROOT/ghost-env/python"
+cd "$STUBFETCH/python"
 rm -rf dist
 hatch build
 ok "stubfetch wheel + sdist built: $(ls dist/)"

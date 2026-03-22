@@ -2,7 +2,7 @@
 
 Patterns that work well with **agentpad** in agents, CI, and local tools. Every snippet targets a real directory (`Runtime` root).
 
-**Automated tests:** the Node build uses **Vitest**; Python uses **pytest** (`execpad/src/runtime.test.ts`, `execpad/python/tests/`). From the site repo root run `npm run test:packages` to execute all four suites (agentpad / stubfetch packages, JS + Python).
+**Automated tests:** the Node build uses **Vitest**; Python uses **pytest** in the [agentpad (execpad) repo](https://github.com/vgulerianb/execpad). With that clone next to [slaps.dev](https://github.com/vgulerianb/slaps.dev), run `npm run test:packages` at the site root to run agentpad + stubfetch (JS + Python) where clones exist.
 
 ---
 

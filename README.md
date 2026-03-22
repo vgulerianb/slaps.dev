@@ -128,19 +128,19 @@ The site serves Markdown for **agentpad** and **stubfetch** at:
 
 Legacy URLs **`/execpad`** and **`/ghost-env`** (product pages) redirect to **`/agentpad`** and **`/stubfetch`**. Legacy doc URLs **`/docs/execpad`** and **`/docs/ghost-env`** redirect to **`/docs/agentpad`** and **`/docs/stubfetch`**.
 
-Content is rendered with [Markdoc](https://markdoc.dev/). After editing docs in the standalone package repos, sync (when those folders exist next to this repo):
+Content is rendered with [Markdoc](https://markdoc.dev/). The **agentpad** and **stubfetch** package sources are **not** in this repo—clone [execpad](https://github.com/vgulerianb/execpad) and [ghost-env](https://github.com/vgulerianb/ghost-env) as `execpad/` and `ghost-env/` next to `slaps.dev` (or inside it, ignored by git). Then sync package `docs/` into the site:
 
 ```bash
 npm run sync-docs
 ```
 
-**Package tests (agentpad + stubfetch trees, Node + Python):**
+**Package tests (Node + Python)** — same layout as above; then:
 
 ```bash
 npm run test:packages
 ```
 
-Runs Vitest in each npm package and pytest in each `python/` tree (creates local `.venv` folders on first run).
+Runs Vitest and pytest for whichever clones are present (`./execpad` or `../execpad`, same for `ghost-env`).
 
 To register another product, add markdown under `src/site-docs/<id>/`, then extend `src/documentation/docRegistry.ts` and `App.tsx` routes already cover `/:product/docs/:slug?`.
 

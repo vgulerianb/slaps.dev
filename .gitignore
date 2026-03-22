@@ -1,9 +1,9 @@
 node_modules
 dist
-slaps-video
 
-# Local planning notes — not part of published tree
-PLAN.md
-
-# Standalone package repo (nested `git init`; clone or open separately)
+# Standalone / local-only trees (not part of slaps.dev git)
+/slaps-video/
+/execpad/
+/sandcastle/
 /ghost-env/
+PLAN.md
