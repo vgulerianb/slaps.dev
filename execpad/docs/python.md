@@ -9,7 +9,7 @@ pip install -e ./python
 ## Usage
 
 ```python
-from execpad import Runtime, export_run_log_json
+from agentpad import Runtime, export_run_log_json
 
 rt = Runtime("./my-project")
 r = rt.run("python", "print(1 + 1)")
@@ -37,4 +37,4 @@ Uses the standard library **`sqlite3`** module (no external `sqlite3` binary req
 
 ## API details
 
-Method names use **snake_case**; result fields use **`exit_code`**, **`duration_ms`** (see `execpad.types`).
+Method names use **snake_case**; result fields use **`exit_code`**, **`duration_ms`** (see `agentpad.types`).

@@ -1,8 +1,8 @@
 # Security
 
-execpad **runs real processes** on your machine with the **user’s privileges**. It is a convenience layer for agents and automation, **not** a sandbox.
+agentpad **runs real processes** on your machine with the **user’s privileges**. It is a convenience layer for agents and automation, **not** a sandbox.
 
-## What execpad enforces
+## What agentpad enforces
 
 - **`cwd`** passed to `run()` must resolve **inside** the workspace (`effectiveRoot`); otherwise it throws.
 - **Read-only mode** blocks writes through the provided **`fs`** adapter; it does **not** stop a shell command from redirecting to arbitrary paths unless you control the command.

@@ -1,4 +1,4 @@
-# execpad
+# agentpad
 
 Execute **bash**, **Python**, **JavaScript** (Node), and **SQL** against a **real project directory**—with optional overlay, read-only mode, file-change tracking, and a session run log. Built for **AI agents**, CI, and local tooling.
 
@@ -11,7 +11,7 @@ Same design in **TypeScript** (npm) and **Python** (PyPI / local install).
 ### JavaScript / TypeScript (npm)
 
 ```bash
-npm install execpad
+npm install agentpad
 ```
 
 Requires **Node.js ≥ 18**. For SQL on Node, the **`sqlite3`** binary must be on your `PATH`.
@@ -19,7 +19,7 @@ Requires **Node.js ≥ 18**. For SQL on Node, the **`sqlite3`** binary must be o
 ### Python
 
 ```bash
-pip install execpad
+pip install agentpad
 ```
 
 From a clone (editable):
@@ -37,7 +37,7 @@ Requires **Python ≥ 3.10**. For SQL in Python, the runtime uses **stdlib `sqli
 ### TypeScript
 
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("./my-project");
 const r = await rt.run("python", 'print(open("README.md").read()[:80])');
@@ -49,7 +49,7 @@ rt.close();
 ### Python
 
 ```python
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime("./my-project")
 r = rt.run("python", "print(1 + 1)")
@@ -79,19 +79,19 @@ Hosted on **[slaps.dev](https://slaps.dev)**:
 
 | Doc | Contents |
 |-----|----------|
-| [Overview](https://slaps.dev/docs/execpad/) | Product summary and doc index |
-| [Getting started](https://slaps.dev/docs/execpad/getting-started) | Install, first runs, overlay, read-only |
-| [Use cases](https://slaps.dev/docs/execpad/use-cases) | Agents, testing patterns, ghost-env |
-| [Configuration](https://slaps.dev/docs/execpad/configuration) | `RuntimeOptions`, `RunOptions`, globs, limits, run log |
-| [API reference](https://slaps.dev/docs/execpad/api-reference) | `Runtime`, types, filesystem adapters, exports |
-| [Security](https://slaps.dev/docs/execpad/security) | Threat model, workspace boundaries, subprocess behavior |
-| [Python notes](https://slaps.dev/docs/execpad/python) | Node vs Python differences |
+| [Overview](https://slaps.dev/docs/agentpad/) | Product summary and doc index |
+| [Getting started](https://slaps.dev/docs/agentpad/getting-started) | Install, first runs, overlay, read-only |
+| [Use cases](https://slaps.dev/docs/agentpad/use-cases) | Agents, testing patterns, stubfetch |
+| [Configuration](https://slaps.dev/docs/agentpad/configuration) | `RuntimeOptions`, `RunOptions`, globs, limits, run log |
+| [API reference](https://slaps.dev/docs/agentpad/api-reference) | `Runtime`, types, filesystem adapters, exports |
+| [Security](https://slaps.dev/docs/agentpad/security) | Threat model, workspace boundaries, subprocess behavior |
+| [Python notes](https://slaps.dev/docs/agentpad/python) | Node vs Python differences |
 
 ---
 
 ## Source
 
-Package and issue tracker: **[github.com/vgulerianb/execpad](https://github.com/vgulerianb/execpad)** (canonical repo). The [slaps.dev](https://github.com/vgulerianb/slaps.dev) monorepo may carry a **vendored copy** of this tree for the website and doc sync scripts—it is not the package’s primary `repository` URL on npm/PyPI.
+Package and issue tracker: **[github.com/vgulerianb/agentpad](https://github.com/vgulerianb/agentpad)** (canonical repo). The [slaps.dev](https://github.com/vgulerianb/slaps.dev) monorepo may carry a **vendored copy** of this tree for the website and doc sync scripts—it is not the package’s primary `repository` URL on npm/PyPI.
 
 ## License
 

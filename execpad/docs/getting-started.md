@@ -9,13 +9,13 @@
 ## Install
 
 ```bash
-npm install execpad
+npm install agentpad
 ```
 
 ## Run code against a directory
 
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("/path/to/repo");
 

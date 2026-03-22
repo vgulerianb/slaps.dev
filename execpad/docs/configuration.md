@@ -36,7 +36,7 @@ Passed to `runtime.run(language, code, opts?)`. Overrides per run:
 When `runLog` is enabled, each completed run appends a **`RunLogEntry`** (language, code, cwd, stdout, stderr, exit code, duration, file changes, truncation flag).
 
 ```ts
-import { Runtime, exportRunLogJSON } from "execpad";
+import { Runtime, exportRunLogJSON } from "agentpad";
 
 const rt = new Runtime("./repo", {
   onRun: (e) => {
