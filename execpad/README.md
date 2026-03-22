@@ -89,6 +89,10 @@ Hosted on **[slaps.dev](https://slaps.dev)**:
 
 ---
 
+## Source
+
+Package and issue tracker: **[github.com/vgulerianb/execpad](https://github.com/vgulerianb/execpad)** (canonical repo). The [slaps.dev](https://github.com/vgulerianb/slaps.dev) monorepo may carry a **vendored copy** of this tree for the website and doc sync scripts—it is not the package’s primary `repository` URL on npm/PyPI.
+
 ## License
 
 Apache-2.0

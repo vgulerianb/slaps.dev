@@ -33,7 +33,7 @@ export const DOC_PRODUCTS: Record<
     tagline: "Multi-language execution against a real directory for agents and tooling.",
     npm: "execpad",
     productPath: "/execpad",
-    github: "https://github.com/vgulerianb/slaps.dev/tree/main/execpad",
+    github: "https://github.com/vgulerianb/execpad",
     hasPython: true,
     pypi: "execpad",
   },

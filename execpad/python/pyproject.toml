@@ -10,6 +10,12 @@ readme = { file = "../README.md", content-type = "text/markdown" }
 license = "Apache-2.0"
 requires-python = ">=3.10"
 authors = [{ name = "slaps.dev" }]
+
+[project.urls]
+Homepage = "https://slaps.dev/execpad"
+Documentation = "https://slaps.dev/docs/execpad/"
+Repository = "https://github.com/vgulerianb/execpad"
+
 keywords = [
   "ai",
   "agents",

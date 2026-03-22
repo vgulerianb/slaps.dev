@@ -18,8 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/vgulerianb/slaps.dev.git",
-    "directory": "execpad"
+    "url": "https://github.com/vgulerianb/execpad.git"
   },
   "type": "module",
   "sideEffects": false,
