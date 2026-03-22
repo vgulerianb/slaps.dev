@@ -1,24 +1,36 @@
-# slaps.dev — launch video & copy
+# slaps-video (Remotion)
 
-This folder is **gitignored** so you can drop renders, voiceovers, and B-roll here without bloating the repo.
+This folder is **gitignored** in the parent `slaps.dev` repo — keep renders and `node_modules` local.
 
-## Contents
+## Compositions
 
-| Path | What it is |
-|------|------------|
-| `_shared/visual-spec.md` | Look & feel for both spots |
-| `execpad/launch-post.md` | LinkedIn / long-form launch copy |
-| `execpad/video-60s.md` | ~1 min script + shot list + captions |
-| `ghost-env/launch-post.md` | Same for ghost-env |
-| `ghost-env/video-60s.md` | Same for ghost-env |
+| ID | Length | Description |
+|----|--------|-------------|
+| `execpad-launch` | 60s @ 30fps · 1920×1080 | Launch motion for **agentpad** (composition id unchanged) |
+| `ghost-env-launch` | 60s @ 30fps · 1920×1080 | Launch motion for **stubfetch** (composition id unchanged) |
 
-## Suggested deliverables
+## Commands
 
-- **Aspect ratio:** 9:16 (Reels / Shorts) primary; export 16:9 second for LinkedIn feed if you want one crop.
-- **Length:** hard cap **60s** each; scripts are timed to ~55s of VO + room for logo.
-- **Audio:** optional subtle bed (no lyrics); VO dry or light room tone.
-- **Export:** `renders/execpad-9x16.mp4`, `renders/ghost-env-9x16.mp4` (you create `renders/` locally).
+```bash
+cd slaps-video
+npm install
+npm run dev
+```
 
-## Tools
+Preview in Remotion Studio, then:
 
-Screen record from a **clean** terminal + browser (slaps.dev product pages). Descript, CapCut, iMovie, or DaVinci Resolve for assembly.
+```bash
+mkdir -p out
+npm run render:execpad
+npm run render:ghost-env
+```
+
+Outputs: `out/execpad-launch.mp4`, `out/ghost-env-launch.mp4`.
+
+## Assets
+
+End cards use a built-in **SlapsMark** (spark + `slaps.dev` type). Drop `public/slaps.dev.png` and switch components to `staticFile` if you prefer a raster logo.
+
+## Copy for posts
+
+Markdown scripts / LinkedIn drafts (optional): `execpad/launch-post.md`, `ghost-env/launch-post.md`, and `_shared/visual-spec.md`.

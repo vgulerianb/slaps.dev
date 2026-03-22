@@ -1,4 +1,4 @@
-# Visual spec — execpad & ghost-env launches
+# Visual spec — agentpad & stubfetch launches
 
 Minimal, aligned with [slaps.dev](https://slaps.dev) UI.
 
@@ -13,7 +13,7 @@ Minimal, aligned with [slaps.dev](https://slaps.dev) UI.
 ## Type
 
 - **Inter** (or system UI sans). Title weight 600–700, body 400–500.
-- Product name on screen: lowercase as shipped — `execpad`, `ghost-env`.
+- Package names on screen: **`agentpad`**, **`stubfetch`** (npm/PyPI). Product pages may still use URLs **`/execpad`** and **`/ghost-env`**.
 
 ## Motion
 
@@ -30,5 +30,6 @@ Minimal, aligned with [slaps.dev](https://slaps.dev) UI.
 
 ## Do / don’t
 
-- Do: real installs (`npm install …`), real doc URLs.
+- Do: real installs (`npm install agentpad` / `stubfetch`), real doc URLs (`/docs/agentpad`, `/docs/stubfetch`).
 - Don’t: fake “AI generated” UIs, stock footage of random hackers, loud whoosh SFX every cut.
+- On-screen code must be **valid** (e.g. `rt.run("javascript", ...)` not `"js"`; single space after commas).

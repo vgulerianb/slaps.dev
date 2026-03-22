@@ -1,27 +1,70 @@
-# ghost-env — launch post (LinkedIn / blog)
-
-**Optional headline:** The network never leaves the process.
+# stubfetch — launch posts
 
 ---
 
-Integration tests for agents and tools have a problem: the **real** GitHub, Stripe, or LLM APIs are slow, expensive, and non-deterministic. Turning them off entirely means you’re not testing the shape of reality.
-
-**ghost-env** is an in-process layer that **looks like `fetch`** but serves **deterministic** responses. Wire presets for common APIs — GitHub, Stripe, OpenAI, Anthropic, S3, Slack, Postgres-shaped calls — all from a **seed**, so the same test run behaves the same way every time.
-
-You also get **recording**, **replay**, **eval scenarios**, and optional **chaos** (latency and failure rates) so you can stress the behaviour you care about — without touching the public internet.
-
-Ships for **TypeScript** and **Python**. Zero runtime npm dependencies on the JS side.
-
-**Try it:** [slaps.dev/ghost-env](https://slaps.dev/ghost-env)  
-**Docs:** [slaps.dev/docs/ghost-env](https://slaps.dev/docs/ghost-env/)  
-**Code:** [github.com/vgulerianb/ghost-env](https://github.com/vgulerianb/ghost-env)
-
-Apache-2.0. If you’re testing agents or toolchains that call HTTP, we built this for you.
-
-— slaps.dev
+## 1. Official post (slaps.dev page — LinkedIn / X)
 
 ---
 
-### Short variant (X / thread opener)
+We just shipped **stubfetch** — deterministic in-process fakes for any HTTP API.
 
-**ghost-env** — fake `fetch` in-process: GitHub, Stripe, LLMs, S3, Slack… deterministic, recordable, replayable, with eval + chaos. No live network. TS + Python. [slaps.dev/ghost-env](https://slaps.dev/ghost-env)
+If you're building agents or toolchains that call GitHub, Stripe, OpenAI, or anything over HTTP — your tests are probably slow, expensive, and flaky.
+
+stubfetch fixes that. It intercepts `fetch` at the process level and returns **seeded, deterministic responses** — no live network, no surprises.
+
+→ **7 built-in presets** — GitHub, Stripe, OpenAI, Anthropic, S3, Slack, Postgres
+→ **Seed-based** — same seed, same result, every run, on any machine
+→ **Recording + replay** — capture real API calls and play them back as fixtures
+→ **Eval mode** — define scenarios and run assertions against them
+→ **Chaos mode** — inject latency and failure rates to stress your logic
+→ **Zero runtime dependencies** on the JS side
+
+Available for **TypeScript** and **Python**. Apache-2.0.
+
+```
+npm install stubfetch
+pip install stubfetch
+```
+
+Full docs + examples → slaps.dev/stubfetch
+
+---
+
+## 2. Personal repost (founder account — LinkedIn / X)
+
+---
+
+Repost from @slaps.dev ↑
+
+Here's the problem that made us build stubfetch:
+
+I was writing integration tests for an agent that called the GitHub API, Stripe, and an LLM in the same flow. To run the tests locally I needed all three to be live — which meant rate limits, billing, and tests that failed on Friday afternoons because the API was slow.
+
+Mocking each `fetch` call manually was worse. The shape of the response drifted from reality after two weeks. I didn't trust the tests anymore.
+
+stubfetch is the middle ground. It looks exactly like `fetch`. It returns responses shaped like the real APIs. But it's fully in-process, seeded, and deterministic. You can record a real session once and replay it forever. You can inject chaos to see what breaks. You can define eval scenarios and assert on them.
+
+The zero-dependency build on the JS side was a non-negotiable for me — I wanted it droppable into any project without managing a version tree.
+
+If you're testing agents or anything that talks to HTTP, I think this will make your life meaningfully better.
+
+→ github.com/vgulerianb/stubfetch
+→ slaps.dev/docs/stubfetch
+
+#openSource #aiAgents #testing #typescript #python
+
+---
+
+## X / short variant
+
+**Official:**
+Shipped stubfetch — fake `fetch` in-process.
+GitHub, Stripe, LLMs, S3, Slack… deterministic, recordable, replayable.
+Seed 42 → same result forever. TS + Python. Zero deps.
+→ slaps.dev/stubfetch
+
+**Personal:**
+I was tired of tests that called real APIs.
+Rate limits. Billing. Results that changed on Friday.
+Built stubfetch to fix it — seeded in-process fakes that look exactly like the real thing.
+→ slaps.dev/stubfetch

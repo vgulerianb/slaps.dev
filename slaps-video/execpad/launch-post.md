@@ -1,32 +1,69 @@
-# execpad — launch post (LinkedIn / blog)
-
-**Optional headline:** A runtime that treats your repo as the workspace.
+# agentpad — launch posts
 
 ---
 
-Agents and copilots are only as good as the sandbox you give them. Most demos run in a toy environment. Real work happens against **your** tree — with boundaries you can explain to security and to the model.
-
-**execpad** is a small open-source runtime that runs **bash, Python, JavaScript, and SQL** against a real directory. It’s built for:
-
-- **Overlay mode** — try changes in a temp copy, then apply or discard.  
-- **Read-only and glob allowlists** — scope what matters.  
-- **Structured output and a session run log** — debug what the agent actually did.  
-- **OpenAI-style tool helpers** — ship function-calling without reinventing the loop.
-
-Same ideas in **TypeScript** (`npm install execpad`) and **Python** (`pip install execpad`).
-
-Docs and examples live on the site — no wall of markdown on GitHub.
-
-**Try it:** [slaps.dev/execpad](https://slaps.dev/execpad)  
-**Docs:** [slaps.dev/docs/execpad](https://slaps.dev/docs/execpad/)  
-**Code:** [github.com/vgulerianb/execpad](https://github.com/vgulerianb/execpad)
-
-Apache-2.0. We’d love feedback from anyone building agent tooling or CI that runs user code.
-
-— slaps.dev
+## 1. Official post (slaps.dev page — LinkedIn / X)
 
 ---
 
-### Short variant (X / thread opener)
+We just shipped **agentpad** — a multi-language runtime for AI agents and developer tooling.
 
-Shipped **execpad**: run bash / Python / Node / SQL on a **real** project dir — overlay, allowlists, run log, OpenAI tool helpers. TS + Python. [slaps.dev/execpad](https://slaps.dev/execpad)
+Most agent sandboxes fake the environment. agentpad doesn't.
+
+It runs **bash, Python, JavaScript, and SQL** directly against a real project directory — with the guardrails you actually need in production:
+
+→ **Overlay mode** — stage changes in a temp copy, then `apply()` or discard
+→ **Read-only mode** — prevent writes at the library level
+→ **Glob allowlists + timeouts** — scope exactly what the agent can touch
+→ **Structured output** — every run returns `stdout`, `stderr`, `exitCode`, and a list of files written
+→ **Session run log** — inspect the full history of what an agent actually did
+→ **OpenAI tool helpers** — function-calling without rewriting the loop
+
+Available for **TypeScript** and **Python**. Apache-2.0.
+
+```
+npm install agentpad
+pip install agentpad
+```
+
+Full docs + examples → slaps.dev/agentpad · docs → slaps.dev/docs/agentpad
+
+---
+
+## 2. Personal repost (founder account — LinkedIn / X)
+
+---
+
+Repost from @slaps.dev ↑
+
+I want to share why we built this.
+
+Every agent demo I've seen runs code in some isolated toy box — no real files, no real state, no real output. That's fine for a demo. It's useless in production.
+
+When I was integrating an AI copilot into a real project, I kept running into the same wall: the agent needed to *actually run things* — run a test suite, check the git log, query a local DB, write a file. But no existing library gave me structured output + workspace control + Python parity in one package.
+
+So I built agentpad.
+
+The thing I'm most proud of is **overlay mode** — the agent gets a full temp copy of your working directory, makes changes, and you choose whether to apply or throw away the whole thing. It's the mental model that finally made agent file edits feel safe.
+
+If you're building agent tooling, CI runners, or any system that needs to run user code against real files — give it a try. I'd genuinely love to hear what you think.
+
+→ github.com/vgulerianb/agentpad
+→ slaps.dev/docs/agentpad
+
+#openSource #aiAgents #developerTools #typescript #python
+
+---
+
+## X / short variant
+
+**Official:**
+Shipped agentpad — run bash / Python / Node / SQL on a real project dir.
+Overlay mode, allowlists, run log, OpenAI tool helpers. TS + Python.
+→ slaps.dev/agentpad
+
+**Personal:**
+We built agentpad because every agent sandbox I tried was fake.
+Real files. Real output. Real control.
+Overlay mode is the thing — stage agent changes, apply or discard.
+→ slaps.dev/agentpad
