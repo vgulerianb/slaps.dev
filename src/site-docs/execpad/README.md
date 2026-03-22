@@ -83,9 +83,7 @@ result = rt.execute_tool_call({"language": "python", "code": "print(42)"})
 ```
 {% /py %}
 
-## Documentation
-
-Use **`/docs/...` routes** (bare `*.md` links are unreliable in this app). On the live site these are `https://slaps.dev/docs/...`.
+## Guides
 
 | Doc | Contents |
 |-----|----------|

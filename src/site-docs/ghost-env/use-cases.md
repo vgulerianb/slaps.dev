@@ -2,7 +2,7 @@
 
 **stubfetch** replaces live HTTP with deterministic in-process handlers—ideal for agent evals, integration tests, and recording traffic.
 
-**Automated tests:** Node uses **Vitest**; Python uses **pytest** in the [stubfetch (ghost-env) repo](https://github.com/vgulerianb/ghost-env). With that clone next to [slaps.dev](https://github.com/vgulerianb/slaps.dev), run `npm run test:packages` at the site root to run both packages (JS + Python) where clones exist.
+**Automated tests:** **Vitest** (Node) and **pytest** (Python). Source: [github.com/vgulerianb/stubfetch](https://github.com/vgulerianb/stubfetch).
 
 **Python vs Node:** `fetch()` in Python returns **`(status: int, body: str)`**. The npm `openai()` chat preset exists only on the **TypeScript** side today; Python covers GitHub, Stripe, S3, Slack, Anthropic, Postgres, etc.
 

@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Publish agentpad and stubfetch from local clones (not committed in slaps.dev).
-# Resolves: ./execpad or ../execpad, ./ghost-env or ../ghost-env.
+# Resolves: agentpad or execpad, stubfetch or ghost-env (./ or ../).
 # Usage:
 #   export HATCH_INDEX_USER=__token__
 #   export HATCH_INDEX_AUTH=pypi-<your-token>
@@ -32,14 +32,18 @@ fi
 
 which hatch &>/dev/null || { log "Installing hatch…"; pip3 install --quiet hatch; }
 
-if [[ -d "$ROOT/execpad" ]]; then AGENTPAD="$ROOT/execpad"
+if [[ -d "$ROOT/agentpad" ]]; then AGENTPAD="$ROOT/agentpad"
+elif [[ -d "$ROOT/../agentpad" ]]; then AGENTPAD="$ROOT/../agentpad"
+elif [[ -d "$ROOT/execpad" ]]; then AGENTPAD="$ROOT/execpad"
 elif [[ -d "$ROOT/../execpad" ]]; then AGENTPAD="$ROOT/../execpad"
-else fail "agentpad clone not found at $ROOT/execpad or $ROOT/../execpad"
+else fail "agentpad clone not found (expected agentpad/ or execpad/ next to slaps.dev). https://github.com/vgulerianb/agentpad"
 fi
 
-if [[ -d "$ROOT/ghost-env" ]]; then STUBFETCH="$ROOT/ghost-env"
+if [[ -d "$ROOT/stubfetch" ]]; then STUBFETCH="$ROOT/stubfetch"
+elif [[ -d "$ROOT/../stubfetch" ]]; then STUBFETCH="$ROOT/../stubfetch"
+elif [[ -d "$ROOT/ghost-env" ]]; then STUBFETCH="$ROOT/ghost-env"
 elif [[ -d "$ROOT/../ghost-env" ]]; then STUBFETCH="$ROOT/../ghost-env"
-else fail "stubfetch (ghost-env) clone not found at $ROOT/ghost-env or $ROOT/../ghost-env"
+else fail "stubfetch clone not found (expected stubfetch/ or ghost-env/). https://github.com/vgulerianb/stubfetch"
 fi
 
 # ── npm: agentpad ─────────────────────────────────────────────────────────────

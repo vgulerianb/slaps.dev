@@ -3,6 +3,8 @@ dist
 
 # Standalone / local-only trees (not part of slaps.dev git)
 /slaps-video/
+/agentpad/
+/stubfetch/
 /execpad/
 /sandcastle/
 /ghost-env/

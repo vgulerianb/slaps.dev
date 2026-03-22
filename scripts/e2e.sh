@@ -2,21 +2,20 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-pick_dir() {
-  local d
-  for d in "$@"; do
-    [[ -d "$d" ]] || continue
-    echo "$d"
-    return 0
+pick_clone() {
+  local name
+  for name in "$@"; do
+    [[ -d "$ROOT/$name" ]] && { echo "$ROOT/$name"; return 0; }
+    [[ -d "$ROOT/../$name" ]] && { echo "$ROOT/../$name"; return 0; }
   done
   return 1
 }
 
-AGENTPAD="$(pick_dir "$ROOT/execpad" "$ROOT/../execpad" || true)"
-STUBFETCH="$(pick_dir "$ROOT/ghost-env" "$ROOT/../ghost-env" || true)"
+AGENTPAD="$(pick_clone agentpad execpad || true)"
+STUBFETCH="$(pick_clone stubfetch ghost-env || true)"
 
 if [[ -z "$AGENTPAD" && -z "$STUBFETCH" ]]; then
-  echo "No execpad/ghost-env clones found (see scripts/test-packages.sh)." >&2
+  echo "No agentpad/stubfetch clones found (see scripts/test-packages.sh)." >&2
   exit 1
 fi
 

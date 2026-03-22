@@ -1,24 +1,39 @@
 #!/usr/bin/env bash
-# Copy markdown from local agentpad (execpad) and stubfetch (ghost-env) clones into site-docs.
-# Looks for ./execpad, ./ghost-env, or siblings ../execpad, ../ghost-env (see docRegistry).
+# Copy markdown from local agentpad / stubfetch clones into src/site-docs/
+# (on-disk folders execpad/ and ghost-env/ match docRegistry DOC_SITE_FS_DIR).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 shopt -s nullglob
-for pair in execpad ghost-env; do
-  SRC=""
-  if [[ -d "$ROOT/$pair/docs" ]]; then SRC="$ROOT/$pair/docs"
-  elif [[ -d "$ROOT/../$pair/docs" ]]; then SRC="$ROOT/../$pair/docs"
-  fi
-  DST="$ROOT/src/site-docs/$pair"
+
+pick_docs_src() {
+  local name
+  for name in "$@"; do
+    [[ -d "$ROOT/$name/docs" ]] && { echo "$ROOT/$name/docs"; return 0; }
+    [[ -d "$ROOT/../$name/docs" ]] && { echo "$ROOT/../$name/docs"; return 0; }
+  done
+  return 1
+}
+
+sync_docs() {
+  local dst_rel="$1"
+  local repo_url="$2"
+  shift 2
+  local SRC
+  SRC="$(pick_docs_src "$@" || true)"
+  local DST="$ROOT/src/site-docs/$dst_rel"
   if [[ -n "$SRC" && -d "$SRC" ]]; then
     mkdir -p "$DST"
-    # Skip docs/README.md — product index may only list slaps.dev URLs; site overview is README.md here.
+    # Skip docs/README.md — site overview is README.md here.
+    local f
     for f in "$SRC"/*.md; do
       [[ "$(basename "$f")" == README.md ]] && continue
       cp "$f" "$DST/"
     done
-    echo "Synced $pair"
+    echo "Synced $dst_rel ← $SRC"
   else
-    echo "Skip $pair (no docs dir — clone vgulerianb/$pair next to slaps.dev)"
+    echo "Skip $dst_rel (no docs/ — clone $repo_url next to slaps.dev)"
   fi
-done
+}
+
+sync_docs execpad "https://github.com/vgulerianb/agentpad" agentpad execpad
+sync_docs ghost-env "https://github.com/vgulerianb/stubfetch" stubfetch ghost-env

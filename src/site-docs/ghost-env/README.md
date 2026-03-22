@@ -112,9 +112,7 @@ GhostEnv(
 ```
 {% /py %}
 
-## Documentation
-
-Use **`/docs/...` routes** (bare `*.md` links are unreliable in this app). On the live site these are `https://slaps.dev/docs/...`.
+## Guides
 
 | Doc | Contents |
 |-----|----------|
