@@ -13,7 +13,7 @@ new GhostEnv(config: GhostEnvConfig)
 {% py %}
 ```python
 GhostEnv(config: dict)
-# Presets: github, stripe, postgres, s3, slack, anthropic (from ghost_env)
+# Presets: github, stripe, postgres, s3, slack, anthropic (from stubfetch)
 ```
 {% /py %}
 
@@ -44,7 +44,7 @@ GhostEnv(config: dict)
 | `reset` | `reset()` |
 | `snapshot` / `restore` | `snapshot()` / `restore(data)` |
 
-**Modules:** `ghost_env` re-exports presets and `export_recording_json`, `export_recording_markdown`, `export_har`, `run_eval`, `define_scenario`, `ReplayFixture`.
+**Modules:** `stubfetch` re-exports presets and `export_recording_json`, `export_recording_markdown`, `export_har`, `run_eval`, `define_scenario`, `ReplayFixture`.
 {% /py %}
 
 ### Recording shape

@@ -1,16 +1,16 @@
 # Use cases & examples
 
-**ghost-env** replaces live HTTP with deterministic in-process handlers—ideal for agent evals, integration tests, and recording traffic.
+**stubfetch** replaces live HTTP with deterministic in-process handlers—ideal for agent evals, integration tests, and recording traffic.
 
-**Automated tests:** Node uses **Vitest** (`ghost-env/src/*.test.ts`); Python uses **pytest** (`ghost-env/python/tests/`). From the site repo run `npm run test:packages` to run execpad + ghost-env in both languages.
+**Automated tests:** Node uses **Vitest** (`ghost-env/src/*.test.ts`); Python uses **pytest** (`ghost-env/python/tests/`). From the site repo run `npm run test:packages` to run agentpad + stubfetch packages in both languages.
 
 **Python vs Node:** `fetch()` in Python returns **`(status: int, body: str)`**. The npm `openai()` chat preset exists only on the **TypeScript** side today; Python covers GitHub, Stripe, S3, Slack, Anthropic, Postgres, etc.
 
 ---
 
-## Testing agents with ghost-env
+## Testing agents with stubfetch
 
-**ghost-env** is for **tests and evals**: you control what HTTP **looks like** so the agent’s behavior is **repeatable**. Common patterns:
+**stubfetch** is for **tests and evals**: you control what HTTP **looks like** so the agent’s behavior is **repeatable**. Common patterns:
 
 1. **Inject `env.fetch`** (or wrap `globalThis.fetch`) so the agent’s code never hits the real network.
 2. **Seed providers** (GitHub, Stripe, …) with the exact JSON your scenario needs.
@@ -23,7 +23,7 @@ Your agent module should accept a **`fetch` implementation** (dependency injecti
 
 {% ts %}
 ```ts
-import { GhostEnv, github } from "ghost-env";
+import { GhostEnv, github } from "stubfetch";
 
 type AgentFetch = typeof fetch;
 
@@ -54,7 +54,7 @@ export async function testAgentUsesGithubStub() {
 
 {% py %}
 ```python
-from ghost_env import GhostEnv, github
+from stubfetch import GhostEnv, github
 
 
 def agent_list_issues(fetch_impl, repo: str):
@@ -89,7 +89,7 @@ Use **`run`** to invoke your agent entrypoint; use **`assert` / `check`** to val
 
 {% ts %}
 ```ts
-import { runEval, defineScenario, github, stripe } from "ghost-env";
+import { runEval, defineScenario, github, stripe } from "stubfetch";
 
 const report = await runEval([
   defineScenario({
@@ -119,7 +119,7 @@ console.log(report.passRate, report.results);
 
 {% py %}
 ```python
-from ghost_env import run_eval, define_scenario, github, stripe
+from stubfetch import run_eval, define_scenario, github, stripe
 
 
 def run_agent_or_tooling(env):
@@ -165,7 +165,7 @@ After a successful agent run, **`exportRecordingJSON` / `export_recording_json`*
 
 {% ts %}
 ```ts
-import { GhostEnv, github, exportRecordingJSON } from "ghost-env";
+import { GhostEnv, github, exportRecordingJSON } from "stubfetch";
 
 const env = new GhostEnv({
   seed: 7,
@@ -187,7 +187,7 @@ console.log(exportRecordingJSON(env.calls()));
 
 {% py %}
 ```python
-from ghost_env import GhostEnv, github, export_recording_json
+from stubfetch import GhostEnv, github, export_recording_json
 
 env = GhostEnv(
     {
@@ -213,7 +213,7 @@ print(export_recording_json(env.calls()))
 
 {% ts %}
 ```ts
-import { GhostEnv, github, stripe } from "ghost-env";
+import { GhostEnv, github, stripe } from "stubfetch";
 
 const env = new GhostEnv({
   providers: [
@@ -232,7 +232,7 @@ console.assert(issues.status === 200);
 
 {% py %}
 ```python
-from ghost_env import GhostEnv, github, stripe
+from stubfetch import GhostEnv, github, stripe
 
 env = GhostEnv(
     {
@@ -261,7 +261,7 @@ After exercising `fetch`, export a stable JSON trace.
 {% ts %}
 ```ts
 import { writeFileSync } from "node:fs";
-import { GhostEnv, github, exportRecordingJSON } from "ghost-env";
+import { GhostEnv, github, exportRecordingJSON } from "stubfetch";
 
 const env = new GhostEnv({ providers: [github({ issues: [] })] });
 await env.fetch("https://api.github.com/repos/acme/api/issues");
@@ -273,7 +273,7 @@ writeFileSync("fixture.json", exportRecordingJSON(env.calls()));
 {% py %}
 ```python
 from pathlib import Path
-from ghost_env import GhostEnv, github, export_recording_json
+from stubfetch import GhostEnv, github, export_recording_json
 
 env = GhostEnv({"providers": [github({"issues": []})]})
 env.fetch("https://api.github.com/repos/acme/api/issues")
@@ -288,7 +288,7 @@ Path("fixture.json").write_text(export_recording_json(env.calls()), encoding="ut
 
 {% ts %}
 ```ts
-import { runEval, defineScenario, github } from "ghost-env";
+import { runEval, defineScenario, github } from "stubfetch";
 
 const report = await runEval([
   defineScenario({
@@ -309,7 +309,7 @@ console.log(report.passRate, report.results);
 
 {% py %}
 ```python
-from ghost_env import run_eval, define_scenario, github
+from stubfetch import run_eval, define_scenario, github
 
 
 def check_get(env):
@@ -339,7 +339,7 @@ Python uses **`check=`** instead of `assert` (keyword conflict).
 
 {% ts %}
 ```ts
-import { GhostEnv, openai } from "ghost-env";
+import { GhostEnv, openai } from "stubfetch";
 
 const env = new GhostEnv({
   providers: [

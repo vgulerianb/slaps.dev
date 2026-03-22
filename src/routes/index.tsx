@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Open-source AI building blocks for developers — react-exe, Slapify, execpad, ghost-env. Install from npm and ship faster.",
+          "Open-source AI building blocks for developers — react-exe, Slapify, agentpad, stubfetch. Install from npm and ship faster.",
       },
     ],
   }),

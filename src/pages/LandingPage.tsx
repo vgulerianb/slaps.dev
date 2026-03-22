@@ -34,33 +34,33 @@ const products = [
     cta: "Learn more",
   },
   {
-    name: "execpad",
+    name: "agentpad",
     pill: "Agent runtime",
     description:
-      "Run shell, Node, and Python against a real project directory with allowlists, timeouts, and structured output—built for AI agents and copilots. npm and PyPI (`pip install execpad`).",
-    install: "npm install execpad",
+      "Run shell, Node, and Python against a real project directory with allowlists, timeouts, and structured output—built for AI agents and copilots. npm and PyPI (`pip install agentpad`).",
+    install: "npm install agentpad",
     features: [
       "Multi-language exec with cwd + env control",
       "Glob-based allowlists and timeouts",
       "Structured stdout/stderr and exit codes",
       "TypeScript and Python SDKs",
     ],
-    to: "/execpad",
+    to: "/agentpad",
     cta: "Read the docs",
   },
   {
-    name: "ghost-env",
+    name: "stubfetch",
     pill: "Testing",
     description:
-      "Deterministic fake HTTP APIs and SQLite-backed stores so agent flows stay reproducible in CI. Stub routes, assert call history, reset between tests. npm and PyPI (`pip install ghost-env`).",
-    install: "npm install ghost-env",
+      "Deterministic fake HTTP APIs and SQLite-backed stores so agent flows stay reproducible in CI. Stub routes, assert call history, reset between tests. npm and PyPI (`pip install stubfetch`).",
+    install: "npm install stubfetch",
     features: [
       "In-process HTTP server + fetch shim",
       "SQLite store with reset hooks",
       "Call history and assertions for stubs",
       "TypeScript and Python SDKs",
     ],
-    to: "/ghost-env",
+    to: "/stubfetch",
     cta: "Read the docs",
   },
 ];

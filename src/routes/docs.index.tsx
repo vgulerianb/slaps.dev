@@ -8,7 +8,7 @@ export const Route = createFileRoute("/docs/")({
       {
         name: "description",
         content:
-          "Documentation for react-exe, Slapify, execpad, and ghost-env — reference guides, API docs, and examples.",
+          "Documentation for react-exe, Slapify, agentpad, and stubfetch — reference guides, API docs, and examples.",
       },
       { property: "og:title", content: "Documentation | slaps.dev" },
     ],

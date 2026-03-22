@@ -6,7 +6,7 @@
 `runEval` runs an array of scenarios sequentially. Each scenario creates a **fresh** `GhostEnv` from `config`, runs `run(env)`, then optional `assert(env)`.
 
 ```ts
-import { runEval, defineScenario, github } from "ghost-env";
+import { runEval, defineScenario, github } from "stubfetch";
 
 const report = await runEval([
   defineScenario({
@@ -31,7 +31,7 @@ Failures capture **`error`** strings per scenario; **`passRate`** is `ok / count
 `run_eval` runs a list of scenarios. Each scenario builds a **fresh** `GhostEnv` from `config`, runs `run(env)`, then an optional **`check`** callable (Python `assert` is a keyword, so the API uses `check`).
 
 ```python
-from ghost_env import run_eval, define_scenario, github
+from stubfetch import run_eval, define_scenario, github
 
 
 def check_get(env):
@@ -71,7 +71,7 @@ new GhostEnv({
 ```
 
 - **`failureRate`** uses the seeded RNG; **`0`** disables simulated failures (falsy check).
-- Failures throw **`ghost-env chaos: simulated failure`** (after optional latency).
+- Failures throw **`stubfetch chaos: simulated failure`** (after optional latency).
 {% /ts %}
 
 {% py %}
@@ -89,7 +89,7 @@ GhostEnv(
 ```
 
 - **`failure_rate`** uses the seeded RNG; **`0`** disables simulated failures (falsy check).
-- Failures raise **`RuntimeError: ghost-env chaos`** (after optional latency).
+- Failures raise **`RuntimeError: stubfetch chaos`** (after optional latency).
 {% /py %}
 
 ## Recording exports

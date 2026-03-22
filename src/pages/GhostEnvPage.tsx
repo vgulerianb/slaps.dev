@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { DOC_PRODUCTS } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
 
-const ghostMeta = DOC_PRODUCTS["ghost-env"];
+const ghostMeta = DOC_PRODUCTS.stubfetch;
 
 const presets = [
   { name: "github", icon: Github, desc: "Issues, pull requests, repos — GitHub REST API shape" },
@@ -33,7 +33,7 @@ const features = [
 
 export default function GhostEnvPage() {
   usePageMeta({
-    title: "ghost-env | Deterministic fake HTTP APIs for testing",
+    title: "stubfetch | Deterministic fake HTTP APIs for testing",
     description:
       "Swap real network calls for deterministic in-process fakes. GitHub, Stripe, OpenAI, Anthropic, S3, Slack, and Postgres — recording, replay, eval, and chaos built in.",
   });
@@ -43,14 +43,14 @@ export default function GhostEnvPage() {
       <section className="product-hero">
         <div>
           <p className="eyebrow">Testing infrastructure</p>
-          <h1>ghost-env</h1>
+          <h1>stubfetch</h1>
           <p className="lede">
             Deterministic, in-process fake HTTP APIs for testing agents and
             tools. Swap real network calls for canned responses — GitHub,
             Stripe, OpenAI, S3, Slack, and more — with recording, replay,
             eval scenarios, and chaos injection built in.
           </p>
-          <code className="install-cmd">npm install ghost-env</code>
+          <code className="install-cmd">npm install stubfetch</code>
           <div className="product-hero__actions">
             <a
               href={`https://www.npmjs.com/package/${ghostMeta.npm}`}
@@ -68,7 +68,7 @@ export default function GhostEnvPage() {
             >
               GitHub <ArrowUpRight size={14} />
             </a>
-            <Link to="/docs/$product" params={{ product: "ghost-env" }} className="btn-secondary">
+            <Link to="/docs/$product" params={{ product: "stubfetch" }} className="btn-secondary">
               Docs <ArrowRight size={16} />
             </Link>
           </div>
@@ -93,7 +93,7 @@ export default function GhostEnvPage() {
             <div className="code-window__bar">
               <span /><span /><span />
             </div>
-            <pre><code>{`import { GhostEnv, github, stripe } from "ghost-env";
+            <pre><code>{`import { GhostEnv, github, stripe } from "stubfetch";
 
 const env = new GhostEnv({
   seed: 42,
@@ -147,9 +147,9 @@ console.log(env.wasCalled("github")); // true`}</code></pre>
       <div className="cta-banner" style={{ marginBottom: "6rem" }}>
         <div>
           <h2>Ready to build?</h2>
-          <p>Read the full documentation to get started with ghost-env.</p>
+          <p>Read the full documentation to get started with stubfetch.</p>
         </div>
-        <Link to="/docs/$product" params={{ product: "ghost-env" }} className="btn-primary">
+        <Link to="/docs/$product" params={{ product: "stubfetch" }} className="btn-primary">
           Read the docs <ArrowRight size={16} />
         </Link>
       </div>

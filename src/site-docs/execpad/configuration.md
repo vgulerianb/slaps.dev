@@ -68,7 +68,7 @@ When run logging is enabled, each completed run appends a **`RunLogEntry`** (lan
 
 {% ts %}
 ```ts
-import { Runtime, exportRunLogJSON } from "execpad";
+import { Runtime, exportRunLogJSON } from "agentpad";
 
 const rt = new Runtime("./repo", {
   onRun: (e) => {
@@ -87,7 +87,7 @@ Disable entirely: `{ runLog: false }`.
 
 {% py %}
 ```python
-from execpad import Runtime, export_run_log_json
+from agentpad import Runtime, export_run_log_json
 
 def on_run(e):
     if e.stderr:

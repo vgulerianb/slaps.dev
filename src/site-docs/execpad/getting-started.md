@@ -4,7 +4,7 @@
 
 {% ts %}
 ```bash
-npm install execpad
+npm install agentpad
 ```
 
 Prerequisites: **Node.js 18+**. SQL support requires the `sqlite3` CLI on `$PATH`.
@@ -12,7 +12,7 @@ Prerequisites: **Node.js 18+**. SQL support requires the `sqlite3` CLI on `$PATH
 
 {% py %}
 ```bash
-pip install execpad
+pip install agentpad
 ```
 
 Prerequisites: **Python 3.10+**. SQL uses the standard-library `sqlite3` (no external binary).
@@ -22,7 +22,7 @@ Prerequisites: **Python 3.10+**. SQL uses the standard-library `sqlite3` (no ext
 
 {% ts %}
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("./my-project");
 
@@ -35,7 +35,7 @@ rt.close();
 
 {% py %}
 ```python
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime("./my-project")
 r = rt.run("python", "print(1 + 1)")

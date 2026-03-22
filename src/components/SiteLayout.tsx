@@ -14,13 +14,13 @@ const products = [
     desc: "AI-powered browser automation",
   },
   {
-    to: "/execpad",
-    label: "execpad",
+    to: "/agentpad",
+    label: "agentpad",
     desc: "Multi-language execution for agents",
   },
   {
-    to: "/ghost-env",
-    label: "ghost-env",
+    to: "/stubfetch",
+    label: "stubfetch",
     desc: "Deterministic fake HTTP APIs for testing",
   },
 ];

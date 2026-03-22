@@ -1,4 +1,10 @@
-export type DocProductId = "react-exe" | "slapify" | "execpad" | "ghost-env";
+export type DocProductId = "react-exe" | "slapify" | "agentpad" | "stubfetch";
+
+/** Old /docs/:product slugs → canonical id (301-style redirect in route loaders). */
+export const LEGACY_DOC_PRODUCT_SLUGS: Record<string, DocProductId> = {
+  execpad: "agentpad",
+  "ghost-env": "stubfetch",
+};
 
 export const DOC_PRODUCTS: Record<
   DocProductId,
@@ -28,23 +34,23 @@ export const DOC_PRODUCTS: Record<
     productPath: "/slapify",
     github: "https://github.com/vgulerianb/slapify",
   },
-  execpad: {
-    title: "execpad",
+  agentpad: {
+    title: "agentpad",
     tagline: "Multi-language execution against a real directory for agents and tooling.",
-    npm: "execpad",
-    productPath: "/execpad",
-    github: "https://github.com/vgulerianb/execpad",
+    npm: "agentpad",
+    productPath: "/agentpad",
+    github: "https://github.com/vgulerianb/agentpad",
     hasPython: true,
-    pypi: "execpad",
+    pypi: "agentpad",
   },
-  "ghost-env": {
-    title: "ghost-env",
+  stubfetch: {
+    title: "stubfetch",
     tagline: "Deterministic fake HTTP APIs for agent and integration tests.",
-    npm: "ghost-env",
-    productPath: "/ghost-env",
-    github: "https://github.com/vgulerianb/ghost-env",
+    npm: "stubfetch",
+    productPath: "/stubfetch",
+    github: "https://github.com/vgulerianb/stubfetch",
     hasPython: true,
-    pypi: "ghost-env",
+    pypi: "stubfetch",
   },
 };
 
@@ -62,7 +68,7 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
     { slug: "flow-mode", label: "Flow mode" },
     { slug: "api-reference", label: "API reference" },
   ],
-  execpad: [
+  agentpad: [
     { slug: "", label: "Overview" },
     { slug: "getting-started", label: "Getting started" },
     { slug: "use-cases", label: "Use cases" },
@@ -70,7 +76,7 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
     { slug: "api-reference", label: "API reference" },
     { slug: "security", label: "Security" },
   ],
-  "ghost-env": [
+  stubfetch: [
     { slug: "", label: "Overview" },
     { slug: "getting-started", label: "Getting started" },
     { slug: "use-cases", label: "Use cases" },
@@ -85,3 +91,9 @@ export const DOC_PRODUCT_LIST = Object.keys(DOC_PRODUCTS) as DocProductId[];
 export function isDocProduct(id: string): id is DocProductId {
   return id in DOC_PRODUCTS;
 }
+
+/** Public doc URL segment → `site-docs/` subdirectory (package dirs in this monorepo). */
+export const DOC_SITE_FS_DIR: Partial<Record<DocProductId, string>> = {
+  agentpad: "execpad",
+  stubfetch: "ghost-env",
+};

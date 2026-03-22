@@ -6,7 +6,7 @@ import { usePageMeta } from "../hooks/usePageMeta";
 export default function DocsIndexPage() {
   usePageMeta({
     title: "Documentation | slaps.dev",
-    description: "Documentation for react-exe, Slapify, execpad, and ghost-env.",
+    description: "Documentation for react-exe, Slapify, agentpad, and stubfetch.",
   });
 
   return (

@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { DOC_PRODUCTS } from "../documentation/docRegistry";
 import { usePageMeta } from "../hooks/usePageMeta";
 
-const execpadMeta = DOC_PRODUCTS.execpad;
+const execpadMeta = DOC_PRODUCTS.agentpad;
 
 const languages = [
   { name: "bash", icon: Terminal, desc: "Shell scripts and system commands" },
@@ -49,7 +49,7 @@ const features = [
 
 export default function ExecpadPage() {
   usePageMeta({
-    title: "execpad | Multi-language execution for AI agents",
+    title: "agentpad | Multi-language execution for AI agents",
     description:
       "Execute bash, Python, JavaScript, and SQL against a real project directory. Built for AI agents, CI, and local tooling.",
   });
@@ -59,13 +59,13 @@ export default function ExecpadPage() {
       <section className="product-hero">
         <div>
           <p className="eyebrow">Multi-language runtime</p>
-          <h1>execpad</h1>
+          <h1>agentpad</h1>
           <p className="lede">
             Execute bash, Python, JavaScript, and SQL against a real project
             directory — with overlay mode, read-only guards, file-change
             tracking, and OpenAI tool integration. Built for AI agents and CI.
           </p>
-          <code className="install-cmd">npm install execpad</code>
+          <code className="install-cmd">npm install agentpad</code>
           <div className="product-hero__actions">
             <a
               href={`https://www.npmjs.com/package/${execpadMeta.npm}`}
@@ -83,7 +83,7 @@ export default function ExecpadPage() {
             >
               GitHub <ArrowUpRight size={14} />
             </a>
-            <Link to="/docs/$product" params={{ product: "execpad" }} className="btn-secondary">
+            <Link to="/docs/$product" params={{ product: "agentpad" }} className="btn-secondary">
               Docs <ArrowRight size={16} />
             </Link>
           </div>
@@ -108,7 +108,7 @@ export default function ExecpadPage() {
             <div className="code-window__bar">
               <span /><span /><span />
             </div>
-            <pre><code>{`import { Runtime } from "execpad";
+            <pre><code>{`import { Runtime } from "agentpad";
 
 const rt = new Runtime("./my-project");
 
@@ -168,9 +168,9 @@ rt.close();`}</code></pre>
       <div className="cta-banner" style={{ marginBottom: "6rem" }}>
         <div>
           <h2>Ready to build?</h2>
-          <p>Read the full documentation to get started with execpad.</p>
+          <p>Read the full documentation to get started with agentpad.</p>
         </div>
-        <Link to="/docs/$product" params={{ product: "execpad" }} className="btn-primary">
+        <Link to="/docs/$product" params={{ product: "agentpad" }} className="btn-primary">
           Read the docs <ArrowRight size={16} />
         </Link>
       </div>

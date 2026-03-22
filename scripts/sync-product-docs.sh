@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Copy markdown from local execpad / ghost-env repos into the site (when present).
+# Copy markdown from local execpad/ and ghost-env/ package trees into site-docs
+# (canonical URLs: /docs/agentpad, /docs/stubfetch — see docRegistry DOC_SITE_FS_DIR).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 shopt -s nullglob

@@ -1,4 +1,4 @@
-# execpad
+# agentpad
 
 Execute **bash**, **Python**, **JavaScript** (Node), and **SQL** against a real project directory — with overlay mode, read-only guards, file-change tracking, and built-in OpenAI tool support. Built for AI agents, CI, and local tooling.
 
@@ -6,7 +6,7 @@ Execute **bash**, **Python**, **JavaScript** (Node), and **SQL** against a real 
 
 {% ts %}
 ```bash
-npm install execpad
+npm install agentpad
 ```
 
 Requires **Node.js 18+**. For SQL, the `sqlite3` binary must be on your `PATH`.
@@ -14,7 +14,7 @@ Requires **Node.js 18+**. For SQL, the `sqlite3` binary must be on your `PATH`.
 
 {% py %}
 ```bash
-pip install execpad
+pip install agentpad
 ```
 
 Requires **Python 3.10+**. SQL uses the standard-library `sqlite3` module (no external CLI).
@@ -24,7 +24,7 @@ Requires **Python 3.10+**. SQL uses the standard-library `sqlite3` module (no ex
 
 {% ts %}
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("./my-project");
 
@@ -38,7 +38,7 @@ rt.close();
 
 {% py %}
 ```python
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime("./my-project")
 r = rt.run("python", 'print(open("README.md").read()[:80])')
@@ -89,10 +89,10 @@ Use **`/docs/...` routes** (bare `*.md` links are unreliable in this app). On th
 
 | Doc | Contents |
 |-----|----------|
-| [Overview](/docs/execpad/) | Product summary and sidebar |
-| [Getting started](/docs/execpad/getting-started) | Install, first runs, overlay, read-only |
-| [Use cases](/docs/execpad/use-cases) | CI, agents, overlay, run log, OpenAI tools |
-| [Configuration](/docs/execpad/configuration) | `RuntimeOptions` / kwargs, globs, limits, run log |
-| [API reference](/docs/execpad/api-reference) | `Runtime`, types, filesystem adapters |
-| [Security](/docs/execpad/security) | Threat model, workspace boundaries |
-| [Python package](/docs/execpad/python) | Node vs Python differences |
+| [Overview](/docs/agentpad/) | Product summary and sidebar |
+| [Getting started](/docs/agentpad/getting-started) | Install, first runs, overlay, read-only |
+| [Use cases](/docs/agentpad/use-cases) | CI, agents, overlay, run log, OpenAI tools |
+| [Configuration](/docs/agentpad/configuration) | `RuntimeOptions` / kwargs, globs, limits, run log |
+| [API reference](/docs/agentpad/api-reference) | `Runtime`, types, filesystem adapters |
+| [Security](/docs/agentpad/security) | Threat model, workspace boundaries |
+| [Python package](/docs/agentpad/python) | Node vs Python differences |

@@ -9,15 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StubfetchRouteImport } from './routes/stubfetch'
 import { Route as SlapifyRouteImport } from './routes/slapify'
 import { Route as ReactExeRouteImport } from './routes/react-exe'
 import { Route as GhostEnvRouteImport } from './routes/ghost-env'
 import { Route as ExecpadRouteImport } from './routes/execpad'
+import { Route as AgentpadRouteImport } from './routes/agentpad'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
 import { Route as DocsProductIndexRouteImport } from './routes/docs.$product.index'
 import { Route as DocsProductSlugRouteImport } from './routes/docs.$product.$slug'
 
+const StubfetchRoute = StubfetchRouteImport.update({
+  id: '/stubfetch',
+  path: '/stubfetch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SlapifyRoute = SlapifyRouteImport.update({
   id: '/slapify',
   path: '/slapify',
@@ -36,6 +43,11 @@ const GhostEnvRoute = GhostEnvRouteImport.update({
 const ExecpadRoute = ExecpadRouteImport.update({
   id: '/execpad',
   path: '/execpad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentpadRoute = AgentpadRouteImport.update({
+  id: '/agentpad',
+  path: '/agentpad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,20 +73,24 @@ const DocsProductSlugRoute = DocsProductSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agentpad': typeof AgentpadRoute
   '/execpad': typeof ExecpadRoute
   '/ghost-env': typeof GhostEnvRoute
   '/react-exe': typeof ReactExeRoute
   '/slapify': typeof SlapifyRoute
+  '/stubfetch': typeof StubfetchRoute
   '/docs/': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
   '/docs/$product/': typeof DocsProductIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agentpad': typeof AgentpadRoute
   '/execpad': typeof ExecpadRoute
   '/ghost-env': typeof GhostEnvRoute
   '/react-exe': typeof ReactExeRoute
   '/slapify': typeof SlapifyRoute
+  '/stubfetch': typeof StubfetchRoute
   '/docs': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
   '/docs/$product': typeof DocsProductIndexRoute
@@ -82,10 +98,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agentpad': typeof AgentpadRoute
   '/execpad': typeof ExecpadRoute
   '/ghost-env': typeof GhostEnvRoute
   '/react-exe': typeof ReactExeRoute
   '/slapify': typeof SlapifyRoute
+  '/stubfetch': typeof StubfetchRoute
   '/docs/': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
   '/docs/$product/': typeof DocsProductIndexRoute
@@ -94,30 +112,36 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agentpad'
     | '/execpad'
     | '/ghost-env'
     | '/react-exe'
     | '/slapify'
+    | '/stubfetch'
     | '/docs/'
     | '/docs/$product/$slug'
     | '/docs/$product/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agentpad'
     | '/execpad'
     | '/ghost-env'
     | '/react-exe'
     | '/slapify'
+    | '/stubfetch'
     | '/docs'
     | '/docs/$product/$slug'
     | '/docs/$product'
   id:
     | '__root__'
     | '/'
+    | '/agentpad'
     | '/execpad'
     | '/ghost-env'
     | '/react-exe'
     | '/slapify'
+    | '/stubfetch'
     | '/docs/'
     | '/docs/$product/$slug'
     | '/docs/$product/'
@@ -125,10 +149,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentpadRoute: typeof AgentpadRoute
   ExecpadRoute: typeof ExecpadRoute
   GhostEnvRoute: typeof GhostEnvRoute
   ReactExeRoute: typeof ReactExeRoute
   SlapifyRoute: typeof SlapifyRoute
+  StubfetchRoute: typeof StubfetchRoute
   DocsIndexRoute: typeof DocsIndexRoute
   DocsProductSlugRoute: typeof DocsProductSlugRoute
   DocsProductIndexRoute: typeof DocsProductIndexRoute
@@ -136,6 +162,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/stubfetch': {
+      id: '/stubfetch'
+      path: '/stubfetch'
+      fullPath: '/stubfetch'
+      preLoaderRoute: typeof StubfetchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/slapify': {
       id: '/slapify'
       path: '/slapify'
@@ -162,6 +195,13 @@ declare module '@tanstack/react-router' {
       path: '/execpad'
       fullPath: '/execpad'
       preLoaderRoute: typeof ExecpadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agentpad': {
+      id: '/agentpad'
+      path: '/agentpad'
+      fullPath: '/agentpad'
+      preLoaderRoute: typeof AgentpadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -197,10 +237,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentpadRoute: AgentpadRoute,
   ExecpadRoute: ExecpadRoute,
   GhostEnvRoute: GhostEnvRoute,
   ReactExeRoute: ReactExeRoute,
   SlapifyRoute: SlapifyRoute,
+  StubfetchRoute: StubfetchRoute,
   DocsIndexRoute: DocsIndexRoute,
   DocsProductSlugRoute: DocsProductSlugRoute,
   DocsProductIndexRoute: DocsProductIndexRoute,

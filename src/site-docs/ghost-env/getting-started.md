@@ -4,7 +4,7 @@
 
 {% ts %}
 ```bash
-npm install ghost-env
+npm install stubfetch
 ```
 
 Requires **Node.js 18+**.
@@ -12,7 +12,7 @@ Requires **Node.js 18+**.
 
 {% py %}
 ```bash
-pip install ghost-env
+pip install stubfetch
 ```
 
 Requires **Python 3.10+**.
@@ -22,7 +22,7 @@ Requires **Python 3.10+**.
 
 {% ts %}
 ```ts
-import { GhostEnv, github } from "ghost-env";
+import { GhostEnv, github } from "stubfetch";
 
 const env = new GhostEnv({
   seed: 1,
@@ -42,7 +42,7 @@ console.log(issues[0].title);
 
 {% py %}
 ```python
-from ghost_env import GhostEnv, github
+from stubfetch import GhostEnv, github
 
 env = GhostEnv({
     "seed": 1,

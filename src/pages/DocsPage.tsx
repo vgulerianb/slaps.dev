@@ -9,7 +9,7 @@ import {
 } from "../documentation/docRegistry";
 import { getDocSource } from "../documentation/loadDocs";
 
-type ProductPath = "/react-exe" | "/slapify" | "/execpad" | "/ghost-env";
+type ProductPath = "/react-exe" | "/slapify" | "/agentpad" | "/stubfetch";
 type LangPref = "ts" | "python";
 
 const LANG_KEY = "slaps-docs-lang";

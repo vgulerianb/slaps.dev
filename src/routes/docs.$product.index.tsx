@@ -1,9 +1,17 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import DocsPage from "../pages/DocsPage";
-import { isDocProduct, DOC_PRODUCTS } from "../documentation/docRegistry";
+import {
+  isDocProduct,
+  DOC_PRODUCTS,
+  LEGACY_DOC_PRODUCT_SLUGS,
+} from "../documentation/docRegistry";
 
 export const Route = createFileRoute("/docs/$product/")({
   beforeLoad: ({ params }) => {
+    const next = LEGACY_DOC_PRODUCT_SLUGS[params.product];
+    if (next) {
+      throw redirect({ to: "/docs/$product/", params: { product: next }, replace: true });
+    }
     if (!isDocProduct(params.product)) {
       throw redirect({ to: "/docs", replace: true });
     }

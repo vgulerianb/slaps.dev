@@ -68,7 +68,7 @@ Runtime(root: str, **kwargs)
 
 `Runtime.deserialize(data)` — class method; `data` is a serialized dict.
 
-Result fields use **`exit_code`**, **`duration_ms`**, etc. (see `execpad.types`).
+Result fields use **`exit_code`**, **`duration_ms`**, etc. (see `agentpad.types`).
 {% /py %}
 
 ## Types

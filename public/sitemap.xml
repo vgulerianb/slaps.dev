@@ -19,12 +19,12 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/execpad</loc>
+    <loc>https://slaps.dev/agentpad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/ghost-env</loc>
+    <loc>https://slaps.dev/stubfetch</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -80,66 +80,66 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- execpad docs -->
+  <!-- agentpad docs -->
   <url>
-    <loc>https://slaps.dev/docs/execpad</loc>
+    <loc>https://slaps.dev/docs/agentpad</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/execpad/getting-started</loc>
+    <loc>https://slaps.dev/docs/agentpad/getting-started</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/execpad/use-cases</loc>
+    <loc>https://slaps.dev/docs/agentpad/use-cases</loc>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/execpad/configuration</loc>
+    <loc>https://slaps.dev/docs/agentpad/configuration</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/execpad/api-reference</loc>
+    <loc>https://slaps.dev/docs/agentpad/api-reference</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/execpad/security</loc>
+    <loc>https://slaps.dev/docs/agentpad/security</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- ghost-env docs -->
+  <!-- stubfetch docs -->
   <url>
-    <loc>https://slaps.dev/docs/ghost-env</loc>
+    <loc>https://slaps.dev/docs/stubfetch</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/ghost-env/getting-started</loc>
+    <loc>https://slaps.dev/docs/stubfetch/getting-started</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/ghost-env/use-cases</loc>
+    <loc>https://slaps.dev/docs/stubfetch/use-cases</loc>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/ghost-env/presets</loc>
+    <loc>https://slaps.dev/docs/stubfetch/presets</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/ghost-env/api-reference</loc>
+    <loc>https://slaps.dev/docs/stubfetch/api-reference</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://slaps.dev/docs/ghost-env/testing-and-chaos</loc>
+    <loc>https://slaps.dev/docs/stubfetch/testing-and-chaos</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

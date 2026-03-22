@@ -1,4 +1,4 @@
-# ghost-env
+# stubfetch
 
 **Deterministic, in-process fake HTTP APIs** for testing agents and tools. Swap live network calls for canned GitHub, Stripe, OpenAI, Anthropic, S3, and Slack responses — while recording traffic, running eval scenarios, and injecting chaos.
 
@@ -6,7 +6,7 @@
 
 {% ts %}
 ```bash
-npm install ghost-env
+npm install stubfetch
 ```
 
 Requires **Node.js 18+**. No runtime dependencies.
@@ -14,7 +14,7 @@ Requires **Node.js 18+**. No runtime dependencies.
 
 {% py %}
 ```bash
-pip install ghost-env
+pip install stubfetch
 ```
 
 Requires **Python 3.10+**.
@@ -24,7 +24,7 @@ Requires **Python 3.10+**.
 
 {% ts %}
 ```ts
-import { GhostEnv, github, exportRecordingJSON } from "ghost-env";
+import { GhostEnv, github, exportRecordingJSON } from "stubfetch";
 
 const env = new GhostEnv({
   seed: 42,
@@ -43,7 +43,7 @@ console.log(exportRecordingJSON(env.calls()));
 
 {% py %}
 ```python
-from ghost_env import GhostEnv, github, export_recording_json
+from stubfetch import GhostEnv, github, export_recording_json
 
 env = GhostEnv(
     {
@@ -118,10 +118,10 @@ Use **`/docs/...` routes** (bare `*.md` links are unreliable in this app). On th
 
 | Doc | Contents |
 |-----|----------|
-| [Overview](/docs/ghost-env/) | Product summary and sidebar |
-| [Getting started](/docs/ghost-env/getting-started) | Providers, fetch, recording (Python: `fetch` → `(status, body)`) |
-| [Use cases](/docs/ghost-env/use-cases) | Stubs, fixtures, evals |
-| [Presets](/docs/ghost-env/presets) | URLs, config shapes, matching rules |
-| [API reference](/docs/ghost-env/api-reference) | `GhostEnv`, `Provider`, eval, replay, exports |
-| [Testing & chaos](/docs/ghost-env/testing-and-chaos) | `runEval` / `run_eval`, chaos, failure recording |
-| [Python package](/docs/ghost-env/python) | Node vs Python differences |
+| [Overview](/docs/stubfetch/) | Product summary and sidebar |
+| [Getting started](/docs/stubfetch/getting-started) | Providers, fetch, recording (Python: `fetch` → `(status, body)`) |
+| [Use cases](/docs/stubfetch/use-cases) | Stubs, fixtures, evals |
+| [Presets](/docs/stubfetch/presets) | URLs, config shapes, matching rules |
+| [API reference](/docs/stubfetch/api-reference) | `GhostEnv`, `Provider`, eval, replay, exports |
+| [Testing & chaos](/docs/stubfetch/testing-and-chaos) | `runEval` / `run_eval`, chaos, failure recording |
+| [Python package](/docs/stubfetch/python) | Node vs Python differences |

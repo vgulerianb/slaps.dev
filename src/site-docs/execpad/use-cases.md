@@ -1,14 +1,14 @@
 # Use cases & examples
 
-Patterns that work well with **execpad** in agents, CI, and local tools. Every snippet targets a real directory (`Runtime` root).
+Patterns that work well with **agentpad** in agents, CI, and local tools. Every snippet targets a real directory (`Runtime` root).
 
-**Automated tests:** the Node build uses **Vitest**; Python uses **pytest** (`execpad/src/runtime.test.ts`, `execpad/python/tests/`). From the site repo root run `npm run test:packages` to execute all four suites (execpad + ghost-env, JS + Python).
+**Automated tests:** the Node build uses **Vitest**; Python uses **pytest** (`execpad/src/runtime.test.ts`, `execpad/python/tests/`). From the site repo root run `npm run test:packages` to execute all four suites (agentpad / stubfetch packages, JS + Python).
 
 ---
 
-## Building agents with execpad
+## Building agents with agentpad
 
-**execpad** is the **workspace runtime** your agent calls when it needs to run shell, Python, Node, or SQL against a **real checkout** (customer repo, task sandbox, or CI workspace). Typical flow:
+**agentpad** is the **workspace runtime** your agent calls when it needs to run shell, Python, Node, or SQL against a **real checkout** (customer repo, task sandbox, or CI workspace). Typical flow:
 
 1. Create one **`Runtime(root)`** per session (or per task), with **`readonly`**, **`overlay`**, and **`limits`** chosen for trust level.
 2. Register **`asOpenAITool()` / `as_openai_tool()`** (or your provider’s equivalent) so the model emits **`{ language, code }`**.
@@ -18,8 +18,8 @@ Patterns that work well with **execpad** in agents, CI, and local tools. Every s
 
 {% ts %}
 ```ts
-import type { RunResult } from "execpad";
-import { Runtime } from "execpad";
+import type { RunResult } from "agentpad";
+import { Runtime } from "agentpad";
 
 /** Call this when the chat API returns a tool_call for `execute_code`. */
 export async function dispatchExecuteCode(
@@ -38,7 +38,7 @@ const executeCodeTool = rt.asOpenAITool();
 
 {% py %}
 ```python
-from execpad import Runtime, RunResult
+from agentpad import Runtime, RunResult
 
 
 def dispatch_execute_code(rt: Runtime, args: dict) -> RunResult:
@@ -60,7 +60,7 @@ Agents need **grounding**: after each run, stringify a short summary (trim stdou
 
 {% ts %}
 ```ts
-import type { RunResult } from "execpad";
+import type { RunResult } from "agentpad";
 
 function summarizeForAgent(r: RunResult, maxChars = 4000) {
   const out = (r.stdout + r.stderr).slice(0, maxChars);
@@ -78,7 +78,7 @@ function summarizeForAgent(r: RunResult, maxChars = 4000) {
 {% py %}
 ```python
 import json
-from execpad import RunResult
+from agentpad import RunResult
 
 
 def summarize_for_agent(r: RunResult, max_chars: int = 4000) -> str:
@@ -101,7 +101,7 @@ Let the agent **`run`** destructive commands on a **copy**; only **`apply()`** w
 
 ### Security reminder
 
-execpad runs **real processes** with the host user’s privileges. Use **read-only** or **overlay** for untrusted prompts, tight **timeouts**, and never expose **`Runtime`** directly on the public internet without another boundary—see [Security](security.md).
+agentpad runs **real processes** with the host user’s privileges. Use **read-only** or **overlay** for untrusted prompts, tight **timeouts**, and never expose **`Runtime`** directly on the public internet without another boundary—see [Security](security.md).
 
 ---
 
@@ -109,7 +109,7 @@ execpad runs **real processes** with the host user’s privileges. Use **read-on
 
 {% ts %}
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime(process.cwd(), { readonly: true });
 
@@ -125,7 +125,7 @@ rt.close();
 
 {% py %}
 ```python
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime(".", readonly=True)
 r = rt.run("bash", "pytest -q", cwd=".")
@@ -142,7 +142,7 @@ Use **read-only** when you only need to verify the tree, not mutate it.
 
 {% ts %}
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("./my-service");
 
@@ -163,7 +163,7 @@ rt.close();
 {% py %}
 ```python
 import json
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime("./my-service")
 r = rt.run(
@@ -186,7 +186,7 @@ Run destructive commands against a **temp copy** of the project; merge back when
 
 {% ts %}
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("./app", { overlay: true });
 
@@ -199,7 +199,7 @@ rt.close();
 
 {% py %}
 ```python
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime("./app", overlay=True)
 rt.run("bash", 'echo "patched" > config.local.env')
@@ -214,7 +214,7 @@ rt.close()
 
 {% ts %}
 ```ts
-import { Runtime, exportRunLogJSON } from "execpad";
+import { Runtime, exportRunLogJSON } from "agentpad";
 
 const rt = new Runtime("./repo", {
   runLog: true,
@@ -234,7 +234,7 @@ rt.close();
 
 {% py %}
 ```python
-from execpad import Runtime, export_run_log_json
+from agentpad import Runtime, export_run_log_json
 
 def on_run(e):
     if e.stderr:
@@ -256,7 +256,7 @@ Same **function schema** shape in both languages; wire the returned JSON into yo
 
 {% ts %}
 ```ts
-import { Runtime } from "execpad";
+import { Runtime } from "agentpad";
 
 const rt = new Runtime("./workspace");
 const tool = rt.asOpenAITool();
@@ -274,7 +274,7 @@ rt.close();
 
 {% py %}
 ```python
-from execpad import Runtime
+from agentpad import Runtime
 
 rt = Runtime("./workspace")
 tool = rt.as_openai_tool()
