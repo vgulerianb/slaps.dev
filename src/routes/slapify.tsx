@@ -4,13 +4,13 @@ import SlapifyPage from "../pages/SlapifyPage";
 export const Route = createFileRoute("/slapify")({
   head: () => ({
     meta: [
-      { title: "Slapify | AI-powered browser automation" },
+      { title: "Slapify | A fully autonomous browser agent" },
       {
         name: "description",
         content:
-          "Slapify is an AI-powered browser automation tool that lets you run complex web tasks with natural language. Task mode and flow mode for CI pipelines.",
+          "Give Slapify a goal in plain English and it browses, logs in, fills forms, handles files and tabs, and keeps going until it is done. Runs on your Claude or ChatGPT plan, or any API.",
       },
-      { property: "og:title", content: "Slapify | AI-powered browser automation" },
+      { property: "og:title", content: "Slapify | A fully autonomous browser agent" },
     ],
   }),
   component: SlapifyPage,

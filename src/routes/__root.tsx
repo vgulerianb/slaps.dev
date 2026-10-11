@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Outlet, createRootRoute, HeadContent, Scripts, Link } from "@tanstack/react-router";
 import SiteLayout from "../components/SiteLayout";
 import "../styles/site.css";
+import "../styles/slapify.css";
 
 export const Route = createRootRoute({
   head: () => ({

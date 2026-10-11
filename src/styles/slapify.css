@@ -1,0 +1,171 @@
+/* ── Slapify product page ──
+   Builds on the shared product-page pieces in site.css (product-hero,
+   code-window, modes-grid, highlight-grid, cta-banner). */
+
+.slapify-hero-media {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.slapify-hero-media img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.18);
+}
+
+.slapify-section {
+  border-top: 1px solid var(--border);
+}
+
+.slapify-section__lede {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  max-width: 600px;
+  margin: 0;
+}
+
+/* Recorded runs */
+.slapify-runs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.slapify-run {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.slapify-run__frame {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-subtle);
+}
+
+.slapify-run__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.slapify-run figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.slapify-run figcaption strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.slapify-run figcaption code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 0.78125rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+}
+
+.slapify-run figcaption span {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* Capability grid */
+.slapify-caps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 2.5rem;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.slapify-caps article {
+  background: var(--bg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.slapify-caps article svg {
+  color: var(--text-tertiary);
+  margin-bottom: 0.25rem;
+}
+
+.slapify-caps h3,
+.slapify-harness h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.slapify-caps p,
+.slapify-harness p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Provider cards */
+.slapify-chip {
+  align-self: flex-start;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 0.78125rem;
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+}
+
+.highlight-grid article.slapify-harness {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Quick start */
+.slapify-quickstart {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.slapify-quickstart .code-window {
+  max-width: none;
+}
+
+.slapify-cta {
+  margin-bottom: 6rem;
+}
+
+@media (max-width: 860px) {
+  .slapify-hero-media {
+    justify-content: flex-start;
+  }
+
+  .slapify-runs,
+  .slapify-quickstart,
+  .slapify-caps {
+    grid-template-columns: 1fr;
+  }
+}
