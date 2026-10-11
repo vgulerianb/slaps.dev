@@ -1,0 +1,106 @@
+<h2>The job</h2>
+  <p>The brief was simple to say and hard to do well: act as an engagement assistant for a developer who posts about AI, Next.js, React and TypeScript. Search for recent posts on those topics, pick ones worth answering, write a short reply that adds something, post it, and move on. Ten replies per cycle, then sleep ten minutes, then do it again, until a human says stop. No original tweets, only replies. No approval step. And no em dashes, because the account owner doesn't write with them.</p>
+  <p>The setup, all of it existing Slapify features:</p>
+  <ul>
+    <li><strong>Headless Chrome with a persistent profile</strong>, so the login survives restarts and no window is needed.</li>
+    <li><strong>Stealth mode</strong>, so the browser doesn't advertise itself as automated (<a href="/blog/stealth-mode">Part 4</a>).</li>
+    <li><strong>Memory</strong> to track which posts it had already answered.</li>
+    <li><strong>Telegram</strong>, to get status updates and send it instructions from a phone.</li>
+    <li><strong>A small supervisor script</strong> to restart the process if it ever exited.</li>
+  </ul>
+  <p>What it didn't have yet was any help making the many small decisions a run like this is made of: which of these forty buttons is the reply box, did my reply actually post, is this a login wall. The main model made every one of them by reading the page. That turns out to matter, and it's what <a href="/blog/jev">Part 3</a> is about. First, the story.</p>
+
+  <div class="stats">
+    <div class="stat"><b>26.8 h</b><span>longest single run</span></div>
+    <div class="stat"><b>163</b><span>replies posted in it</span></div>
+    <div class="stat"><b>2,583</b><span>model calls</span></div>
+    <div class="stat"><b>44</b><span>cycles</span></div>
+  </div>
+
+  <h2>Nine things that broke</h2>
+  <p>Each of these showed up in a real run, usually at the worst possible time. Click through them: what we saw, why it happened, and what changed in Slapify as a result.</p>
+
+  <div class="panel" id="incidents">
+    <h4>Incident log</h4>
+    <p class="sub">In the order we hit them.</p>
+    <div class="seg" role="group" aria-label="Incident"></div>
+    <div style="margin-top:14px" id="incident-body"></div>
+  </div>
+
+  <h2>The rule that stopped being a rule</h2>
+  <p>The most instructive failure was the smallest. The prompt said, plainly, never use an em dash. For the first stretch of every run the agent obeyed perfectly. Then, somewhere past the first hour, dashes started appearing, and in one run more than half of the replies had one.</p>
+
+  <div class="panel" id="dash-chart">
+    <h4>Replies containing an em dash</h4>
+    <p class="sub">Every reply the agent typed across our runs, split at the first time its history was compacted.</p>
+  </div>
+
+  <p>The cause was compaction. When the conversation history gets long, older turns are summarised to make room. The summary restated the original task in its own words, and from then on the model worked from the restatement. The rule didn't vanish in one step. It lost its force: a rule the model reads as a summary of a preference, rather than as a line the user wrote, is one it feels free to trade off.</p>
+  <p>Two fixes, because each covers a different failure:</p>
+  <ol>
+    <li><strong>The goal is never paraphrased.</strong> Compaction now keeps the original task word for word and only summarises what happened since. (It also never cuts between a tool call and its result, which could leave the model looking at an answer to a question it no longer remembered asking.)</li>
+    <li><strong>Rules that must hold every time belong in config, not in the prompt.</strong> <code>text_filters</code> rewrites text before it is typed into the page. In the runs after we added it, the model still produced an em dash seven times, and all seven were corrected before they reached X.</li>
+  </ol>
+  <pre><code><span class="k">text_filters:</span>
+  <span class="s">" — "</span>: <span class="s">", "</span>
+  <span class="s">"—"</span>: <span class="s">", "</span></code></pre>
+  <p class="callout">The general lesson: a prompt is a request, and a request gets weighed against everything else in context. Anything that must be true every time should be enforced by the harness, where the model can't weigh it at all.</p>
+
+  <h2>Ten per cycle, then three</h2>
+  <p>Here is every cycle of the 26.8-hour run. The goal said ten replies per cycle.</p>
+
+  <div class="panel wide" id="cycle-chart">
+    <h4>Replies per cycle, 26.8-hour run</h4>
+    <p class="sub">Hover or tap a bar for the cycle's details.</p>
+  </div>
+
+  <p>The first two cycles did ten. Then the number fell to three or four and stayed there for a day. Nothing crashed, and nothing looked wrong in the logs. We found two causes, and both are the kind of thing a long run surfaces and a short test never does:</p>
+  <ul>
+    <li><strong>A one-off instruction that became permanent.</strong> In one session the owner sent a Telegram message asking for a lighter cycle, once. The agent saved it to memory and kept applying it every cycle after, because it was the most recent thing the user had said. Live instructions now apply to the cycle they arrive in. They carry forward only if the user says so ("from now on…"), and when compaction carries one forward it quotes it exactly. The goal stays the authority for everything else.</li>
+    <li><strong>Running out of fresh posts.</strong> The agent remembered every post it had answered, and searched the same fourteen queries in rotation. As the hours went on, more of each cycle went to finding posts, recognising them as already answered and skipping them (you can see it in the log: <em>"already replied in a prior session… avoiding duplicate engagement"</em>). We relaxed the dedupe to what matters, never the same post twice, and rotated queries more widely.</li>
+  </ul>
+
+  <h2>Where the calls go</h2>
+  <p>An autonomous run spends most of its time looking, not acting. This is every tool call in the long run:</p>
+  <div class="panel" id="tool-chart">
+    <h4>Tool calls by type, 26.8-hour run</h4>
+    <p class="sub">Reading the page dominates. Every snapshot is roughly 20,000 characters the model has to read.</p>
+  </div>
+  <p>That first bar is the expensive one. Each <code>get_page_state</code> result averaged 20,577 characters, about five thousand tokens, and the agent took 825 of them. Most were for a narrow question: <em>where is the reply box on this page?</em> Answering that by reading five thousand tokens is like re-reading a whole menu to find the dessert section. Hold that thought.</p>
+
+  <h2>What it cost</h2>
+  <p>We price everything at list API rates. The run's log records every model turn, so we rebuilt the prompt the model saw on each of the 2,583 calls (system prompt, tool definitions, the goal, and history trimmed exactly as the harness trims it), counted about four characters per token, and priced the result.</p>
+
+  <div class="table-wrap">
+  <table class="data">
+    <thead><tr><th>Run</th><th class="num">Hours</th><th class="num">Model calls</th><th class="num">Replies</th><th class="num">No caching</th><th class="num">With caching</th><th class="num">Per reply</th></tr></thead>
+    <tbody id="runs-body"></tbody>
+  </table>
+  </div>
+  <p>Two things stand out. First, prompt caching is not optional for an agent like this: 92% of each prompt is identical to the one before it, so caching cuts the bill by about 80%. Second, each reply costs about sixteen model calls. Finding the post, opening it, locating the reply box, typing, finding the button, checking it worked, remembering it. Most of those calls exist to make small decisions.</p>
+
+  <div class="panel" id="calc">
+    <h4>What would it cost you?</h4>
+    <p class="sub">Uses the measured shape of this run: 15.8 model calls per reply, about 36,000 input tokens and 57 output tokens per call, 92% of input cacheable.</p>
+    <div class="controls">
+      <label>Replies per day <input type="range" id="c-rpd" min="10" max="500" step="10" value="150"> <span class="readout"><b id="c-rpd-v">150</b></span></label>
+      <div class="seg" id="c-model" role="group" aria-label="Model">
+        <button data-m="haiku" aria-pressed="false">Haiku 4.5</button><button data-m="sonnet" aria-pressed="true">Sonnet 5</button><button data-m="opus" aria-pressed="false">Opus 5</button>
+      </div>
+      <label><input type="checkbox" id="c-cache" checked> Prompt caching</label>
+    </div>
+    <div class="stats" style="margin-bottom:0">
+      <div class="stat"><b id="c-reply">–</b><span>per reply</span></div>
+      <div class="stat"><b id="c-day">–</b><span>per day</span></div>
+      <div class="stat"><b id="c-month">–</b><span>per 30 days</span></div>
+    </div>
+  </div>
+
+  <h2>What we'd take from it</h2>
+  <ul>
+    <li><strong>Enforce, don't ask.</strong> Text filters, pinned goals, scoped live instructions: every fix that stuck moved a rule out of the prompt and into the harness.</li>
+    <li><strong>Never let the agent die of something temporary.</strong> A usage limit is not a crash. Neither is a truncated response or one bad turn.</li>
+    <li><strong>Guidance beats blocking.</strong> The old loop guard stopped the agent from doing legitimate work; telling it "this has failed twice, change approach" fixed the real problem without the side effects.</li>
+    <li><strong>Most of the bill is small decisions.</strong> Sixteen calls per reply, most of them some version of "which element" or "did that work". That is exactly the kind of question a smaller, specialised model should answer.</li>
+  </ul>
+  <p>Which brings us to <a href="/blog/jev">Jev</a>.</p>

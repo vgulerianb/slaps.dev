@@ -17,6 +17,8 @@ import { Route as ExecpadRouteImport } from './routes/execpad'
 import { Route as AgentpadRouteImport } from './routes/agentpad'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as DocsProductIndexRouteImport } from './routes/docs.$product.index'
 import { Route as DocsProductSlugRouteImport } from './routes/docs.$product.$slug'
 
@@ -60,6 +62,16 @@ const DocsIndexRoute = DocsIndexRouteImport.update({
   path: '/docs/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocsProductIndexRoute = DocsProductIndexRouteImport.update({
   id: '/docs/$product/',
   path: '/docs/$product/',
@@ -79,6 +91,8 @@ export interface FileRoutesByFullPath {
   '/react-exe': typeof ReactExeRoute
   '/slapify': typeof SlapifyRoute
   '/stubfetch': typeof StubfetchRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/docs/': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
   '/docs/$product/': typeof DocsProductIndexRoute
@@ -91,6 +105,8 @@ export interface FileRoutesByTo {
   '/react-exe': typeof ReactExeRoute
   '/slapify': typeof SlapifyRoute
   '/stubfetch': typeof StubfetchRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/docs': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
   '/docs/$product': typeof DocsProductIndexRoute
@@ -104,6 +120,8 @@ export interface FileRoutesById {
   '/react-exe': typeof ReactExeRoute
   '/slapify': typeof SlapifyRoute
   '/stubfetch': typeof StubfetchRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/docs/': typeof DocsIndexRoute
   '/docs/$product/$slug': typeof DocsProductSlugRoute
   '/docs/$product/': typeof DocsProductIndexRoute
@@ -118,6 +136,8 @@ export interface FileRouteTypes {
     | '/react-exe'
     | '/slapify'
     | '/stubfetch'
+    | '/blog/$slug'
+    | '/blog/'
     | '/docs/'
     | '/docs/$product/$slug'
     | '/docs/$product/'
@@ -130,6 +150,8 @@ export interface FileRouteTypes {
     | '/react-exe'
     | '/slapify'
     | '/stubfetch'
+    | '/blog/$slug'
+    | '/blog'
     | '/docs'
     | '/docs/$product/$slug'
     | '/docs/$product'
@@ -142,6 +164,8 @@ export interface FileRouteTypes {
     | '/react-exe'
     | '/slapify'
     | '/stubfetch'
+    | '/blog/$slug'
+    | '/blog/'
     | '/docs/'
     | '/docs/$product/$slug'
     | '/docs/$product/'
@@ -155,6 +179,8 @@ export interface RootRouteChildren {
   ReactExeRoute: typeof ReactExeRoute
   SlapifyRoute: typeof SlapifyRoute
   StubfetchRoute: typeof StubfetchRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   DocsIndexRoute: typeof DocsIndexRoute
   DocsProductSlugRoute: typeof DocsProductSlugRoute
   DocsProductIndexRoute: typeof DocsProductIndexRoute
@@ -218,6 +244,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/docs/$product/': {
       id: '/docs/$product/'
       path: '/docs/$product'
@@ -243,6 +283,8 @@ const rootRouteChildren: RootRouteChildren = {
   ReactExeRoute: ReactExeRoute,
   SlapifyRoute: SlapifyRoute,
   StubfetchRoute: StubfetchRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   DocsIndexRoute: DocsIndexRoute,
   DocsProductSlugRoute: DocsProductSlugRoute,
   DocsProductIndexRoute: DocsProductIndexRoute,

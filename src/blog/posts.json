@@ -1,0 +1,113 @@
+{
+  "index": {
+    "kicker": "A five-part series",
+    "h1": "Building a browser agent that can do anything a person can",
+    "intro": "Slapify takes a goal in plain English and works a real browser until it's done: reading, clicking, typing, logging in, handling files and tabs, for a minute or for days. This series is how it got there, with real runs, real failures and real costs.",
+    "stats": [
+      [
+        "26.8 h",
+        "longest unattended run"
+      ],
+      [
+        "$0.22",
+        "per reply at Sonnet 5 API prices"
+      ],
+      [
+        "348 ms",
+        "median Jev decision"
+      ],
+      [
+        "0",
+        "stealth tampering detected (CreepJS)"
+      ]
+    ],
+    "foot": "All runs shown are real. Demo sites are fictional and local; third-party content from the Twitter runs is never shown, only counts and timings. Costs use list API prices."
+  },
+  "posts": [
+    {
+      "slug": "getting-started",
+      "title": "Your First Autonomous Task",
+      "description": "Install Slapify, give it a goal in plain English, and watch a real run shop a demo store: search, compare, pick a size, tick gift wrap, add to cart.",
+      "kicker": "Part 1 · Getting started",
+      "h1": "Your first autonomous task, start to finish",
+      "lede": "Slapify is a browser agent you give a goal to, not a script. Here is a real run from install to answer, replayed step by step, with what it cost.",
+      "byline": [
+        "Slapify team",
+        "7 min read",
+        "All numbers from real runs"
+      ],
+      "image": "/blog/media/store/store-10.jpg",
+      "tag": "Part 1 · Getting started",
+      "cardTitle": "Your first autonomous task, start to finish",
+      "cardText": "Install, one sentence of goal, and a step-by-step replay of the agent shopping a demo store, with what it cost."
+    },
+    {
+      "slug": "building-a-twitter-agent",
+      "title": "Building a Twitter Agent",
+      "description": "We ran an autonomous X/Twitter reply agent for days without any decision-model help. Nine things broke. Here is each one, the fix, and what the whole thing cost at API prices.",
+      "kicker": "Part 2 · Case study",
+      "h1": "We built a Twitter reply agent without Jev. Here's what broke.",
+      "lede": "An autonomous agent that reads a developer's X feed, writes useful replies and posts them, ten per cycle, around the clock. It ran for days. Nine things went wrong, and every one of them made Slapify better.",
+      "byline": [
+        "Slapify team",
+        "12 min read",
+        "Costs at list API prices"
+      ],
+      "image": "/blog/media/cards/twitter.jpg",
+      "tag": "Part 2 · Case study",
+      "cardTitle": "We built a Twitter reply agent without Jev. Here's what broke.",
+      "cardText": "Nine failures from days of unattended running, each fix, and the bill at API prices."
+    },
+    {
+      "slug": "jev",
+      "title": "Adding Jev",
+      "description": "Jev answers narrow questions with calibrated probabilities in about a third of a second. We benchmarked it on 58 real decisions from our Twitter agent against Claude Sonnet 5 and wired it into Slapify where it helps.",
+      "kicker": "Part 3 · Decision model",
+      "h1": "Adding Jev: small decisions, made fast",
+      "lede": "A browser agent spends most of its budget on questions a person answers at a glance. We measured how a dedicated decision model handles them, on real pages from our Twitter agent, and put it to work where the numbers say it helps.",
+      "byline": [
+        "Slapify team",
+        "11 min read",
+        "58-decision benchmark · live demo"
+      ],
+      "image": "/blog/media/cards/jev.jpg",
+      "tag": "Part 3 · Decision model",
+      "cardTitle": "Adding Jev: small decisions, made fast",
+      "cardText": "A 58-decision benchmark against Sonnet 5 on real pages, calibration you can play with, and a live demo with review."
+    },
+    {
+      "slug": "stealth-mode",
+      "title": "Stealth Mode",
+      "description": "Why Slapify's stealth mode patches almost nothing, what it measurably changes on bot.sannysoft.com and CreepJS, and where script-level stealth stops working.",
+      "kicker": "Part 4 · Browser",
+      "h1": "Stealth mode: patch nothing that isn't already a tell",
+      "lede": "Most stealth plugins hide automation by rewriting browser APIs. Modern fingerprinters look for exactly that rewriting. Slapify's stealth mode takes the opposite approach, and on a current Chrome it ends up changing almost no JavaScript at all.",
+      "byline": [
+        "Slapify team",
+        "8 min read",
+        "Measured on headless Chrome 152, macOS"
+      ],
+      "image": "/blog/media/stealth/sannysoft-on.jpg",
+      "tag": "Part 4 · Browser",
+      "cardTitle": "Stealth mode: patch nothing that isn't already a tell",
+      "cardText": "Why patching less beats patching more, before-and-after on bot.sannysoft.com, and where script-level stealth stops."
+    },
+    {
+      "slug": "harness",
+      "title": "An Agent You Can Leave Alone",
+      "description": "Tool contracts, admission, action review, recovery and compaction: the parts of Slapify's harness that make a fully autonomous browser agent safe to leave running, each one explorable.",
+      "kicker": "Part 5 · Harness",
+      "h1": "A browser agent you can leave alone",
+      "lede": "Autonomy is the easy part. The hard part is what happens when an agent that can do anything is about to do the wrong thing, gets stuck, or hits an outage at 3am. Here is every step a tool call goes through in Slapify, and why.",
+      "byline": [
+        "Slapify team",
+        "10 min read",
+        "Interactive"
+      ],
+      "image": "/blog/media/cards/harness.jpg",
+      "tag": "Part 5 · Harness",
+      "cardTitle": "A browser agent you can leave alone",
+      "cardText": "Contracts, admission, review, recovery and compaction: step through a tool call's life and watch an outage play out."
+    }
+  ]
+}

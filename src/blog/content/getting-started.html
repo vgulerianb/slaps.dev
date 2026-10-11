@@ -1,0 +1,90 @@
+<p>Most browser automation asks you to say <em>how</em>: which selector, which click, in which order. Slapify asks you to say <em>what</em>. It reads the page the way a screen reader does, decides what to do next, does it, and keeps going until the goal is met. Along the way it can log in, fill forms, pick from dropdowns, tick checkboxes, upload and download files, switch tabs, remember things between runs, and schedule itself to come back later.</p>
+
+  <h2>Install and set up</h2>
+  <pre><code>npm install -g slapify
+slapify init</code></pre>
+  <p><code>init</code> asks which model to use and which browser, then writes a <code>.slapify/</code> folder. The only thing it needs from you is an API key:</p>
+  <pre><code><span class="c"># .slapify/config.yaml</span>
+<span class="k">llm:</span>
+  provider: anthropic
+  model: claude-sonnet-5
+  api_key: ${ANTHROPIC_API_KEY}
+<span class="k">browser:</span>
+  headless: true</code></pre>
+  <p>Any provider the Vercel AI SDK supports works (OpenAI, Google, Mistral, Groq, a local Ollama model), and you can list several: if one is rate-limited or down, the next one takes over.</p>
+
+  <h2>Give it a goal</h2>
+  <p>To have something we could show end to end, without touching a real shop, we built a tiny demo store called Harbor &amp; Pine. It has six products, a search box, product pages with a size dropdown and a gift-wrap checkbox, and a cart. Then we gave the agent one sentence:</p>
+  <pre><code>slapify task "Go to the store. Find a waterproof jacket that costs less than $150, \
+add it to the cart in size M with gift wrap, and tell me the cart total."</code></pre>
+  <p>Nothing else: no selectors, no hints about which page has what. Here is exactly what it did. Each frame is a screenshot of the page just before the step runs; the orange box marks the element the agent chose.</p>
+
+  <div class="panel wide" id="store-player"></div>
+
+  <p>A few things worth noticing:</p>
+  <ul>
+    <li><strong>It checked, and changed its mind.</strong> The first jacket it opened was the Summit Shell. It read the page, saw $189, went back and opened the Drizzle Rain Jacket at $129 instead. Nobody told it the first one was too expensive; the goal did.</li>
+    <li><strong>It used the right control for the job.</strong> The size went through <code>select_option</code> and gift wrap through <code>set_checked</code>, which sets a state rather than toggling it, so running it twice can't untick the box.</li>
+    <li><strong>It read the result instead of assuming.</strong> After adding to cart it opened the cart and read the total from the page: <em>"Cart total: $134"</em>, which is $129 plus $5 gift wrap.</li>
+  </ul>
+
+  <div class="stats">
+    <div class="stat"><b>79 s</b><span>wall clock, goal to answer</span></div>
+    <div class="stat"><b>14</b><span>tool calls</span></div>
+    <div class="stat"><b>15</b><span>model turns</span></div>
+    <div class="stat"><b>≈ $0.05</b><span>at Sonnet 5 API prices, with prompt caching</span></div>
+  </div>
+  <p class="callout">How the cost is worked out: we replay the run's log to rebuild what the model saw on every turn (system prompt, tools, goal and history, trimmed the way the harness trims it), count about four characters per token, and price it at list API rates: $2 per million input tokens and $10 per million output for Claude Sonnet 5. Without prompt caching the same run is about $0.17. About 85% of each prompt is identical to the previous one, which is what caching makes cheap.</p>
+
+  <h2>How it sees a page</h2>
+  <p>The agent doesn't look at pixels by default. It asks for the page's accessibility tree: the same list of buttons, links, inputs and headings a screen reader announces, each with a short ref.</p>
+  <pre><code>- link "Harbor &amp; Pine" [ref=e1]
+- textbox "Search products" [ref=e2]
+- button "Search" [ref=e3]
+- combobox [ref=e4]: Choose a size
+- checkbox "Gift wrap (+$5)" [ref=e5]
+- button "Add to cart" [ref=e8]</code></pre>
+  <p>Refs are what it acts on: <code>select_option(e4, "M")</code>, <code>set_checked(e5, true)</code>, <code>click(e8)</code>. For reading, it calls <code>get_page_text()</code>, because the tree lists controls but not body copy, and <code>get_links()</code> when it needs a real URL rather than a guess. When text isn't enough (a chart, a CAPTCHA, an image-only post) turn on <code>vision: true</code> and it can look at a screenshot too.</p>
+
+  <h2>What it can do</h2>
+  <div class="table-wrap">
+  <table class="data">
+    <thead><tr><th>Area</th><th>Tools</th></tr></thead>
+    <tbody>
+      <tr><td>Navigate and read</td><td><code>navigate</code>, <code>get_page_state</code>, <code>get_page_text</code>, <code>get_links</code>, <code>scroll</code>, <code>go_back</code>, <code>screenshot</code></td></tr>
+      <tr><td>Act like a person</td><td><code>click</code>, <code>double_click</code>, <code>hover</code>, <code>drag</code>, <code>type</code>, <code>press</code>, <code>select_option</code>, <code>set_checked</code></td></tr>
+      <tr><td>Files and tabs</td><td><code>upload_file</code> (only from an uploads folder), <code>download_file</code>, <code>list_tabs</code>, <code>switch_tab</code>, <code>close_tab</code></td></tr>
+      <tr><td>Accounts</td><td>Saved credential profiles, login-form filling, persistent browser profiles, CAPTCHA solving</td></tr>
+      <tr><td>Time and memory</td><td><code>remember</code>/<code>recall</code> across runs, <code>schedule</code> itself on a cron, <code>sleep_until</code></td></tr>
+      <tr><td>People</td><td><code>ask_user</code> for a 2FA code, <code>status_update</code>, and a Telegram bridge to steer it from your phone</td></tr>
+      <tr><td>Output</td><td>Structured JSON against a schema, an HTML report of the whole session</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>From code</h2>
+  <p>The same agent is a library. <code>createAgent()</code> reads <code>.slapify/config.yaml</code> if there is one, and anything you pass inline is laid over it:</p>
+  <pre><code><span class="k">import</span> { createAgent } <span class="k">from</span> <span class="s">"slapify"</span>;
+
+<span class="k">const</span> agent = createAgent({ stealth: <span class="k">true</span> });
+
+<span class="c">// run to completion</span>
+<span class="k">const</span> run = <span class="k">await</span> agent.run(<span class="s">"Find a waterproof jacket under $150 on the store and add it in size M"</span>);
+console.log(run.finalSummary);
+
+<span class="c">// or watch it work</span>
+<span class="k">for await</span> (<span class="k">const</span> event <span class="k">of</span> agent.stream(<span class="s">"Check the order status for #4821"</span>)) {
+  <span class="k">if</span> (event.type === <span class="s">"tool_start"</span>) console.log(event.toolName, event.args);
+}
+
+<span class="c">// and come back to it later, memory included</span>
+<span class="k">await</span> agent.resume(run.id, <span class="s">"Now remove gift wrap and tell me the new total"</span>);</code></pre>
+
+  <p>Want data rather than prose? Pass a JSON schema and it writes conforming output:</p>
+  <pre><code><span class="k">const</span> run = <span class="k">await</span> agent.run(<span class="s">"List every jacket in the store with its price"</span>, {
+  schema: { type: <span class="s">"array"</span>, items: { type: <span class="s">"object"</span>, properties: { name: { type: <span class="s">"string"</span> }, price: { type: <span class="s">"number"</span> } } } },
+  outputFile: <span class="s">"jackets.json"</span>,
+});</code></pre>
+
+  <h2>Where to go next</h2>
+  <p>A one-minute task is the easy case. The rest of this series is about the hard one: an agent that runs for days on a real website, unattended. <a href="/blog/building-a-twitter-agent">Part 2</a> is the story of building exactly that, and everything that broke along the way.</p>

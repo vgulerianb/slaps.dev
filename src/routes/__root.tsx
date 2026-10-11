@@ -3,6 +3,7 @@ import { Outlet, createRootRoute, HeadContent, Scripts, Link } from "@tanstack/r
 import SiteLayout from "../components/SiteLayout";
 import "../styles/site.css";
 import "../styles/slapify.css";
+import "../styles/blog.css";
 
 export const Route = createRootRoute({
   head: () => ({

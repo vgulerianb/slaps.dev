@@ -88,6 +88,13 @@ function SiteLayout({ children }: PropsWithChildren) {
           >
             Docs
           </Link>
+          <Link
+            to="/blog"
+            className="nav-link"
+            activeProps={{ className: "nav-link nav-link--active" }}
+          >
+            Blog
+          </Link>
         </nav>
 
         <div className="site-nav__actions">
@@ -119,6 +126,7 @@ function SiteLayout({ children }: PropsWithChildren) {
         </div>
         <div className="footer-links">
           <Link to="/docs">Docs</Link>
+          <Link to="/blog">Blog</Link>
           <a href={linkedinUrl} target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://github.com/vgulerianb" target="_blank" rel="noreferrer">GitHub</a>
         </div>

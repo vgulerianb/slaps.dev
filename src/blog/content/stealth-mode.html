@@ -1,0 +1,63 @@
+<p>An agent that works on the real web meets bot detection sooner or later. Our Twitter agent ran headless for days, and a headless browser announces itself in several ways: its user agent literally says <code>HeadlessChrome</code>, <code>navigator.webdriver</code> can report <code>true</code>, and a few other properties look nothing like a person's browser. Turning on stealth is one line:</p>
+  <pre><code><span class="k">browser:</span>
+  headless: true
+  stealth: true
+  profile: .slapify/browser-profile   <span class="c"># a real, persistent profile helps too</span></code></pre>
+  <p>or <code>slapify task "…" --stealth</code> for a single run.</p>
+
+  <h2>Before and after</h2>
+  <p>This is <a href="https://bot.sannysoft.com">bot.sannysoft.com</a>, a well-known page of automation checks, loaded by the same headless browser twice: once plain, once with stealth. Drag the handle.</p>
+  <div class="compare" id="cmp">
+    <img src="/blog/media/stealth/sannysoft-on.jpg" alt="bot.sannysoft.com with stealth on: every check passes">
+    <div class="top"><img src="/blog/media/stealth/sannysoft-off.jpg" alt="bot.sannysoft.com with stealth off: user agent and webdriver checks fail"></div>
+    <div class="handle"></div>
+    <span class="tag" style="left:10px;background:var(--bad)">stealth off</span>
+    <span class="tag" style="right:10px;background:var(--good)">stealth on</span>
+  </div>
+  <p style="font-family:var(--sans);font-size:14px;color:var(--muted);margin-top:10px">Stealth off, four checks fail: the user agent (it says <code>HeadlessChrome/152</code>), <code>navigator.webdriver</code>, and two fingerprint-scanner tests (<code>HEADCHR_UA</code> and <code>CHR_MEMORY</code>). Stealth on: zero failures, and the user agent reads <code>Chrome/152</code>. Captured for this post; you can reproduce it with any Slapify install.</p>
+
+  <h2>What it actually does</h2>
+  <ol>
+    <li><strong>One launch flag.</strong> <code>--disable-blink-features=AutomationControlled</code> makes Chromium itself stop reporting automation. <code>navigator.webdriver</code> then returns <code>false</code> natively, with nothing in JavaScript to find.</li>
+    <li><strong>A clean user agent.</strong> If the browser advertises <code>HeadlessChrome</code> and you haven't set one yourself, the browser is relaunched once with the same string minus "Headless". It's done at launch so the HTTP header and <code>navigator.userAgent</code> always agree; patching only the JavaScript value would be a tell of its own.</li>
+    <li><strong>A script that mostly does nothing.</strong> A fingerprint script is injected into every frame before page scripts run. Each patch in it checks first whether the value it would fix actually looks automated, and does nothing otherwise.</li>
+  </ol>
+
+  <h2>Why patch so little</h2>
+  <p>Fingerprinters like <a href="https://abrahamjuliot.github.io/creepjs/">CreepJS</a> don't just read values. They check whether values have been <em>tampered with</em>: they compare built-in functions against pristine copies pulled from a fresh iframe, inspect stack traces for wrapped getters, walk property descriptors looking for anything that isn't native code, and ask Web Workers (which injected scripts can't reach) for the same values to see if the main thread disagrees.</p>
+  <p>So every patch is a detection candidate in its own right. A patch that replaces a value that was already realistic buys nothing and adds a lie to be caught in. Hence the rule: <strong>patch nothing that isn't already a tell.</strong> Try it: set up a browser environment and see which patches would install.</p>
+
+  <div class="panel" id="gate">
+    <h4>Which patches install?</h4>
+    <p class="sub">Tick what's true of the browser. Stealth checks each condition before patching anything.</p>
+    <div id="gate-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:6px 18px"></div>
+    <div class="controls"><button class="btn" id="gate-modern">A current Chrome, with the launch flag</button><button class="btn" id="gate-old">An old headless build</button></div>
+    <div class="table-wrap" style="margin-top:14px"><table class="data" style="margin:0"><thead><tr><th>Patch</th><th>Installed?</th><th>Why</th></tr></thead><tbody id="gate-body"></tbody></table></div>
+    <p class="readout" id="gate-out" style="margin:12px 0 0"></p>
+  </div>
+
+  <p>Two details worth calling out. <code>navigator.permissions.query</code> is deliberately never patched, though most stealth libraries do: the mismatch it used to fix doesn't exist in current Chrome, and wrapping a native method on every page just in case is pure risk. And the <code>Function.prototype.toString</code> cloak, which makes patched getters claim to be native code, is itself detectable. So it's installed only if at least one real patch was, and on a current Chrome that means never.</p>
+
+  <h2>The numbers</h2>
+  <div class="table-wrap">
+  <table class="data">
+    <thead><tr><th>Test</th><th>Stealth off</th><th>Stealth on</th></tr></thead>
+    <tbody>
+      <tr><td>bot.sannysoft.com</td><td>4 failures</td><td><b>0 failures</b></td></tr>
+      <tr><td>CreepJS headless score</td><td>100%</td><td><b>33%</b></td></tr>
+      <tr><td>CreepJS stealth score (detected tampering)</td><td>0%</td><td><b>0%</b>, same fingerprint hash as an unpatched browser</td></tr>
+      <tr><td>nowsecure.nl (live Cloudflare)</td><td>passes</td><td>passes</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>The 0% stealth score is the point. There is nothing for a tampering detector to find, because on a modern browser stealth mode changes launch flags, not JavaScript.</p>
+
+  <h2>Where it stops</h2>
+  <p>It is not invisible, and it's worth being precise about why. CreepJS still rates it 33% headless, and what remains is out of reach of anything a page script can do:</p>
+  <ul>
+    <li><strong>Client hints.</strong> <code>Sec-CH-UA</code> request headers still identify a headless build.</li>
+    <li><strong>Workers.</strong> Web Worker scopes see the unpatched environment, by design.</li>
+    <li><strong>Timing and GPU.</strong> Rendering and timing behaviour differ from a desktop browser with a real display.</li>
+  </ul>
+  <p>Closing those gaps means going below JavaScript: patching and rebuilding the engine itself, as projects like <a href="https://github.com/feder-cr/invisible_playwright">invisible_playwright</a> do, or running on real hosted browsers via <code>browser.browserbase</code>. For most sites, a clean fingerprint plus a persistent profile with real history is enough. For the rest, Slapify can drive those browsers too.</p>
+  <p class="callout warn"><strong>Use it responsibly.</strong> Stealth is for keeping legitimate automation working, such as your own accounts, your own sites, and research you're authorised to do. Respect sites' terms and rate limits.</p>

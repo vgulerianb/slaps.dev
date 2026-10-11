@@ -1,0 +1,123 @@
+<p>In <a href="/blog/building-a-twitter-agent">Part 2</a> each reply cost about sixteen model calls, and the most common tool call by far was reading the whole page to find one element. Those are narrow questions: <em>which of these is the reply box? did my reply post? is a popup in the way?</em> A general model is a very expensive way to answer them.</p>
+
+  <h2>What Jev is</h2>
+  <p><a href="https://www.browserbase.com/blog/what-is-jev">Jev</a> is TypeSafe's decision model. It doesn't write or plan. You give it some state (a page, a pending action) and ask typed questions:</p>
+  <ul>
+    <li><strong>choice</strong>: pick one of up to 255 named options, with a probability for each;</li>
+    <li><strong>noul</strong>: the probability that a statement is true;</li>
+    <li><strong>score</strong>: a rating on a scale you define.</li>
+  </ul>
+  <p>Answers are calibrated probabilities rather than text, so you can decide in code how sure is sure enough. It charges only for input, $0.042 per million tokens, and the same request body works through TypeSafe directly, Vercel AI Gateway or OpenRouter:</p>
+  <pre><code><span class="k">jev:</span>
+  enabled: true
+  provider: typesafe        <span class="c"># or: vercel, openrouter</span>
+  api_key: ${TYPESAFE_API_KEY}</code></pre>
+  <p>It's an accelerator, never a requirement. If Jev is misconfigured, unreachable or unsure, Slapify falls back to the main model and carries on.</p>
+
+  <h2>Where Slapify uses it</h2>
+  <div class="table-wrap">
+  <table class="data">
+    <thead><tr><th>Feature</th><th>The question</th><th>When Jev isn't sure</th></tr></thead>
+    <tbody>
+      <tr><td><code>find_element(description)</code></td><td>Choice over the page's interactive elements (shortlisted to 255): which one matches?</td><td>Returns <code>confident: false</code>; the agent reads the snapshot itself</td></tr>
+      <tr><td><code>check(statement)</code></td><td>Noul: is this true about the page?</td><td>Between 0.15 and 0.85 the agent looks for itself</td></tr>
+      <tr><td>Action review</td><td>Choice: is this irreversible action <em>clear</em> or <em>caution</em> under your policy?</td><td>Falls back to the main model as reviewer</td></tr>
+      <tr><td>Flow runner</td><td>Is there a popup? Is this <code>Verify…</code> step plainly true?</td><td>The usual model call runs</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>The benchmark</h2>
+  <p>We took 58 decisions straight out of the Twitter agent's real runs, using snapshots and page text saved at the moment the agent had to decide (all handles and third-party content redacted). Then we asked the same question two ways: through Slapify's own Jev code path, and by giving Claude Sonnet 5 the same page and asking it directly, the way the agent decides without Jev.</p>
+  <ul>
+    <li><strong>30 element decisions</strong>: find the reply box on a tweet page (15), and find the main tweet's Like button among a page of Like buttons (15).</li>
+    <li><strong>16 page checks</strong>: is this page a single tweet's own page with a box to reply to it?</li>
+    <li><strong>12 popup checks</strong>: is something covering the page?</li>
+  </ul>
+
+  <div class="stats">
+    <div class="stat"><b id="s-lat">–</b><span>median latency, Jev vs Sonnet 5</span></div>
+    <div class="stat"><b id="s-cost">–</b><span>per 1,000 decisions, Jev vs Sonnet 5</span></div>
+    <div class="stat"><b>0 / 58</b><span>errors via TypeSafe direct</span></div>
+  </div>
+
+  <div class="panel" id="lat-chart">
+    <h4>Latency per decision</h4>
+    <p class="sub">Every one of the 58 decisions, each model. Lower is better.</p>
+  </div>
+
+  <h3>Finding elements</h3>
+  <p>On the reply box Jev was right 15 times out of 15, and confident on 12 of them. The Like button is the harder case: a tweet page has a Like button on every reply, and "the main tweet's" is a positional judgement. Jev got 10 of 15, but it knew it: it was confident on only 4, and 3 of those were right. Sonnet 5, reading the whole snapshot, got 13 of 15.</p>
+  <p>That's the design working as intended. The question is not "is Jev as accurate as a frontier model", it's "when Jev says it's sure, is it right, and how often is it sure?" Drag the threshold to see the trade:</p>
+
+  <div class="panel" id="conf-panel">
+    <h4>How sure is sure enough?</h4>
+    <p class="sub">Each dot is one element decision, placed by Jev's confidence. Above the threshold Slapify trusts Jev; below it, the main model decides.</p>
+    <div id="conf-chart"></div>
+    <div class="controls">
+      <label>Trust Jev above <input type="range" id="conf-t" min="0.3" max="0.95" step="0.01" value="0.7"> <span class="readout"><b id="conf-t-v">0.70</b></span></label>
+    </div>
+    <div class="stats" style="margin-bottom:0">
+      <div class="stat"><b id="conf-share">–</b><span>decided by Jev</span></div>
+      <div class="stat"><b id="conf-acc">–</b><span>accuracy when Jev decides</span></div>
+      <div class="stat"><b id="conf-all">–</b><span>overall, with fallback</span></div>
+    </div>
+  </div>
+
+  <p>At Slapify's default of 0.7, Jev takes about half the element decisions with 94% accuracy on the ones it takes, and the combined system lands at 90% against 93% for the frontier model alone, while spending a fraction of the tokens. On the reply box, the decision the agent makes on every single reply, it's perfect.</p>
+
+  <h3>Checking the page</h3>
+  <p>This result surprised us. We asked both models whether each page was a single tweet's own page with a reply box. Sonnet 5 said no every time, which made it right on the eight pages that weren't and wrong on the eight that were. In fairness, the question is hard from page text alone, which doesn't include the reply box itself.</p>
+  <p>Jev didn't answer yes on those eight either. But it didn't say no: it gave them 0.39 to 0.59, and every page that really wasn't a tweet page got 0.03 or 0.04. It knew what it didn't know. Slapify treats anything between 0.15 and 0.85 as "look for yourself", so Jev's answers there hand the question back to the agent instead of being wrong. Move the band:</p>
+
+  <div class="panel" id="cal-panel">
+    <h4>Calibration: page checks</h4>
+    <p class="sub">Each dot is one page. Green: it really was a tweet page. Red: it wasn't. Inside the band the agent looks for itself.</p>
+    <div id="cal-chart"></div>
+    <div class="controls">
+      <label>"No" below <input type="range" id="cal-lo" min="0.02" max="0.5" step="0.01" value="0.15"> <b class="readout" id="cal-lo-v">0.15</b></label>
+      <label>"Yes" above <input type="range" id="cal-hi" min="0.3" max="0.98" step="0.01" value="0.85"> <b class="readout" id="cal-hi-v">0.85</b></label>
+    </div>
+    <p class="readout" id="cal-out" style="margin:12px 0 0"></p>
+  </div>
+
+  <p>Popups were the easy case: both models were right on all twelve. That's the flow runner's gate, where Jev now skips the popup-checking model call whenever it's clearly unnecessary.</p>
+
+  <div class="table-wrap">
+  <table class="data">
+    <thead><tr><th>Decision</th><th class="num">n</th><th class="num">Jev</th><th class="num">Jev when confident</th><th class="num">Sonnet 5</th><th class="num">Jev median</th><th class="num">Sonnet 5 median</th></tr></thead>
+    <tbody id="bench-body"></tbody>
+  </table>
+  </div>
+  <p class="callout">Method. Jev: Slapify's own <code>JevClient</code> and decision helpers, TypeSafe endpoint, default settings. Sonnet 5: the full snapshot or page text plus the question, one short answer. Cost: Jev's reported input tokens at $0.042/M; Sonnet 5 input estimated at about four characters per token at $2/M, output at $10/M. The estimate slightly undercounts Sonnet tokens, so if anything it flatters the frontier model on cost.</p>
+
+  <h3>A note on reliability</h3>
+  <p>The first time we ran the benchmark through a gateway, 36 of 58 requests came back 429 or 503: the upstream was under heavy demand. Slapify's Jev client now honours <code>retry-after</code>, retries twice, and falls back cleanly; with that, the gateway run still lost 14 of 58 at the time of testing, while TypeSafe direct answered all 58. Your mileage will vary with load. The point is that because every Jev feature has a fallback, a flaky upstream costs speed, never correctness.</p>
+
+  <h2>In action</h2>
+  <p>Back to a demo site, this time Chirp, a small fictional social feed (posting only updates the page, nothing leaves the machine). The agent's job: reply to the two posts about TypeScript with a useful tip each, and confirm each reply appears. Jev, action review and the em dash filter were all on.</p>
+  <div class="panel wide" id="chirp-player"></div>
+  <p>Watch for three moments:</p>
+  <ul>
+    <li><strong>Step 7.</strong> The model's first reply contained an em dash. The text filter replaced it before it reached the page, and told the model so.</li>
+    <li><strong>Steps 9 and 16.</strong> Before each Reply click, the review runs. Jev judged both replies clear under the policy (confidence 0.83 and 0.67) in about 1.1 seconds each.</li>
+    <li><strong>Steps 11 onward.</strong> <code>check</code> confirmed each reply at 0.91 and 0.94. Then the agent checked again, and again. Verification is the agent's comfort zone. After the same result three times on the same page, the harness added guidance to the result: <em>nothing is changing, stop re-checking.</em> It stopped, saved a note to memory, and finished.</li>
+  </ul>
+  <p>That last one is honest footage of a weakness. The rules say to verify once. The model still over-checks when it's cheap to, and cheap is exactly what Jev makes it. Admission guidance caught it, but it's the kind of thing we keep tuning.</p>
+
+  <h2>What it's worth on the Twitter agent</h2>
+  <p>Jev can't write replies or plan a cycle, so the model calls themselves don't go away. What goes away is the reading. Each <code>get_page_state</code> the agent takes to locate an element puts about five thousand tokens into its context; a <code>find_element</code> call puts in about a hundred. The slider below estimates the effect on the 26.8-hour run, using its measured shape (5.1 snapshots per reply) and the benchmark's confidence rate.</p>
+
+  <div class="panel" id="save-panel">
+    <h4>Projected saving per reply</h4>
+    <p class="sub">An estimate, not a measurement. A replaced snapshot saves one cache write and about two cache reads of ~5,100 tokens; Jev's own cost is included.</p>
+    <div class="controls">
+      <label>Snapshot reads replaced by find_element <input type="range" id="sv-share" min="0" max="0.9" step="0.05" value="0.5"> <b class="readout" id="sv-share-v">50%</b></label>
+    </div>
+    <div class="stats" style="margin-bottom:0">
+      <div class="stat"><b>$0.22</b><span>per reply today, with caching</span></div>
+      <div class="stat"><b id="sv-new">–</b><span>projected per reply</span></div>
+      <div class="stat"><b id="sv-pct">–</b><span>of the model bill</span></div>
+    </div>
+  </div>
+  <p>At half, that's roughly a sixth of the bill. Not dramatic, because caching already makes repeated reading cheap, but it compounds with the other thing Jev buys: review. Checking every post against a policy with a frontier model would add a full model call per reply. With Jev it's about a second and a fraction of a cent, which is what makes <a href="/blog/harness">reviewing every irreversible action</a> a reasonable default instead of a luxury.</p>
