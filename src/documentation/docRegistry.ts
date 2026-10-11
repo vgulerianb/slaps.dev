@@ -29,7 +29,7 @@ export const DOC_PRODUCTS: Record<
   },
   slapify: {
     title: "Slapify",
-    tagline: "AI-powered browser automation, test flows, and performance auditing.",
+    tagline: "A fully autonomous browser agent, plus plain-English E2E flows and performance audits.",
     npm: "slapify",
     productPath: "/slapify",
     github: "https://github.com/vgulerianb/slapify",
@@ -65,7 +65,11 @@ export const DOC_NAV: Record<DocProductId, { slug: string; label: string }[]> = 
     { slug: "", label: "Overview" },
     { slug: "getting-started", label: "Getting started" },
     { slug: "task-mode", label: "Task mode" },
+    { slug: "models", label: "Models and subscriptions" },
+    { slug: "harness", label: "Harness and safety" },
+    { slug: "decision-models", label: "Decision models and fast mode" },
     { slug: "flow-mode", label: "Flow mode" },
+    { slug: "configuration", label: "Configuration" },
     { slug: "api-reference", label: "API reference" },
   ],
   agentpad: [
