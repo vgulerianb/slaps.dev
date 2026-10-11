@@ -7,12 +7,15 @@ interface CodeEditorProps {
   code: string | CodeFile[];
   onCodeChange: (code: string | CodeFile[]) => void;
   onReset: () => void;
+  /** Show the copy/reset buttons next to the file tabs (default true). */
+  showActions?: boolean;
 }
 
 const CodeEditor: React.FC<CodeEditorProps> = ({
   code,
   onCodeChange,
   onReset,
+  showActions = true,
 }) => {
   const [activeFile, setActiveFile] = useState(0);
   const [copied, setCopied] = useState(false);
@@ -39,6 +42,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       reactNamespace: "React",
       allowJs: true,
       typeRoots: ["node_modules/@types"],
+    });
+
+    // Imports resolve at runtime (npm via CDN), so skip type errors like
+    // "Cannot find module"; syntax errors are still shown.
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: false,
     });
 
     // Add React types
@@ -112,22 +122,24 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-1 px-3">
-          <button
-            onClick={handleCopy}
-            className="p-1.5 text-gray-500 hover:text-gray-900 transition-colors rounded-md hover:bg-gray-200"
-            title="Copy code"
-          >
-            {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
-          </button>
-          <button
-            onClick={onReset}
-            className="p-1.5 text-gray-500 hover:text-gray-900 transition-colors rounded-md hover:bg-gray-200"
-            title="Reset code"
-          >
-            <RotateCcw size={16} />
-          </button>
-        </div>
+        {showActions && (
+          <div className="flex items-center gap-1 px-3">
+            <button
+              onClick={handleCopy}
+              className="p-1.5 text-gray-500 hover:text-gray-900 transition-colors rounded-md hover:bg-gray-200"
+              title="Copy code"
+            >
+              {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
+            </button>
+            <button
+              onClick={onReset}
+              className="p-1.5 text-gray-500 hover:text-gray-900 transition-colors rounded-md hover:bg-gray-200"
+              title="Reset code"
+            >
+              <RotateCcw size={16} />
+            </button>
+          </div>
+        )}
       </div>
       <div className="flex-1 min-h-0 relative">
         <Editor
