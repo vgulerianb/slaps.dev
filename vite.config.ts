@@ -17,7 +17,4 @@ export default defineConfig({
   build: {
     cssMinify: "esbuild",
   },
-  define: {
-    "process.env": {},
-  },
 });
