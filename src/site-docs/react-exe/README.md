@@ -1,6 +1,6 @@
 # react-exe
 
-Execute React components from raw **code strings** directly in the browser — no build step required. Auto-resolves npm packages from CDN, renders inside a secure iframe sandbox, and supports Tailwind CSS out of the box.
+Render React components from **code strings** directly in the browser — no bundler, no build step. TypeScript and JSX compile in milliseconds, npm imports resolve automatically from CDN, and previews run in an isolated iframe with optional Tailwind CSS.
 
 ## Install
 
@@ -8,7 +8,7 @@ Execute React components from raw **code strings** directly in the browser — n
 npm install react-exe
 ```
 
-Requires **React 18+**.
+Works with **React 18 and 19**. No bundler configuration needed.
 
 ## Quick start
 
@@ -30,12 +30,13 @@ export default function App() {
 
 | Feature | Details |
 |---------|---------|
-| **Runtime execution** | Transpiles and renders React components on the fly |
-| **Auto CDN resolution** | Missing imports are fetched from jsDelivr / unpkg automatically |
-| **Sandboxed iframe** | Isolates execution; prevents host app interference |
-| **Multi-file** | Pass an array of `{ name, content, isEntry }` for complex components |
-| **Tailwind CSS** | `enableTailwind: true` loads Tailwind CDN inside the sandbox |
-| **TypeScript** | Code strings can use TypeScript syntax |
+| **Runtime execution** | Compiles TypeScript and JSX with Sucrase (about a millisecond per file) and renders the result |
+| **Auto CDN resolution** | Missing imports load from npm via esm.sh and share your app's React, so hooks and context work |
+| **Isolated iframe** | Previews get their own DOM and styles; set `sandbox: false` to render inline |
+| **Multi-file** | Pass an array of `{ name, content, isEntry }` with relative imports, `@/` aliases, CSS and JSON files |
+| **Tailwind CSS** | `enableTailwind: true` loads Tailwind inside the preview |
+| **Your own modules** | Pass components and libraries via `dependencies`, including wildcard keys like `"@/components/ui/*"` |
+| **Small** | About 55 KB gzipped |
 
 ## Live examples
 
@@ -43,5 +44,5 @@ The playground below shows react-exe running in real time. Try the examples to s
 
 ## Documentation
 
-- [Getting started](getting-started.md) — Install, first render, sandbox, Tailwind
-- [API reference](api-reference.md) — `CodeExecutor` props, `ExecutorConfig`, multi-file format
+- [Getting started](getting-started.md) — Install, first render, Tailwind, npm packages, multi-file
+- [API reference](api-reference.md) — `CodeExecutor` props, config options, multi-file format

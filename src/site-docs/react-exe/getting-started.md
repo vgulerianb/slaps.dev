@@ -6,7 +6,7 @@
 npm install react-exe
 ```
 
-Requires React 18+. No peer dependencies beyond React itself.
+Works with React 18 and 19. No bundler configuration is needed. If you added `define: { "process.env": {} }` to your Vite config for an older version, you can remove it.
 
 ## Render a component from a string
 
@@ -30,7 +30,9 @@ export default function App() {
 }
 ```
 
-`CodeExecutor` renders the component inside an **iframe sandbox** by default. The global `React` is injected automatically — no need to import it inside the code string.
+`React` is always in scope inside the code string, so importing it is optional. The code can be TypeScript.
+
+The entry file should default-export the component. Classes, `memo(...)` and `forwardRef(...)` components work too. Without a default export, an `App` export or a single capitalized component export is used.
 
 ## Enable Tailwind CSS
 
@@ -41,18 +43,49 @@ export default function App() {
 />
 ```
 
-Injects the Tailwind CDN script inside the sandboxed frame so all utility classes work.
+Loads Tailwind inside the preview so all utility classes work.
 
-## Disable the sandbox
+## Use npm packages
+
+If the code imports a package that isn't in `config.dependencies`, react-exe loads it from npm via [esm.sh](https://esm.sh):
 
 ```tsx
-<CodeExecutor
-  code={code}
-  config={{ sandbox: false }}
-/>
+const code = `
+import { format } from "date-fns";
+import { motion } from "framer-motion";
+
+export default function Today() {
+  return (
+    <motion.p animate={{ opacity: [0, 1] }}>
+      {format(new Date(), "MMMM do, yyyy")}
+    </motion.p>
+  );
+}
+`;
 ```
 
-Renders directly in the parent document instead of an iframe. Useful for tight embedding but removes execution isolation.
+- Packages that use React (framer-motion, Radix, lucide-react, ...) share your app's React instance, so hooks and context work.
+- Pin a version in the import itself: `import { format } from "date-fns@3"`. Unpinned imports get the latest version.
+- CSS imports from packages work: `import "react-toastify/dist/ReactToastify.css"`.
+- Set `autoResolvePackage: false` to require every import to come from `dependencies`.
+
+## Provide your own modules
+
+Pass modules your app already has with `dependencies`. Keys ending in `/*` match any sub-path:
+
+```tsx
+import * as ui from "./components/ui";
+
+<CodeExecutor
+  code={code}
+  config={{
+    dependencies: {
+      // import { Button } from "@/components/ui/button"
+      "@/components/ui/*": ui,
+    },
+  }}
+/>
+```
 
 ## Multi-file components
 
@@ -62,7 +95,8 @@ Pass an array of file objects when the component spans multiple files:
 const files = [
   {
     name: "App.tsx",
-    content: `import Header from '../components/Header';
+    content: `import Header from './components/Header';
+import './styles.css';
 export default function App() { return <Header />; }`,
     isEntry: true,
   },
@@ -70,24 +104,31 @@ export default function App() { return <Header />; }`,
     name: "components/Header.tsx",
     content: `export default function Header() { return <h1>Hello</h1>; }`,
   },
+  {
+    name: "styles.css",
+    content: `h1 { color: #667eea; }`,
+  },
 ];
 
 <CodeExecutor code={files} />
 ```
 
-## Auto CDN resolution
+Files can import each other with relative paths, folder `index` files and `@/` aliases (`@/components/Header` resolves to `components/Header.tsx` or `src/components/Header.tsx`). CSS and JSON files are supported.
 
-If the code string imports a package that isn't in `config.dependencies`, react-exe fetches it from CDN automatically:
+## Render without the iframe
 
 ```tsx
-// No manual dependency config needed — date-fns resolves from CDN
-const code = `
-import { format } from 'date-fns';
-export default function Today() {
-  return <p>{format(new Date(), 'MMMM do, yyyy')}</p>;
-}
-`;
+<CodeExecutor
+  code={code}
+  config={{ sandbox: false }}
+/>
 ```
+
+Renders directly in your page instead of an iframe. Useful for tight embedding, but the code then shares your page's DOM and styles.
+
+## Security
+
+The iframe is same-origin so your app's React can render into it. It isolates DOM and styles, but it is **not a security boundary**: code inside it can reach your page. Only render code you trust, or host the preview on a separate origin for untrusted input.
 
 ## Next steps
 
